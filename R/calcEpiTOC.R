@@ -12,7 +12,7 @@
 #' @source <https://zenodo.org/record/2632938#.YfGA3S-B2Cg>
 #'
 #' @examples calcEpiTOC(exampleBetas, examplePheno, imputation = F)
-calcEpiTOC <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
+calcEpiTOC <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
 
   #######################
   ### Read in the Data###
