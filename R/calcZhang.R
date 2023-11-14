@@ -39,7 +39,7 @@ calcZhang <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
 
     betas <- DNAm[,na.omit(match(Zhang_10_CpG$Marker,colnames(DNAm)))]
 
-    tt <- rowSums(sweep(betas, MARGIN = 2, Zhang_10_CpG$coef[present],`*`), na.rm = T)
+    tt <- rowSums(sweep(as.matrix(betas), MARGIN = 2, Zhang_10_CpG$coef[present],`*`), na.rm = T)
 
     if(is.null(pheno)){
       tt
