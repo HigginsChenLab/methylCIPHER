@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples calcAlcoholMcCartney(exampleBetas, examplePheno, imputation = F)
-calcAlcoholMcCartney <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
+calcAlcoholMcCartney <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
 
   #######################
   ### Read in the Data###
