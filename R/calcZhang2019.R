@@ -10,8 +10,8 @@
 #' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
 #' @export
 #'
-#' @examples calcZhang2019(exampleBetas, examplePheno, imputation = F)
-calcZhang2019 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
+#' @examples calcZhang2019(exampleBetas, examplePheno, imputation = T)
+calcZhang2019 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
 
   #######################
   ### Read in the Data###
