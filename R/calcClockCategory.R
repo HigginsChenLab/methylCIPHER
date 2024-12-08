@@ -12,9 +12,9 @@
 #' @return A dataframe that has column names of the core clocks giving you multiple clocks at once in an easy to compute function. These will be appended onto the existing pheno dataframe as defined in the inputs.
 #' @export
 #'
-#' @examples calcClockCategory(exampleBetas, examplePheno, category = "chronological", imputation = F)
+#' @examples calcClockCategory(exampleBetas, examplePheno, category = "chronological", imputation = T)
 calcClockCategory <- function(DNAm, pheno , category = NULL,
-                              CpGImputation = NULL, imputation = F){
+                              CpGImputation = NULL, imputation = T){
 
   message("Please remember to cite all of the clocks you have used! Please refer to the README.md file for assistance.")
 
