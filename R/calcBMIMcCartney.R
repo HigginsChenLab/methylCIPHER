@@ -11,7 +11,7 @@
 #' @export
 #'
 #' @examples calcBMIMcCartney(exampleBetas, examplePheno, imputation = F)
-calcBMIMcCartney <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
+calcBMIMcCartney <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
 
   #######################
   ### Read in the Data###
