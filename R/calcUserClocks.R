@@ -12,8 +12,8 @@
 #' @export
 #'
 #' @examples userClocks <- c("calcSmokingMcCartney","calcPhenoAge","calcEpiTOC2")
-#' @examples calcUserClocks(userClocks, exampleBetas, examplePheno, imputation = F)
-calcUserClocks <- function(clockList, DNAm, pheno , CpGImputation = NULL, imputation = F){
+#' @examples calcUserClocks(userClocks, exampleBetas, examplePheno, imputation = T)
+calcUserClocks <- function(clockList, DNAm, pheno , CpGImputation = NULL, imputation = T){
 
   for(i in 1:length(clockList)){
 
