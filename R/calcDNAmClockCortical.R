@@ -10,9 +10,9 @@
 #' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
 #' @export
 #'
-#' @examples calcDNAmClockCortical(exampleBetas, examplePheno, imputation = F)
+#' @examples calcDNAmClockCortical(exampleBetas, examplePheno, imputation = T)
 #' @examples calcDNAmClockCortical(exampleBetas, examplePheno, CpGImputation = DNAmClockCortical_imputeRef, imputation = T) # Imputation in the case that there are missing CpGs using the original Brain Imputation from authors
-calcDNAmClockCortical <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
+calcDNAmClockCortical <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
