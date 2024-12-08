@@ -10,8 +10,8 @@
 #' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
 #' @export
 #'
-#' @examples calcMiAge(exampleBetas, examplePheno, imputation = F)
-calcMiAge <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
+#' @examples calcMiAge(exampleBetas, examplePheno, imputation = T)
+calcMiAge <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
 
   #######################
   ### Read in the Data###
