@@ -10,9 +10,9 @@
 #' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
 #' @export
 #'
-#' @examples calcMayne(exampleBetas, examplePheno, imputation = F)
+#' @examples calcMayne(exampleBetas, examplePheno, imputation = T)
 #' @examples calcMayne(exampleBetas, examplePheno, imputation = T, CpGImputation = Mayne_impute) #For the Mayne imputation gold standard
-calcMayne <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
+calcMayne <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
 
   #######################
   ### Read in the Data###

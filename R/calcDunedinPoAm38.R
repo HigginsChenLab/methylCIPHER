@@ -11,7 +11,7 @@
 #' @export
 #' @source <https://doi.org/10.7554/eLife.54870>
 #'
-#' @examples calcDunedinPoAm38(exampleBetas, examplePheno, imputation = F)
+#' @examples calcDunedinPoAm38(exampleBetas, examplePheno, imputation = T)
 calcDunedinPoAm38 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
 
   ###########################

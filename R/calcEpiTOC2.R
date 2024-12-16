@@ -11,8 +11,8 @@
 #' @export
 #' @source <https://zenodo.org/record/2632938#.YfGA3S-B2Cg>
 #'
-#' @examples calcEpiTOC2(exampleBetas, examplePheno, imputation = F)
-calcEpiTOC2 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F, approximated = F){
+#' @examples calcEpiTOC2(exampleBetas, examplePheno, imputation = T)
+calcEpiTOC2 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T, approximated = F){
 
   #######################
   ### Read in the Data###

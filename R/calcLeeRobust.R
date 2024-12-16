@@ -10,8 +10,8 @@
 #' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
 #' @export
 #'
-#' @examples calcLeeRobust(exampleBetas, examplePheno, imputation = F)
-calcLeeRobust <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
+#' @examples calcLeeRobust(exampleBetas, examplePheno, imputation = T)
+calcLeeRobust <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
 
   #######################
   ### Read in the Data###

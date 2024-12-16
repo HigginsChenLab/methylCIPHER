@@ -11,8 +11,8 @@
 #' @export
 #' @source <https://zenodo.org/record/2632938#.YfGA3S-B2Cg>
 #'
-#' @examples calcHypoClock(exampleBetas, examplePheno, imputation = F)
-calcHypoClock <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
+#' @examples calcHypoClock(exampleBetas, examplePheno, imputation = T)
+calcHypoClock <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
 
   #######################
   ### Read in the Data###

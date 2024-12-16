@@ -10,8 +10,8 @@
 #' @return A dataframe that has column names of the core clocks giving you multiple clocks at once in an easy to compute function. These will be appended onto the existing pheno dataframe as defined in the inputs.
 #' @export
 #'
-#' @examples calcCoreClocks(exampleBetas, examplePheno, imputation = F)
-calcCoreClocks <- function(DNAm, pheno , CpGImputation = NULL, imputation = F){
+#' @examples calcCoreClocks(exampleBetas, examplePheno, imputation = T)
+calcCoreClocks <- function(DNAm, pheno , CpGImputation = NULL, imputation = T){
 
   message("Please remember to cite the core Clocks you have used! Please refer to the README.md file for assistance.")
 
