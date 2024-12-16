@@ -4,7 +4,7 @@
 \alias{calcHorvath1}
 \title{calcHorvath1}
 \usage{
-calcHorvath1(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcHorvath1(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Horvath Multi-Tissue epigenetic clock
 }
 \examples{
-calcHorvath1(exampleBetas, examplePheno, imputation = F)
+calcHorvath1(exampleBetas, examplePheno, imputation = T)
 }

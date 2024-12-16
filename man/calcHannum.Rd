@@ -4,7 +4,7 @@
 \alias{calcHannum}
 \title{calcHannum}
 \usage{
-calcHannum(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcHannum(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Hannum epigenetic clock
 }
 \examples{
-calcHannum(exampleBetas, examplePheno, imputation = F)
+calcHannum(exampleBetas, examplePheno, imputation = T)
 }

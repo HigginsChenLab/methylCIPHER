@@ -4,7 +4,7 @@
 \alias{calcSmokingMcCartney}
 \title{calcSmokingMcCartney}
 \usage{
-calcSmokingMcCartney(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcSmokingMcCartney(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the McCartney predictor of Smoking
 }
 \examples{
-calcSmokingMcCartney(exampleBetas, examplePheno, imputation = F)
+calcSmokingMcCartney(exampleBetas, examplePheno, imputation = T)
 }

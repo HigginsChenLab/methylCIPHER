@@ -4,7 +4,7 @@
 \alias{calcUserClocks}
 \title{calcUserClocks}
 \usage{
-calcUserClocks(clockList, DNAm, pheno, CpGImputation = NULL, imputation = F)
+calcUserClocks(clockList, DNAm, pheno, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{clockList}{A character vector of clock calculation functions the user would like to compute at once. Options can be found by running the function clockOptions()}
@@ -25,5 +25,5 @@ A function to calculate multiple epigenetic clocks at once, as defined by the us
 }
 \examples{
 userClocks <- c("calcSmokingMcCartney","calcPhenoAge","calcEpiTOC2")
-calcUserClocks(userClocks, exampleBetas, examplePheno, imputation = F)
+calcUserClocks(userClocks, exampleBetas, examplePheno, imputation = T)
 }

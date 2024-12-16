@@ -4,7 +4,7 @@
 \alias{calcVidalBralo}
 \title{calcVidalBralo}
 \usage{
-calcVidalBralo(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcVidalBralo(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Vidal-Bralo clock.
 }
 \examples{
-calcVidalBralo(exampleBetas, examplePheno, imputation = F)
+calcVidalBralo(exampleBetas, examplePheno, imputation = T)
 }

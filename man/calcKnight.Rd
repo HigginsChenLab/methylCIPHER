@@ -4,7 +4,7 @@
 \alias{calcKnight}
 \title{calcKnight}
 \usage{
-calcKnight(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcKnight(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Knight gestational age
 }
 \examples{
-calcKnight(exampleBetas, examplePheno, imputation = F)
+calcKnight(exampleBetas, examplePheno, imputation = T)
 }

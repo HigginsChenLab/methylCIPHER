@@ -4,7 +4,7 @@
 \alias{calcHRSInChPhenoAge}
 \title{calcHRSInChPhenoAge}
 \usage{
-calcHRSInChPhenoAge(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcHRSInChPhenoAge(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate PhenoAge as retrained using HRS and InChianti data. Trained by Albert Higgins-Chen during the PC Clocks paper work.
 }
 \examples{
-calcHRSInChPhenoAge(exampleBetas, examplePheno, imputation = F)
+calcHRSInChPhenoAge(exampleBetas, examplePheno, imputation = T)
 }

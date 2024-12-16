@@ -7,7 +7,7 @@
 <https://zenodo.org/record/2632938#.YfGA3S-B2Cg>
 }
 \usage{
-calcHypoClock(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcHypoClock(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -25,5 +25,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the HypoClock
 }
 \examples{
-calcHypoClock(exampleBetas, examplePheno, imputation = F)
+calcHypoClock(exampleBetas, examplePheno, imputation = T)
 }

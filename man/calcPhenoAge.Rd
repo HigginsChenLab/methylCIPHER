@@ -4,7 +4,7 @@
 \alias{calcPhenoAge}
 \title{calcPhenoAge}
 \usage{
-calcPhenoAge(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcPhenoAge(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate original 513 CpG PhenoAge
 }
 \examples{
-calcPhenoAge(exampleBetas, examplePheno, imputation = F)
+calcPhenoAge(exampleBetas, examplePheno, imputation = T)
 }

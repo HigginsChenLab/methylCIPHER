@@ -4,7 +4,7 @@
 \alias{calcLeeControl}
 \title{calcLeeControl}
 \usage{
-calcLeeControl(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcLeeControl(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Predictor of Control Placental Age (Lee)
 }
 \examples{
-calcLeeControl(exampleBetas, examplePheno, imputation = F)
+calcLeeControl(exampleBetas, examplePheno, imputation = T)
 }

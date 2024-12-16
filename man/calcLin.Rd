@@ -4,7 +4,7 @@
 \alias{calcLin}
 \title{calcLin}
 \usage{
-calcLin(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcLin(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Lin 99CpG Clock.
 }
 \examples{
-calcHRSInChPhenoAge(exampleBetas, examplePheno, imputation = F)
+calcHRSInChPhenoAge(exampleBetas, examplePheno, imputation = T)
 }

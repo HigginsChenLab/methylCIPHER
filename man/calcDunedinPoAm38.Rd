@@ -25,5 +25,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Dunedin Pace of Aging Measure (DunedinPoAm38). This accesses the library available at github.com/danbelsky/DunedinPoAm38
 }
 \examples{
-calcDunedinPoAm38(exampleBetas, examplePheno, imputation = F)
+calcDunedinPoAm38(exampleBetas, examplePheno, imputation = T)
 }

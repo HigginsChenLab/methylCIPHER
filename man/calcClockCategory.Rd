@@ -2,14 +2,14 @@
 % Please edit documentation in R/calcClockCategory.R
 \name{calcClockCategory}
 \alias{calcClockCategory}
-\title{calcCoreClocks}
+\title{calcClockCategory}
 \usage{
 calcClockCategory(
   DNAm,
   pheno,
   category = NULL,
   CpGImputation = NULL,
-  imputation = F
+  imputation = T
 )
 }
 \arguments{
@@ -32,5 +32,5 @@ NA
 }
 
 \examples{
-calcClockCategory(exampleBetas, examplePheno, category = "chronological", imputation = F)
+calcClockCategory(exampleBetas, examplePheno, category = "chronological", imputation = T)
 }

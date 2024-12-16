@@ -4,7 +4,7 @@
 \alias{calcZhang2019}
 \title{calcZhang2019}
 \usage{
-calcZhang2019(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcZhang2019(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Zhang 2019, ultra-precise age measure
 }
 \examples{
-calcZhang2019(exampleBetas, examplePheno, imputation = F)
+calcZhang2019(exampleBetas, examplePheno, imputation = T)
 }
