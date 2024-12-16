@@ -97,7 +97,7 @@ calcPCClocks <- function(DNAm, pheno = NULL){
   datMeth <- datMeth[,CpGs]
   meanimpute <- function(x) ifelse(is.na(x),mean(x,na.rm=T),x)
   datMeth <- apply(datMeth,2,meanimpute)
-  Note: you may substitute another imputation method of your choice (e.g. KNN), but we have not found the method makes a significant difference.
+  #Note: you may substitute another imputation method of your choice (e.g. KNN), but we have not found the method makes a significant difference.
   message("Mean imputation successfully completed for any missing CpG values")
 
   #Initialize a data frame for PC clocks
