@@ -7,7 +7,7 @@
 #' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
 #' @export
 #'
-#' @examples calcPhenoAge(exampleBetas, examplePheno, imputation = T)
+#' @examples calcPhenoAge(exampleBetas, examplePheno)
 #'
 #'
 
@@ -95,10 +95,10 @@ calcPCClocks <- function(DNAm, pheno = NULL){
 
   #Prepare methylation data for calculation of PC Clocks (subset to 78,464 CpGs and perform imputation if needed)
   datMeth <- datMeth[,CpGs]
-  #meanimpute <- function(x) ifelse(is.na(x),mean(x,na.rm=T),x)
-  #datMeth <- apply(datMeth,2,meanimpute)
-  #Note: you may substitute another imputation method of your choice (e.g. KNN), but we have not found the method makes a significant difference.
-  #message("Mean imputation successfully completed for any missing CpG values")
+  meanimpute <- function(x) ifelse(is.na(x),mean(x,na.rm=T),x)
+  datMeth <- apply(datMeth,2,meanimpute)
+  Note: you may substitute another imputation method of your choice (e.g. KNN), but we have not found the method makes a significant difference.
+  message("Mean imputation successfully completed for any missing CpG values")
 
   #Initialize a data frame for PC clocks
   DNAmAge <- datPheno
