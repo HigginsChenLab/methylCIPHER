@@ -4,7 +4,7 @@
 \alias{calcPEDBE}
 \title{calcPEDBE}
 \usage{
-calcPEDBE(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcPEDBE(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the PEDBE epigenetic clock
 }
 \examples{
-calcPEDBE(exampleBetas, examplePheno, imputation = F)
+calcPEDBE(exampleBetas, examplePheno, imputation = T)
 }

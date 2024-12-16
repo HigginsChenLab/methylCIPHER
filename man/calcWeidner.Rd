@@ -4,7 +4,7 @@
 \alias{calcWeidner}
 \title{calcWeidner}
 \usage{
-calcWeidner(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcWeidner(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Weidner clock
 }
 \examples{
-calcWeidner(exampleBetas, examplePheno, imputation = F)
+calcWeidner(exampleBetas, examplePheno, imputation = T)
 }

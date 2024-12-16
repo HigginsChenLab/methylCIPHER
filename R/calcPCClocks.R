@@ -4,9 +4,6 @@
 #'
 #' @param DNAm a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.
 #' @param pheno Optional: The sample phenotype data (also with samples as rows) that the clock will be appended to.
-#' @param CpGImputation An optional namesd vector for the mean value of each CpG that will be input from another dataset if such values are missing here (from sample cleaning)
-#' @param imputation Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.
-#'
 #' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
 #' @export
 #'
@@ -14,17 +11,20 @@
 #'
 #'
 
-calcPCClocks <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-  
+calcPCClocks <- function(DNAm, pheno = NULL){
+
+  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+
   #add check that path_to_PCClocks ends with a /
-  
+
   #path_to_PCClocks should end with a "/"
   #datMeth is a matrix of methylation Beta values, where row names are samples, and
   #   column names are CpGs
   #datPheno has rows as samples and columns as phenotype variables. This can also
   #   include the original clocks if you used the Horvath online calculator as well.
   #   It MUST include a column named "Age" and a column named "Female"
-  
+
   if(!("Age" %in% variable.names(datPheno))){
     stop("Error: datPheno must have a column named Age")
   }
@@ -34,8 +34,8 @@ calcPCClocks <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = 
   if(sum(startsWith(colnames(datMeth),"cg")) == 0){
     warning("Warning: It looks like you may need to format datMeth using t(datMeth) to get samples as rows!")
   }
-  
-  
+
+
   #Note: this code assumes all your files are in one working directory. Alter the code as needed based on file locations.
   #Load packages
   pkgTest <- function(x)
@@ -54,25 +54,30 @@ calcPCClocks <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = 
   library(tidyr)
   pkgTest("googledrive")
   library(googledrive)
-  
-  
+
+  googledrive::drive_auth()
+
+
   #In datPheno, rows are samples and columns are phenotypic variables.
   #One of the phenotypic variables must be "Age", and another one "Female" (coded as Female = 1, Male = 0; should be a numeric variable as this will be included in PCGrimAge calculation)
   #Also ensure that the order of datMeth sample IDs matches your phenotype data sample IDs, otherwise your data will be scrambled
-  
-  if (file.exists("CalcAllPCClocks.RData")) {
-    cat("PCClocks File Exists.")
+
+  home_dir<-Sys.getenv("HOME")
+
+  if (file.exists(paste0(home_dir,"/CalcAllPCClocks.RData"))) {
+    cat("PCClocks File Exists in Home Directory. Loading Data")
+    load(paste0(home_dir,"/CalcAllPCClocks.RData"))
   } else {
-    cat("PCClocks Data does not exist in working directory. Downloading data...")
+    cat("PCClocks Data does not exist in package directory. Downloading data...")
     public_file <-  drive_get(as_id("1xhFUMBSrjRta3tgL0OTBLVgNlLnJJNRZ"))
-    drive_download(public_file, overwrite = TRUE)
-    load("CalcAllPCClocks.RData")
+    drive_download(public_file, path = paste0(home_dir,"/CalcAllPCClocks.RData"), overwrite = TRUE)
+    load(paste0(home_dir,"/CalcAllPCClocks.RData"))
   }
-  
+
   #load(file = paste(path_to_PCClocks_directory,"CalcAllPCClocks.RData", sep = ""))
-  
+
   message("PCClocks Data successfully loaded")
-  
+
   #If needed: Fill in missing CpGs needed for calculation of PCs; use mean values from GSE40279 (Hannum 2013; blood)- note that for other tissues you might prefer to use a different one
   datMeth <- as.data.frame(datMeth)
   if(length(c(CpGs[!(CpGs %in% colnames(datMeth))],CpGs[apply(datMeth[,colnames(datMeth) %in% CpGs], 2, function(x)all(is.na(x)))])) == 0){
@@ -87,26 +92,26 @@ calcPCClocks <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = 
     }
     message("PCClocks - Any missing CpGs successfully filled in (see function for more details)")
   }
-  
+
   #Prepare methylation data for calculation of PC Clocks (subset to 78,464 CpGs and perform imputation if needed)
   datMeth <- datMeth[,CpGs]
   #meanimpute <- function(x) ifelse(is.na(x),mean(x,na.rm=T),x)
   #datMeth <- apply(datMeth,2,meanimpute)
   #Note: you may substitute another imputation method of your choice (e.g. KNN), but we have not found the method makes a significant difference.
   #message("Mean imputation successfully completed for any missing CpG values")
-  
+
   #Initialize a data frame for PC clocks
   DNAmAge <- datPheno
-  
+
   #var = readline(prompt = "To check whether datMeth and datPheno match up, type the column name in datPheno with sample names (or type skip):")
   #if(var != "skip"){
   #  if(sum(DNAmAge[,var] == rownames(datMeth)) != dim(DNAmAge[,var])[1]){
   #    warning("Warning: It would appear that datPheno and datMeth do not have matching sample order! Check your inputs!")
   #  } else message("datPheno and datMeth sample order verified to match!")
   #}
-  
+
   message("Calculating PC Clocks now")
-  
+
   #Calculate PC Clocks
   DNAmAge$PCHorvath1 <- as.numeric(anti.trafo(sweep(as.matrix(datMeth),2,CalcPCHorvath1$center) %*% CalcPCHorvath1$rotation %*% CalcPCHorvath1$model + CalcPCHorvath1$intercept))
   DNAmAge$PCHorvath2 <- as.numeric(anti.trafo(sweep(as.matrix(datMeth),2,CalcPCHorvath2$center) %*% CalcPCHorvath2$rotation %*% CalcPCHorvath2$model + CalcPCHorvath2$intercept))
@@ -124,9 +129,9 @@ calcPCClocks <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = 
   DNAmAge$PCTIMP1 <- as.numeric(temp[,names(CalcPCGrimAge$PCTIMP1.model)] %*% CalcPCGrimAge$PCTIMP1.model + CalcPCGrimAge$PCTIMP1.intercept)
   DNAmAge$PCGrimAge <- as.numeric(as.matrix(DNAmAge[,CalcPCGrimAge$components]) %*% CalcPCGrimAge$PCGrimAge.model + CalcPCGrimAge$PCGrimAge.intercept)
   rm(CalcPCHorvath1,CalcPCHorvath2,CalcPCHannum,CalcPCPhenoAge,CalcPCDNAmTL,CalcPCGrimAge,temp,imputeMissingCpGs)
-  
+
   message("PC Clocks successfully calculated!")
-  
+
   return(DNAmAge)
 }
 

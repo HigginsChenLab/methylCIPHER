@@ -4,7 +4,7 @@
 \alias{calcCoreClocks}
 \title{calcCoreClocks}
 \usage{
-calcCoreClocks(DNAm, pheno, CpGImputation = NULL, imputation = F)
+calcCoreClocks(DNAm, pheno, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ A dataframe that has column names of the core clocks giving you multiple clocks 
 A function to calculate the core, most utilized epigenetic clocks in the literature.
 }
 \examples{
-calcCoreClocks(exampleBetas, examplePheno, imputation = F)
+calcCoreClocks(exampleBetas, examplePheno, imputation = T)
 }

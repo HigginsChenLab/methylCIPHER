@@ -4,7 +4,7 @@
 \alias{calcGaragnani}
 \title{calcGaragnani}
 \usage{
-calcGaragnani(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcGaragnani(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Garagnani single-CpG epigenetic clock
 }
 \examples{
-calcGaragnani(exampleBetas, examplePheno, imputation = F)
+calcGaragnani(exampleBetas, examplePheno, imputation = T)
 }

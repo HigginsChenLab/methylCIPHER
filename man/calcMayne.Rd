@@ -4,7 +4,7 @@
 \alias{calcMayne}
 \title{calcMayne}
 \usage{
-calcMayne(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcMayne(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,6 +22,6 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Mayne Gestational Age predictor
 }
 \examples{
-calcMayne(exampleBetas, examplePheno, imputation = F)
+calcMayne(exampleBetas, examplePheno, imputation = T)
 calcMayne(exampleBetas, examplePheno, imputation = T, CpGImputation = Mayne_impute) #For the Mayne imputation gold standard
 }

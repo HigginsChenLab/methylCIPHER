@@ -25,5 +25,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Epigenetic Timer of Cancer (EpiTOC)
 }
 \examples{
-calcEpiTOC(exampleBetas, examplePheno, imputation = F)
+calcEpiTOC(exampleBetas, examplePheno, imputation = T)
 }

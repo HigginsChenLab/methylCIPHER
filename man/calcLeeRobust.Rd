@@ -4,7 +4,7 @@
 \alias{calcLeeRobust}
 \title{calcLeeRobust}
 \usage{
-calcLeeRobust(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcLeeRobust(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 }
 \arguments{
 \item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
@@ -22,5 +22,5 @@ If you added the optional pheno input (preferred) the function appends a column 
 A function to calculate the Robust Predictor of Placental Age (Lee)
 }
 \examples{
-calcLeeRobust(exampleBetas, examplePheno, imputation = F)
+calcLeeRobust(exampleBetas, examplePheno, imputation = T)
 }
