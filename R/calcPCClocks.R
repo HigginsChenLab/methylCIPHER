@@ -11,7 +11,7 @@
 #'
 #'
 
-calcPCClocks <- function(DNAm, pheno = NULL){
+calcPCClocks <- function(datMeth, datPheno){
 
   setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 
@@ -65,10 +65,10 @@ calcPCClocks <- function(DNAm, pheno = NULL){
   home_dir<-Sys.getenv("HOME")
 
   if (file.exists(paste0(home_dir,"/CalcAllPCClocks.RData"))) {
-    cat("PCClocks File Exists in Home Directory. Loading Data")
+    cat("PCClocks File Exists in Home Directory. Loading Data...\n")
     load(paste0(home_dir,"/CalcAllPCClocks.RData"))
   } else {
-    cat("PCClocks Data does not exist in package directory. Downloading data...")
+    cat("PCClocks Data does not exist in package directory. Downloading data...\n")
     public_file <-  drive_get(as_id("1xhFUMBSrjRta3tgL0OTBLVgNlLnJJNRZ"))
     drive_download(public_file, path = paste0(home_dir,"/CalcAllPCClocks.RData"), overwrite = TRUE)
     load(paste0(home_dir,"/CalcAllPCClocks.RData"))

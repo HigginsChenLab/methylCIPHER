@@ -10,6 +10,7 @@ getClockProbes <- function(DNAm){
 
   ClockDataList <- as.data.frame(data(package = "methylCIPHER")[3][[1]])$Item
   ClockDataList <- stringr::str_subset(ClockDataList, pattern = "CpG")
+  ClockDataList <- ClockDataList[grep("Calc",ClockDataList,invert=TRUE)]
 
   totalProbes <- vector(mode = "numeric", length = length(ClockDataList))
   presentProbes <- vector(mode = "numeric", length = length(ClockDataList))
@@ -17,9 +18,11 @@ getClockProbes <- function(DNAm){
 
   for(i in 1:length(ClockDataList)){
 
+
     x <- get(ClockDataList[i])
 
-    if(ClockDataList[i] %in% c("Bocklandt_CpG","EpiToc_CpGs","hypoClock_CpGs","Garagnani_CpG","Weidner_CpGs")){
+    if(ClockDataList[i] %in% c("Bocklandt_CpG","EpiToc_CpGs","hypoClock_CpGs",
+                               "Garagnani_CpG","Weidner_CpGs","PCClocks_CpGs","SystemsAge_CpGs","eightfiftykCpGs")){
 
       currentCpGList <- x
 
@@ -39,13 +42,15 @@ getClockProbes <- function(DNAm){
 
       CpGColumn <- grepl("CpG|Marker|ID|id", colnames(x))
 
-      currentCpGList <- x[CpGColumn][,1]
+      currentCpGList <- as.matrix(x[CpGColumn][,1])
 
     }
 
     totalProbes[i] <- length(currentCpGList)
     presentProbes[i] <- sum(currentCpGList %in% colnames(DNAm))
     percentPresent[i] <- paste(round((presentProbes[i]/totalProbes[i])*100,0),"%",sep = "")
+
+
 
   }
 
@@ -55,5 +60,7 @@ getClockProbes <- function(DNAm){
                            `Percent Present` = percentPresent)
 
   ProbeTable
+
+
 
 }
