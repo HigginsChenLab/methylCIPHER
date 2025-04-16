@@ -55,6 +55,12 @@ citeMyClocks <- function(clockList, prettyprint = TRUE){
   if(any(c("calcLeeRobust","calcLeeControl","calcLeeRefinedRobust") %in% clockList)){
     citations <- c(citations, "Lee, Y., Choufani, S., Weksberg, R., Wilson, S. L., Yuan, V., Burt, A., … Horvath, S. (2019). \n Placental epigenetic clocks: Estimating gestational age using placental DNA methylation levels. \n Aging, 11(12), 4238–4253. https://doi.org/10.18632/aging.102049")}
 
+  if("calcPCClocks" %in% clockList){
+    citations <- c(citations, "Higgins-Chen, A. T., Thrush, K. L., Wang, Y., Minteer, C. J., Kuo, P. L., Wang, M., Niimi, P., Sturm, G., Lin, J., Moore, A. Z., Bandinelli, S., Vinkers, C. H., Vermetten, E., Rutten, B. P. F., Geuze, E., Okhuijsen-Pfeifer, C., van der Horst, M. Z., Schreiter, S., Gutwinski, S., Luykx, J. J., … Levine, M. E. (2022). \n A computational solution for bolstering reliability of epigenetic clocks: Implications for clinical trials and longitudinal tracking. \n Nature aging, 2(7), 644–661. https://doi.org/10.1038/s43587-022-00248-2")}
+
+  if("calcSystemsAge" %in% clockList){
+    citations <- c(citations, "Sehgal, R., Markov, Y., Qin, C., Meer, M., Hadley, C., Shadyab, A. H., Casanova, R., Manson, J. E., Bhatti, P., Crimmins, E. M., Hägg, S., Assimes, T. L., Whitsel, E. A., Higgins-Chen, A. T., & Levine, M. (2024). \n Systems Age: A single blood methylation test to quantify aging heterogeneity across 11 physiological systems. \n bioRxiv : the preprint server for biology, 2023.07.13.548904. https://doi.org/10.1101/2023.07.13.548904")}
+
   if("calcPhenoAge" %in% clockList){
     citations <- c(citations, "Levine, M. E., Lu, A. T., Quach, A., Chen, B. H., Assimes, T. L., Bandinelli, S., … Horvath, S. (2018). \n An epigenetic biomarker of aging for lifespan and healthspan. \n Aging, 10(4), 573–591. https://doi.org/10.18632/aging.101414")}
 
