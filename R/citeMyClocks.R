@@ -58,6 +58,12 @@ citeMyClocks <- function(clockList, prettyprint = TRUE){
   if("calcPCClocks" %in% clockList){
     citations <- c(citations, "Higgins-Chen, A. T., Thrush, K. L., Wang, Y., Minteer, C. J., Kuo, P. L., Wang, M., Niimi, P., Sturm, G., Lin, J., Moore, A. Z., Bandinelli, S., Vinkers, C. H., Vermetten, E., Rutten, B. P. F., Geuze, E., Okhuijsen-Pfeifer, C., van der Horst, M. Z., Schreiter, S., Gutwinski, S., Luykx, J. J., … Levine, M. E. (2022). \n A computational solution for bolstering reliability of epigenetic clocks: Implications for clinical trials and longitudinal tracking. \n Nature aging, 2(7), 644–661. https://doi.org/10.1038/s43587-022-00248-2")}
 
+  if("calcGrimAgeV1" %in% clockList){
+    citations <- c(citations, "Lu, A. T., Quach, A., Wilson, J. G., Reiner, A. P., Aviv, A., Raj, K., Hou, L., Baccarelli, A. A., Li, Y., Stewart, J. D., Whitsel, E. A., Assimes, T. L., Ferrucci, L., & Horvath, S. (2019). \n DNA methylation GrimAge strongly predicts lifespan and healthspan. \n Aging, 11(2), 303–327. https://doi.org/10.18632/aging.101684")}
+
+  if("calcGrimAgeV2" %in% clockList){
+    citations <- c(citations, "Lu, A. T., Binder, A. M., Zhang, J., Yan, Q., Reiner, A. P., Cox, S. R., Corley, J., Harris, S. E., Kuo, P. L., Moore, A. Z., Bandinelli, S., Stewart, J. D., Wang, C., Hamlat, E. J., Epel, E. S., Schwartz, J. D., Whitsel, E. A., Correa, A., Ferrucci, L., Marioni, R. E., … Horvath, S. \n (2022). DNA methylation GrimAge version 2. \n Aging, 14(23), 9484–9549. https://doi.org/10.18632/aging.204434")}
+
   if("calcSystemsAge" %in% clockList){
     citations <- c(citations, "Sehgal, R., Markov, Y., Qin, C., Meer, M., Hadley, C., Shadyab, A. H., Casanova, R., Manson, J. E., Bhatti, P., Crimmins, E. M., Hägg, S., Assimes, T. L., Whitsel, E. A., Higgins-Chen, A. T., & Levine, M. (2024). \n Systems Age: A single blood methylation test to quantify aging heterogeneity across 11 physiological systems. \n bioRxiv : the preprint server for biology, 2023.07.13.548904. https://doi.org/10.1101/2023.07.13.548904")}
 
