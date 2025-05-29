@@ -12,7 +12,9 @@
 
 calcIntrinClock<-function(datMeth,datPheno){
 
+  library(glmnet)
   data(IntrinClockCpGs)
+  data("intrin_model_small")
 
   #Create the function for calculating IntrinClock
   returnAge = function(ages) {
@@ -29,7 +31,7 @@ calcIntrinClock<-function(datMeth,datPheno){
   }
 
   #Loads the glmnet model
-  model = readRDS(paste0(path_to_IntrinClock,"final_model_small.RData"))
+  model = final_model_small
   allowed_cpgs = rownames(coef(model))[-1]
 
   intrin_betas = data.frame(datMeth)
@@ -84,7 +86,7 @@ calcIntrinClock<-function(datMeth,datPheno){
   #rownames(intrin_betas) = sub("X","",rownames(intrin_betas))
 
   #Calculate IntrinClock
-  ages = predict(model,as.matrix(intrin_betas))
+  ages <- predict(model, as.matrix(intrin_betas), s = "lambda.min")
   for (i in 1:length(ages)){
     if (isNA(ages[i])){
       ages[i]<-0
