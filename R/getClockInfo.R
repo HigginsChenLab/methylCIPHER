@@ -22,6 +22,10 @@ getClockInfo <- function(){
   df <- df[df$MethylCIPHER == "Public",]
 
   df$TranslAGE <- NULL
+  df$MethylCIPHER <- NULL
+  df$`Misc Information about Clock` <- NULL
+  df$`Friendly Name`<- NULL
+  df$`Alternative Names`<- NULL
 
   ProbeTable <- as.data.frame(df)
 
