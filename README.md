@@ -92,6 +92,14 @@ calcPhenoAge(exampleBetas, imputation = F)
 #>          40.35242
 ```
 
+
+
+``` r
+getClockInfo(exampleBetas)
+```
+
+
+
 ### Categories of Epigenetic Clocks
 
 Due to the abundance of epigenetic clocks are overlapping reasons for
