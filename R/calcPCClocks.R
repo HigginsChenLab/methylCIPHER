@@ -13,7 +13,16 @@
 
 calcPCClocks <- function(datMeth, datPheno){
 
-  setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+  if (requireNamespace("rstudioapi", quietly = TRUE) &&
+      rstudioapi::isAvailable() &&
+      nzchar(rstudioapi::getActiveDocumentContext()$path)) {
+
+    current_path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+
+  } else {
+
+    current_path <- getwd()  # fallback to current working directory
+  }
 
 
   #add check that path_to_PCClocks ends with a /
