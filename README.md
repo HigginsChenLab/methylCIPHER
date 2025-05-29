@@ -1,31 +1,15 @@
 
--   [MorganLevineLab/methylCIPHER](#morganlevinelabmethylcipher)
-    -   [Installation](#installation)
-    -   [Calculating Epigenetic Clocks and
-        Predictors](#calculating-epigenetic-clocks-and-predictors)
-        - [Running single “clock” calculations](#running-single-clock-calculations)
-        - [Categories of Epigenetic Clocks](#categories-of-epigenetic-clocks)
-        - [Running Multiple Epigenetic Clocks Simultaneously](#running-multiple-epigenetic-clocks-simultaneously)
-        - [Missing beta values](#missing-beta-values)
--   [Citations!](#citations)
-    -   [citeMyClocks()](#citemyclocks)
-    -   [calcCoreClocks Function](#calccoreclocks-function)
-    -   [Chronological Age Predictors](#chronological-age-predictors-1)
-    -   [Cancer and Mitotic Rates](#cancer-and-mitotic-rates-1)
-    -   [Gestational & Pediatric Age](#gestational--pediatric-age)
-    -   [Biological Age and Mortality
-        Predictors](#biological-age-and-mortality-predictors-1)
-    -   [Trait Predictors](#trait-predictors-1)
-    -   [Bespoke Clocks](#bespoke-clocks)
+- [HigginsChenLab/methylCIPHER](#higginschenlabmethylcipher)
+  - [Installation](#installation)
+  - [Calculating Epigenetic Clocks and
+    Predictors](#calculating-epigenetic-clocks-and-predictors)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# MorganLevineLab/methylCIPHER
+# HigginsChenLab/methylCIPHER
 
 <!-- badges: start -->
 <!-- badges: end -->
-
-**On installation from Github, in R, install learnr and run `learnr::run_tutorial(name = "instructions", package = "methylCIPHER")` for an interactive tutorial.**  
 
 The goal of methylCIPHER is to allow users to easily calculate their
 choice of CpG clocks using simple commands, from a single source. CpG
@@ -42,7 +26,7 @@ current page. Please do not forget to cite them in your work!
 ## Installation
 
 You can install the released version of methylCIPHER and its imported
-packages from [Github](https://Cgithub.com/MorganLevineLab/methylCIPHER)
+packages from [Github](https://Cgithub.com/HigginsChenLab/methylCIPHER)
 with:
 
 ``` r
@@ -61,7 +45,7 @@ published CpG-based epigenetic clocks to our knowledge, if you find we
 are missing a clock, please contact us and we will do our best to
 promptly include it, if possible. You can do so by raising an issue on
 this repo or emailing us directly at
-\<kyra\[dot\]thrush\[at\]yale\[dot\]edu\>.
+\<a\[dot\]higginschen\[at\]yale\[dot\]edu\>.
 
 In order to calculate a CpG clock, you simply need to use the
 appropriate function, typically named “calc\[ClockNameHere\]”. For
@@ -72,6 +56,8 @@ library(methylCIPHER)
 calcPhenoAge(exampleBetas, examplePheno, imputation = F)
 ```
 
+<div class="kable-table">
+
 | name              | geo_accession | gender |  age | group | sample | PhenoAge |
 |:------------------|:--------------|:-------|-----:|------:|-------:|---------:|
 | 7786915023_R02C02 | GSM1343050    | M      | 57.9 |     1 |      1 | 52.29315 |
@@ -79,6 +65,8 @@ calcPhenoAge(exampleBetas, examplePheno, imputation = F)
 | 7471147149_R06C01 | GSM1343052    | M      | 47.4 |     1 |      3 | 43.54460 |
 | 7786915035_R05C01 | GSM1343053    | M      | 49.3 |     1 |      4 | 43.96697 |
 | 7786923035_R01C01 | GSM1343054    | M      | 52.5 |     1 |      5 | 40.35242 |
+
+</div>
 
 Alternatively, if you would just like to receive a vector with the clock
 values to use, rather than appending it to an existing phenotype/
@@ -106,85 +94,92 @@ unreasonable shifts in age (intercept)As bespoke clocks are developed
 for use in additional human tissues, we will include these in their own
 section below.
 
-#### Chronological Age Predictors
-
--   Bocklandt (calcBocklandt)
--   Garagnani (calcGaragnani)
--   **Hannum (calcHannum)**
--   **Horvath MultiTissue (calcHorvath1)**
--   Lin 99 CpG clock (calcLin)
--   Vidal-Bralo (calcVidalBralo)
--   Weidner (calcWeidner)
--   Zhang 10 CpG clock (calcZhang)
-
-#### Cancer and Mitotic Rates
-
--   Epigenetic Timers of Cancer:
-    -   EpiTOC (calcEpiTOC)
-    -   **EpiTOC2 (calcEpiTOC2)**
--   solo-WCGWsites, or hypoclock (calcHypoClock)
--   MiAge Calculator (calcMiAge)
-
-#### Gestational and Pediatric Age Predictors
-
--   Bohlin (calcBohlin)  
--   Knight (calcKnight)
--   Lee Gestational Age:
-    -   calcLeeControl  
-    -   calcLeeRobust  
-    -   calcLeeRefinedRobust  
--   Mayne (calcMayne)  
--   Pediatric-Buccal-Epigenetic Clock (calcPEDBE)
-
-#### Biological Age and Mortality Predictors
-
--   Dunedin Pace of Aging (DunedinPoAm38)
-    -   Updated DunedinPACE: available
-        [elsewhere](https://github.com/danbelsky/DunedinPACE)
--   **PhenoAge**:
-    -   Original 513 CpG PhenoAge (calcPhenoAge)
-        -   Polycomb Repressor Complex Associated Subscore
-            ([calcprcPhenoAge](https://github.com/MorganLevineLab/prcPhenoAge))
-        -   PRC dissociated Subscore (calcnonprcPhenoAge)
-    -   Updated PhenoAge (calcHRSInChPhenoAge)
--   **GrimAge:** not available, use **formatHorvathOnline** [Horvath
-    Online Calculator](http://dnamage.genetics.ucla.edu/home)
-
-#### Trait Predictors
-
--   McCartney’s Predictors:
-    -   Alcohol (calcAlcoholMcCartney)
-    -   BMI (calcBMIMcCartney)
-    -   Smoking (calcSmokingMcCartney)
--   PhosphatidylEthanol: Hazardous Alcohol Use (calcPEth)
-
-#### Non-Blood Clocks
-
--   DNAmAge<sub>Cortical</sub>
-    -   *A brain tissue trained clock.*
--   Horvath Skin & Blood (calcHorvath2)
-
-### Running Multiple Epigenetic Clocks Simultaneously
-
-#### Running the Core Epigenetic Clocks
-
-There are a number of epigenetic clocks available in the literature, but
-the majority of studies currently focus upon comparing a select few.
-Therefore, we have provided a helper function to quickly calculate these
-core clocks in just one line of code.
-
 ``` r
-calcCoreClocks(exampleBetas, examplePheno)
-#> Please remember to cite the core Clocks you have used! Please refer to the README.md file for assistance.
+suppressMessages(getClockInfo())
 ```
 
-| name              | geo_accession | gender |  age | group | sample |   Hannum | Horvath1 | PhenoAge |  epiTOC2 |
-|:------------------|:--------------|:-------|-----:|------:|-------:|---------:|---------:|---------:|---------:|
-| 7786915023_R02C02 | GSM1343050    | M      | 57.9 |     1 |      1 | 62.33422 | 56.20544 | 52.29315 | 5012.412 |
-| 7786915135_R04C02 | GSM1343051    | M      | 42.0 |     1 |      2 | 53.90139 | 47.45754 | 41.05867 | 4622.625 |
-| 7471147149_R06C01 | GSM1343052    | M      | 47.4 |     1 |      3 | 53.59733 | 48.24172 | 43.54460 | 2956.300 |
-| 7786915035_R05C01 | GSM1343053    | M      | 49.3 |     1 |      4 | 59.53767 | 51.53588 | 43.96697 | 3446.410 |
-| 7786923035_R01C01 | GSM1343054    | M      | 52.5 |     1 |      5 | 58.80107 | 45.05448 | 40.35242 | 3245.157 |
+<div class="kable-table">
+
+| Clock Name            | 1st Author   | Year |     PMID | Trained Phenotype   | \# of CpGs | Cohort Trained                                               | Tissues Derived                                                                                                  | Age Range Trained                                                                 | Array Type Trained |
+|:----------------------|:-------------|-----:|---------:|:--------------------|-----------:|:-------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------------------------|:-------------------|
+| AdaptAge              | Ying         | 2024 | 38243142 | Chronological Age   |       1000 | London Life Sciences Prospective Population (LOLIPOP)        | Blood                                                                                                            | NA                                                                                | 450K               |
+| Alcohol               | McCartney    | 2018 | 30257690 | Clinical Phenotype  |        450 | Generation Scotland: The Scottish Family Health Study \[GS\] | Blood                                                                                                            | 18–98                                                                             | 450K               |
+| BMI                   | McCartney    | 2018 | 30257690 | Clinical Phenotype  |       1109 | Generation Scotland: The Scottish Family Health Study \[GS\] | Blood                                                                                                            | 18-98                                                                             | 450K               |
+| Bocklandt             | Bocklandt    | 2011 | 21731603 | Chronological Age   |         88 | See Misc                                                     | Saliva                                                                                                           | 21-55                                                                             | 27K                |
+| Bohlin                | Bohlin       | 2016 | 27717397 | Gestational Age     |        251 | MoBa1                                                        | NA                                                                                                               | NA                                                                                | 450K               |
+| CausAge               | Ying         | 2024 | 38243142 | Chronological Age   |        586 | London Life Sciences Prospective Population (LOLIPOP)        | Blood                                                                                                            | NA                                                                                | 450K               |
+| DNAmClockCortical     | Shireby      | 2020 | 33300551 | Chronological Age   |        347 | Multiple cohorts                                             | Brain Tissue                                                                                                     | 1-108                                                                             | 450K               |
+| DNAmTL                | Lu           | 2019 |  3142238 | Telomere Length     |        140 | WHI+ JHS- Women’s Health Initiative & Jackson Heart Study    | Blood                                                                                                            | 50.2, 66.5, 80.2 (WHI min, median, max) - 22.2, 56.6, 93.1 (JHS min, median, max) | 450K and EPICv1    |
+| DamAge                | Ying         | 2024 | 38243142 | Chronological Age   |       1090 | London Life Sciences Prospective Population (LOLIPOP)        | Blood                                                                                                            | NA                                                                                | 450K               |
+| DunedinPoAm38         | Belsky       | 2020 | 32367804 | Pace of Aging       |         47 | Dunedin Study                                                | Blood                                                                                                            | 26-38                                                                             | 450K and EPICv1    |
+| DunedinPACE           | Belsky       | 2022 | 35029144 | Pace of Aging       |        173 | Dunedin Study                                                | Blood                                                                                                            | 26-45                                                                             | 450K and EPICv1    |
+| EpiTOC1               | Yang         | 2016 | 27716309 | Mitotic Divisions   |        385 | UCSD and WCH (GSE40279)                                      | Blood                                                                                                            | See Misc                                                                          | 450K               |
+| EpiTOC2               | Teschendorff | 2020 | 32580750 | Mitotic Divisions   |        163 | UCSD and WCH (GSE40279)                                      | Blood                                                                                                            | 19-101                                                                            | 450K               |
+| Garagnani             | Garagnani    | 2012 | 23061750 | Chronological Age   |          1 | See Misc                                                     | Blood                                                                                                            | 42–83 and 9–52                                                                    | 450K               |
+| GrimAge1              | Lu           | 2019 | 30669119 | Mortality           |       1030 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | ~40(min) to ~90 (max)                                                             | 450K               |
+| GrimAge2              | Lu           | 2022 | 36516495 | Mortality           |       1030 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | 40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max)                               | 450K               |
+| HRSInCHPhenoAge       | Higgins-Chen | 2022 | 36277076 | Mortality via proxy |        959 | HRS and InCHIANTI                                            | Blood                                                                                                            | 21-100                                                                            | 450K               |
+| Hannum                | Hannum       | 2013 | 23177740 | Chronological Age   |         71 | UCSD and WCH (GSE40279)                                      | Blood                                                                                                            | 19-101                                                                            | 450K               |
+| Horvath1              | Horvath      | 2013 | 24138928 | Chronological Age   |        353 | Multiple cohorts                                             | 51 healthy tissues and cell types                                                                                | ~3 (min) to 100 (max)                                                             | 450K and 27K       |
+| Horvath2              | Horvath      | 2018 | 30048243 | Chronological Age   |        391 | Multiple cohorts                                             | Human fibroblasts, keratinocytes, buccal cells, endothelial cells, lymphoblastoid cells, skin, blood, and saliva | -0.3(min) to 94 (max)                                                             | 450K and EPICv1    |
+| Knight                | Knight       | 2016 | 27717399 | Gestational Age     |        148 | Multiple cohorts                                             | umbilical cord blood or blood spots                                                                              | neonates                                                                          | 450K and 27K       |
+| LeeControl            | Lee          | 2019 | 31235674 | Gestational Age     |        546 | Multiple cohorts                                             | Placenta                                                                                                         | 5 to 42 weeks gestation                                                           | 450K and EPICv1    |
+| LeeRefinedRobust      | Lee          | 2019 | 31235674 | Gestational Age     |        395 | Multiple cohorts                                             | Placenta                                                                                                         | 5 to 42 weeks gestation                                                           | 450K and EPICv1    |
+| LeeRobust             | Lee          | 2019 | 31235674 | Gestational Age     |        558 | Multiple cohorts                                             | Placenta                                                                                                         | 5 to 42 weeks gestation                                                           | 450K and EPICv1    |
+| Lin                   | Weidner      | 2014 | 24490752 | Chronological Age   |         99 | HNR study                                                    | Blood                                                                                                            | 0-78                                                                              | 27K                |
+| Mayne                 | Mayne        | 2017 | 27894195 | Gestational Age     |         62 | Multiple cohorts                                             | Placenta                                                                                                         | 8-42 weeks gestation                                                              | 450K and 27K       |
+| MiAge                 | Youn         | 2018 | 29160179 | Mitotic Divisions   |        268 | NA                                                           | 8 cancer types and adjacent tissues                                                                              | NA                                                                                | 450K and EPICv1    |
+| PedBE                 | McEwan       | 2019 | 31611402 | Chronological Age   |         94 | Multiple cohorts                                             | Buccal                                                                                                           | 0-20                                                                              | 450K and EPICv1    |
+| PhenoAge              | Levine       | 2018 | 29676998 | Mortality via proxy |        513 | InCHIANTI                                                    | Blood                                                                                                            | 21-100                                                                            | 450K               |
+| Smoking               | McCartney    | 2018 | 30257690 | Clinical Phenotype  |        233 | Generation Scotland: The Scottish Family Health Study \[GS\] | Blood                                                                                                            | 18–98                                                                             | 450K               |
+| VidalBralo            | Vidal-Bralo  | 2016 | 27471517 | Chronological Age   |          8 | Multiple cohorts                                             | Blood                                                                                                            | 20-78                                                                             | 27K                |
+| Weidner               | Weidner      | 2014 | 24490752 | Chronological Age   |          3 | Multiple cohorts                                             | Blood                                                                                                            | 0-78                                                                              | 450K               |
+| Zhang2019             | Zhang        | 2019 | 31443728 | Chronological Age   |        514 | Multiple cohorts                                             | Blood and saliva                                                                                                 | 2-104                                                                             | 450K               |
+| Zhang                 | Zhang        | 2017 | 28303888 | Mortality           |         10 | ESTHER                                                       | Blood                                                                                                            | 50-75                                                                             | 450K               |
+| StocZ                 | Tong         | 2024 | 38724732 | Simulated Age       |        514 | Simulated dataset                                            | Blood                                                                                                            | 45-83                                                                             | 450K and EPICv1    |
+| StocH                 | Tong         | 2024 | 38724732 | Simulated Age       |        353 | Simulated dataset                                            | Blood                                                                                                            | 45-83                                                                             | 450K and EPICv1    |
+| StocP                 | Tong         | 2024 | 38724732 | Simulated Age       |        513 | Simulated dataset                                            | Blood                                                                                                            | 45-83                                                                             | 450K and EPICv1    |
+| HypoClock             | Teschendorff | 2020 | 32580750 | Mitotic Divisions   |        678 | See Misc                                                     | See Misc                                                                                                         | See Misc                                                                          | 450K               |
+| Retroelement-Age 450K | Ndhlovu      | 2024 | 38106164 | Chronological Age   |         NA | TruDiagnostic BioBank                                        | Blood                                                                                                            | 12-100                                                                            | EPICv1             |
+| PCHorvath1            | Higgins-Chen | 2022 | 36277076 | Chronological Age   |      78464 | Multiple cohorts                                             | Multiple                                                                                                         | -0.5 - 105                                                                        | 450K               |
+| PCHorvath2            | Higgins-Chen | 2022 | 36277076 | Chronological Age   |      78464 | Multiple cohorts                                             | Skin and Blood                                                                                                   | -0.3 - 101                                                                        | 450K               |
+| PCHannum              | Higgins-Chen | 2022 | 36277076 | Chronological Age   |      78464 | UCSD and WCH (GSE40279)                                      | Blood                                                                                                            | 19 - 101                                                                          | 450K               |
+| PCPhenoAge            | Higgins-Chen | 2022 | 36277076 | Mortality via proxy |      78464 | HRS and InCHIANTI                                            | Blood                                                                                                            | 21 - 101                                                                          | 450K               |
+| PCDNAmTL              | Higgins-Chen | 2022 | 36277076 | Telomere Length     |      78464 | FHS- Framingham heart study                                  | Blood                                                                                                            | 24 - 92                                                                           | 450K               |
+| PCGrimAge             | Higgins-Chen | 2022 | 36277076 | Mortality           |      78464 | FHS- Framingham heart study                                  | Blood                                                                                                            | 24 - 92                                                                           | 450K               |
+| PCPACKYRS             | Higgins-Chen | 2022 | 36277076 | Clinical Phenotype  |      78464 | FHS- Framingham heart study                                  | Blood                                                                                                            | 24 - 92                                                                           | 450K               |
+| PCADM                 | Higgins-Chen | 2022 | 36277076 | Protein             |      78464 | FHS- Framingham heart study                                  | Blood                                                                                                            | 24 - 92                                                                           | 450K               |
+| PCB2M                 | Higgins-Chen | 2022 | 36277076 | Protein             |      78464 | FHS- Framingham heart study                                  | Blood                                                                                                            | 24 - 92                                                                           | 450K               |
+| PCCystatinC           | Higgins-Chen | 2022 | 36277076 | Protein             |      78464 | FHS- Framingham heart study                                  | Blood                                                                                                            | 24 - 92                                                                           | 450K               |
+| PCGDF15               | Higgins-Chen | 2022 | 36277076 | Protein             |      78464 | FHS- Framingham heart study                                  | Blood                                                                                                            | 24 - 92                                                                           | 450K               |
+| PCLeptin              | Higgins-Chen | 2022 | 36277076 | Protein             |      78464 | FHS- Framingham heart study                                  | Blood                                                                                                            | 24 - 92                                                                           | 450K               |
+| PCPAI1                | Higgins-Chen | 2022 | 36277076 | Protein             |      78464 | FHS- Framingham heart study                                  | Blood                                                                                                            | 24 - 92                                                                           | 450K               |
+| PCTIMP1               | Higgins-Chen | 2022 | 36277076 | Protein             |      78464 | FHS- Framingham heart study                                  | Blood                                                                                                            | 24 - 92                                                                           | 450K               |
+| DNAmPACKYRS           | Lu           | 2019 |  6366976 | Clinical Phenotype  |        172 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | ~40(min) to ~90 (max)                                                             | 450K               |
+| DNAmADM               | Lu           | 2019 |  6366976 | Protein             |        186 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | ~40(min) to ~90 (max)                                                             | 450K               |
+| DNAmB2M               | Lu           | 2019 |  6366976 | Protein             |         91 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | ~40(min) to ~90 (max)                                                             | 450K               |
+| DNAmCystatinC         | Lu           | 2019 |  6366976 | Protein             |         87 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | ~40(min) to ~90 (max)                                                             | 450K               |
+| DNAmGDF15             | Lu           | 2019 |  6366976 | Protein             |        137 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | ~40(min) to ~90 (max)                                                             | 450K               |
+| DNAmPAI1              | Lu           | 2019 |  6366976 | Protein             |        211 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | ~40(min) to ~90 (max)                                                             | 450K               |
+| DNAmlogA1C            | Lu           | 2022 | 36516495 | Clinical Biomarker  |         86 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | 40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max)                               | 450K               |
+| DNAmlogCRP            | Lu           | 2022 | 36516495 | Clinical Biomarker  |        132 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | 40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max)                               | 450K               |
+| DNAmLeptin            | Lu           | 2019 |  6366976 | Protein             |        187 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | ~40(min) to ~90 (max)                                                             | 450K               |
+| DNAmTIMP1             | Lu           | 2019 |  6366976 | Protein             |         42 | FHS- Framingham heart study Offspring Cohort                 | Blood                                                                                                            | ~40(min) to ~90 (max)                                                             | 450K               |
+| SystemsAge            | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Blood                 | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Brain                 | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Inflammation          | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Heart                 | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Hormone               | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Immune                | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Kidney                | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Liver                 | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Metabolic             | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Lung                  | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| MusculoSkeletal       | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+| Age_prediction        | Sehgal       | 2023 | 37503069 | Mortality           |     125175 | HRS and FHS                                                  | Blood                                                                                                            | 24 - 100                                                                          | 450K               |
+
+</div>
 
 #### Running A User-Defined List of Epigenetic Clocks
 
@@ -196,20 +191,23 @@ this case, you will need to choose from the following options:
 clockOptions()
 #>  [1] "calcAlcoholMcCartney"            "calcBMIMcCartney"               
 #>  [3] "calcBocklandt"                   "calcBohlin"                     
-#>  [5] "calcDNAmClockCortical"           "calcDNAmTL"                     
-#>  [7] "calcDunedinPoAm38"               "calcEpiTOC"                     
-#>  [9] "calcEpiTOC2"                     "calcGaragnani"                  
-#> [11] "calcHannum"                      "calcHorvath1"                   
-#> [13] "calcHorvath2"                    "calcHRSInChPhenoAge"            
-#> [15] "calcHypoClock"                   "calcKnight"                     
-#> [17] "calcLeeControl"                  "calcLeeRefinedRobust"           
-#> [19] "calcLeeRobust"                   "calcLin"                        
-#> [21] "calcMayne"                       "calcMiAge"                      
-#> [23] "calcPEDBE"                       "calcPhenoAge"                   
-#> [25] "calcSmokingMcCartney"            "calcVidalBralo"                 
-#> [27] "calcWeidner"                     "calcZhang"                      
-#> [29] "calcZhang2019"                   "prcPhenoAge::calcPRCPhenoAge"   
-#> [31] "prcPhenoAge::calcnonPRCPhenoAge" "DunedinPoAm38::PoAmProjector"
+#>  [5] "calcClockCategory"               "calcDNAmClockCortical"          
+#>  [7] "calcDNAmTL"                      "calcDunedinPoAm38"              
+#>  [9] "calcEpiTOC"                      "calcEpiTOC2"                    
+#> [11] "calcGaragnani"                   "calcGrimAgeV1"                  
+#> [13] "calcGrimAgeV2"                   "calcHannum"                     
+#> [15] "calcHorvath1"                    "calcHorvath2"                   
+#> [17] "calcHRSInChPhenoAge"             "calcHypoClock"                  
+#> [19] "calcKnight"                      "calcLeeControl"                 
+#> [21] "calcLeeRefinedRobust"            "calcLeeRobust"                  
+#> [23] "calcLin"                         "calcMayne"                      
+#> [25] "calcMiAge"                       "calcPCClocks"                   
+#> [27] "calcPEDBE"                       "calcPhenoAge"                   
+#> [29] "calcSmokingMcCartney"            "calcSystemsAge"                 
+#> [31] "calcVidalBralo"                  "calcWeidner"                    
+#> [33] "calcZhang"                       "calcZhang2019"                  
+#> [35] "prcPhenoAge::calcPRCPhenoAge"    "prcPhenoAge::calcnonPRCPhenoAge"
+#> [37] "DunedinPoAm38::PoAmProjector"
 ```
 
 To do so, here is an example:
@@ -219,6 +217,8 @@ userClocks <- c("calcSmokingMcCartney","calcPhenoAge","calcEpiTOC2")
 calcUserClocks(userClocks, exampleBetas, examplePheno, imputation = F)
 ```
 
+<div class="kable-table">
+
 | name              | geo_accession | gender |  age | group | sample | Smoking_McCartney | PhenoAge |  epiTOC2 |
 |:------------------|:--------------|:-------|-----:|------:|-------:|------------------:|---------:|---------:|
 | 7786915023_R02C02 | GSM1343050    | M      | 57.9 |     1 |      1 |          3.993508 | 52.29315 | 5012.412 |
@@ -226,6 +226,8 @@ calcUserClocks(userClocks, exampleBetas, examplePheno, imputation = F)
 | 7471147149_R06C01 | GSM1343052    | M      | 47.4 |     1 |      3 |          3.173744 | 43.54460 | 2956.300 |
 | 7786915035_R05C01 | GSM1343053    | M      | 49.3 |     1 |      4 |          3.216788 | 43.96697 | 3446.410 |
 | 7786923035_R01C01 | GSM1343054    | M      | 52.5 |     1 |      5 |          4.414541 | 40.35242 | 3245.157 |
+
+</div>
 
 ### Missing beta values
 
@@ -245,6 +247,8 @@ created the following helper function:
 getClockProbes(exampleBetas)
 ```
 
+<div class="kable-table">
+
 | Clock             | Total.Probes | Present.Probes | Percent.Present |
 |:------------------|-------------:|---------------:|:----------------|
 | Alcohol           |          450 |            450 | 100%            |
@@ -256,25 +260,31 @@ getClockProbes(exampleBetas)
 | EpiToc2           |          163 |            163 | 100%            |
 | EpiToc            |          385 |            385 | 100%            |
 | Garagnani         |            1 |              1 | 100%            |
+| GrimAge1          |         1139 |             83 | 7%              |
+| GrimAge2          |         1362 |            111 | 8%              |
 | HRSInCHPhenoAge   |          959 |            959 | 100%            |
 | Hannum            |           71 |             71 | 100%            |
 | Horvath1          |          353 |            353 | 100%            |
 | Horvath2          |          391 |            390 | 100%            |
-| Knight            |            1 |              0 | 0%              |
+| Knight            |          148 |             16 | 11%             |
 | LeeControl        |          546 |             13 | 2%              |
 | LeeRefinedRobust  |          395 |              9 | 2%              |
 | LeeRobust         |          558 |              9 | 2%              |
 | Lin               |           99 |             39 | 39%             |
-| Mayne             |            1 |              0 | 0%              |
+| Mayne             |           62 |              5 | 8%              |
 | MiAge             |          268 |              4 | 1%              |
+| PCClocks          |        78464 |           2976 | 4%              |
 | PEDBE             |           94 |             14 | 15%             |
 | PhenoAge          |          513 |            513 | 100%            |
 | Smoking           |          233 |            233 | 100%            |
+| SystemsAge        |       125175 |           4024 | 3%              |
 | VidalBralo        |            8 |              5 | 62%             |
 | Weidner           |            3 |              3 | 100%            |
 | Zhang2019         |          514 |            131 | 25%             |
 | Zhang             |           10 |             10 | 100%            |
 | hypoClock         |          678 |            678 | 100%            |
+
+</div>
 
 Please note that this will not count columns of NAs for named CpGs as
 missing! If you want to check for this you can run the following line of
@@ -298,223 +308,3 @@ sum(is.na(betaMatrix))
 If this does not end up being 0, you might consider running mean
 imputation within your data so that NA values for single/ few samples at
 least have mean values rather than being ignored.
-
-### Alternate Methods
-
-#### PC Clocks
-
-If you would like to lower the noise in your data, which is helpful for
-applications in clinical, intervention, or longitudinal data in
-particular, you might consider instead using our recently developed PC
-Clocks. You can use [this
-code](https://github.com/MorganLevineLab/PC-Clocks) and refer to [this
-publication](insert-paper-doi-when-published).
-
-#### Modules Clocks
-
-\[should we include this?\]
-
-# Citations!
-
-The current package is intended to increase visibility and accesibility
-for the many epigenetic clocks currently in circulation. Please do not
-forget to cite not only this work, but the works you use in your
-research the correspond to the appropriate epigenetic clocks.
-
-## citeMyClocks()
-
-As an alternative to manually checking the list below, you can simply
-use the function **citeMyClocks** to automatically print out APA style
-citations of the appropriate publications. You can use a character
-vector or input with the function name(s) you used, or the same
-*userClocks* list you may have used for **calcUserClocks**.
-
-``` r
-citeMyClocks(userClocks, prettyprint = TRUE)
-#> Clock Citations:
-#> Levine, M. E., Lu, A. T., Quach, A., Chen, B. H., Assimes, T. L., Bandinelli, S., … Horvath, S. (2018). 
-#>  An epigenetic biomarker of aging for lifespan and healthspan. 
-#>  Aging, 10(4), 573–591. https://doi.org/10.18632/aging.101414
-#> McCartney, D. L., Hillary, R. F., Stevenson, A. J., Ritchie, S. J., Walker, R. M., Zhang, Q., … Marioni, R. E. (2018). 
-#>  Epigenetic prediction of complex traits and death. 
-#>  Genome Biology, 19(1), 136. https://doi.org/10.1186/s13059-018-1514-1
-#> Teschendorff, A. E. (2020). 
-#>  A comparison of epigenetic mitotic-like clocks for cancer risk prediction. 
-#>  Genome Medicine, 12(1), 56. https://doi.org/10.1186/s13073-020-00752-3
-```
-
-*Please note that by default the function formats the output for nicer
-console output. Change to prettyprint = FALSE for a vector you can save
-in your workspace.*
-
-## calcCoreClocks Function
-
-If you used the **calcCoreClocks** function then the list of citations
-you will need is as below. Otherwise, please find the appropriate
-citations for the calculations you did run in their respective sections
-below.
-
--   Hannum, G., Guinney, J., Zhao, L., Zhang, L., Hughes, G., Sadda, S.
-    V., … Zhang, K. (2013). Genome-wide Methylation Profiles Reveal
-    Quantitative Views of Human Aging Rates. Molecular Cell, 49(2),
-    359–367. <https://doi.org/10.1016/j.molcel.2012.10.016>  
--   Horvath, S. (2013). DNA methylation age of human tissues and cell
-    types. Genome Biology, 14(10), 3156.
-    <https://doi.org/10.1186/gb-2013-14-10-r115>  
--   Levine, M. E., Lu, A. T., Quach, A., Chen, B. H., Assimes, T. L.,
-    Bandinelli, S., … Horvath, S. (2018). An epigenetic biomarker of
-    aging for lifespan and healthspan. Aging, 10(4), 573–591.
-    <https://doi.org/10.18632/aging.101414>  
--   Teschendorff, A. E. (2020). A comparison of epigenetic mitotic-like
-    clocks for cancer risk prediction. Genome Medicine, 12(1), 56.
-    <https://doi.org/10.1186/s13073-020-00752-3>
-
-## Chronological Age Predictors
-
--   **calcBocklandt:** Bocklandt, S., Lin, W., Sehl, M. E., Sánchez, F.
-    J., Sinsheimer, J. S., Horvath, S., & Vilain, E. (2011). Epigenetic
-    Predictor of Age. PLOS ONE, 6(6), e14821.
-    <https://doi.org/10.1371/journal.pone.0014821>  
--   **calcGaragnani:** Garagnani, P., Bacalini, M. G., Pirazzini, C.,
-    Gori, D., Giuliani, C., Mari, D., … Franceschi, C. (2012).
-    Methylation of ELOVL2 gene as a new epigenetic marker of age. Aging
-    Cell, 11(6), 1132–1134. <https://doi.org/10.1111/acel.12005>  
--   **calcHannum:** Hannum, G., Guinney, J., Zhao, L., Zhang, L.,
-    Hughes, G., Sadda, S. V., … Zhang, K. (2013). Genome-wide
-    Methylation Profiles Reveal Quantitative Views of Human Aging Rates.
-    Molecular Cell, 49(2), 359–367.
-    <https://doi.org/10.1016/j.molcel.2012.10.016>  
--   **calcHorvath1:** Horvath, S. (2013). DNA methylation age of human
-    tissues and cell types. Genome Biology, 14(10), 3156.
-    <https://doi.org/10.1186/gb-2013-14-10-r115>  
--   **calcLin:** Lin, Q., Weidner, C. I., Costa, I. G., Marioni, R. E.,
-    Ferreira, M. R. P., Deary, I. J., & Wagner, W. (2016). DNA
-    methylation levels at individual age-associated CpG sites can be
-    indicative for life expectancy. Aging, 8(2), 394–401.
-    <https://doi.org/10.18632/aging.100908>  
--   **calcVidalBralo:** Vidal-Bralo, L., Lopez-Golan, Y., & Gonzalez, A.
-    (2016). Simplified assay for epigenetic age estimation in whole
-    blood of adults. Frontiers in Genetics, 7(JUL), 1–7.
-    <https://doi.org/10.3389/fgene.2016.00126>  
--   **calcWeidner:** Weidner, C. I., Lin, Q., Koch, C. M., Eisele, L.,
-    Beier, F., Ziegler, P., … Wagner, W. (2014). Aging of blood can be
-    tracked by DNA methylation changes at just three CpG sites. Genome
-    Biology, 15(2). <https://doi.org/10.1186/gb-2014-15-2-r24>  
--   **calcZhang:** Zhang, Y., Wilson, R., Heiss, J., Breitling, L. P.,
-    Saum, K. U., Schöttker, B., … Brenner, H. (2017). DNA methylation
-    signatures in peripheral blood strongly predict all-cause mortality.
-    Nature Communications, 8. <https://doi.org/10.1038/ncomms14617>  
--   **calcZhang2019:** Zhang, Q., Vallerga, C. L., Walker, R. M., Lin,
-    T., Henders, A. K., Montgomery, G. W., … Visscher, P. M. (2019).
-    Improved precision of epigenetic clock estimates across tissues and
-    its implication for biological ageing. Genome Medicine, 11(1), 54.
-    <https://doi.org/10.1186/s13073-019-0667-1>
-
-## Cancer and Mitotic Rates
-
--   **calcDNAmTL:** Lu, A. T., Seeboth, A., Tsai, P. C., Sun, D., Quach,
-    A., Reiner, A. P., … Horvath, S. (2019). DNA methylation-based
-    estimator of telomere length. Aging, 11(16), 5895–5923.
-    <https://doi.org/10.18632/aging.102173>  
--   **calcEpiTOC:** Yang, Z., Wong, A., Kuh, D., Paul, D. S., Rakyan, V.
-    K., Leslie, R. D., … Teschendorff, A. E. (2016). Correlation of an
-    epigenetic mitotic clock with cancer risk. Genome Biology, 17(1),
-    1–18. <https://doi.org/10.1186/s13059-016-1064-3>  
--   **calcEpiTOC2 + calcHypoClock:** Teschendorff, A. E. (2020). A
-    comparison of epigenetic mitotic-like clocks for cancer risk
-    prediction. Genome Medicine, 12(1), 56.
-    <https://doi.org/10.1186/s13073-020-00752-3>  
--   **calcMiAge:** Youn, A., & Wang, S. (2018). The MiAge Calculator: a
-    DNA methylation-based mitotic age calculator of human tissue types.
-    Epigenetics, 13(2), 192–206.
-    <https://doi.org/10.1080/15592294.2017.1389361>
-
-## Gestational & Pediatric Age
-
--   **calcBohlin:** Bohlin, J., Håberg, S. E., Magnus, P., Reese, S. E.,
-    Gjessing, H. K., Magnus, M. C., … Nystad, W. (2016). Prediction of
-    gestational age based on genome-wide differentially methylated
-    regions. Genome Biology, 17(1), 1–9.
-    <https://doi.org/10.1186/s13059-016-1063-4>  
--   **calcKnight:** Knight, A. K., Craig, J. M., Theda, C.,
-    Bækvad-Hansen, M., Bybjerg-Grauholm, J., Hansen, C. S., …
-    Smith, A. K. (2016). An epigenetic clock for gestational age at
-    birth based on blood methylation data. Genome Biology, 17(1), 1–11.
-    <https://doi.org/10.1186/s13059-016-1068-z>  
--   Lee, Y., Choufani, S., Weksberg, R., Wilson, S. L., Yuan, V., Burt,
-    A., … Horvath, S. (2019). Placental epigenetic clocks: Estimating
-    gestational age using placental DNA methylation levels. Aging,
-    11(12), 4238–4253. <https://doi.org/10.18632/aging.102049>
-    -   **calcLeeControl:** Control Placental Sample Age Calculator  
-    -   **calcLeeRobust:** Robust predictor of Placental Age  
-    -   **calcLeeRefinedRobust:** A refined version of the Robust
-        Predictor of Placental Age  
--   **calcMayne:** Mayne, B. T., Leemaqz, S. Y., Smith, A. K., Breen,
-    J., Roberts, C. T., & Bianco-Miotto, T. (2017). Accelerated
-    placental aging in early onset preeclampsia pregnancies identified
-    by DNA methylation. Epigenomics, 9(3), 279–289.
-    <https://doi.org/10.2217/epi-2016-0103>  
--   **calcPEDBE:** McEwen, L. M., O’Donnell, K. J., McGill, M. G.,
-    Edgar, R. D., Jones, M. J., MacIsaac, J. L., … Kobor, M. S. (2020).
-    The PedBE clock accurately estimates DNA methylation age in
-    pediatric buccal cells. PNAS, 117(38), 23329–23335.
-    <https://doi.org/10.1073/pnas.1820843116>
-
-## Biological Age and Mortality Predictors
-
--   **calcDunedinPoAm38:** Belsky, D. W., Caspi, A., Arseneault, L.,
-    Baccarelli, A., Corcoran, D. L., Gao, X., … Moffitt, T. E. (2020).
-    Quantification of the pace of biological aging in humans through a
-    blood test, the DunedinPoAm DNA methylation algorithm. ELife, 9,
-    e54870. <https://doi.org/10.7554/eLife.54870>  
--   **dunedinPACE (DunedinPACE::PoAmProjector())** Belsky, D. W., Caspi,
-    A., Corcoran, D. L., Sugden, K., Poulton, R., Arseneault, L., …
-    Moffitt, T. E. (2022). DunedinPACE, a DNA methylation biomarker of
-    the pace of aging. ELife, 11, e73420.
-    <https://doi.org/10.7554/eLife.73420>
--   **calcPhenoAge:** Levine, M. E., Lu, A. T., Quach, A., Chen, B. H.,
-    Assimes, T. L., Bandinelli, S., … Horvath, S. (2018). An epigenetic
-    biomarker of aging for lifespan and healthspan. Aging, 10(4),
-    573–591. <https://doi.org/10.18632/aging.101414>  
--   **prcPhenoAge::calcprcPhenoAge() / calcnonprcPhenoAge()** Add
-    prcPhenoAge manuscript citation
--   **calcHRSInChPhenoAge:** \[cite PC Clocks paper here\]
--   *GrimAge:* Lu, A. T., Quach, A., Wilson, J. G., Reiner, A. P., Aviv,
-    A., Raj, K., … Horvath, S. (2019). DNA methylation GrimAge strongly
-    predicts lifespan and healthspan. Aging, 11(2), 303–327.
-    <https://doi.org/10.18632/aging.101684>
-
-## Trait Predictors
-
--   McCartney, D. L., Hillary, R. F., Stevenson, A. J., Ritchie, S. J.,
-    Walker, R. M., Zhang, Q., … Marioni, R. E. (2018). Epigenetic
-    prediction of complex traits and death. Genome Biology, 19(1), 136.
-    <https://doi.org/10.1186/s13059-018-1514-1>
-    -   **calcAlcoholMcCartney**
-    -   **calcBMIMcCartney**
-    -   **calcSmokingMcCartney**
--   **calcPEth:** Liang, X., Justice, A. C., So-Armah, K., Krystal, J.
-    H., Sinha, R., & Xu, K. (2021). DNA methylation signature on
-    phosphatidylethanol, not on self-reported alcohol consumption,
-    predicts hazardous alcohol consumption in two distinct populations.
-    Molecular Psychiatry, 26(6), 2238–2253.
-    <https://doi.org/10.1038/s41380-020-0668-x>
-
-## Bespoke Clocks
-
--   **calcDNAmClockCortical:** Shireby, G. L., Davies, J. P.,
-    Francis, P. T., Burrage, J., Walker, E. M., Neilson, G. W. A., …
-    Mill, J. (2020). Recalibrating the epigenetic clock: implications
-    for assessing biological age in the human cortex. Brain, 1–13.
-    <https://doi.org/10.1093/brain/awaa334>  
--   **calcPEDBE:** McEwen, L. M., O’Donnell, K. J., McGill, M. G.,
-    Edgar, R. D., Jones, M. J., MacIsaac, J. L., … Kobor, M. S. (2020).
-    The PedBE clock accurately estimates DNA methylation age in
-    pediatric buccal cells. Proceedings of the National Academy of
-    Sciences of the United States of America, 117(38), 23329–23335.
-    <https://doi.org/10.1073/pnas.1820843116>  
--   **calcHorvath2:** Horvath, S., Oshima, J., Martin, G. M., Lu, A. T.,
-    Quach, A., Cohen, H., … Raj, K. (2018). Epigenetic clock for skin
-    and blood cells applied to Hutchinson Gilford Progeria Syndrome and
-    ex vivo studies. Aging, 10(7), 1758–1775.
-    <https://doi.org/10.18632/aging.101508>
