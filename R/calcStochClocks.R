@@ -35,13 +35,13 @@
 #### eaa: a list of 3 vectors containing the extrinsic age-acceleration for StocH, StocP and StocZ clocks
 #### iaa: a list of 3 vectors containing the intrinsic age-acceleration for StocH, StocP and StocZ clocks
 
-calcStochClocks <- function(path2data,data.m,datPheno,ages.v=NULL,refM.m=NULL){
+calcStochClocks <- function(data.m,datPheno,ages.v=NULL,refM.m=NULL){
  library(glmnet);
  library(EpiDISH);
 
  data.m <- t(data.m)
 
- load(paste0("../data/glmStocALL.Rd")); ## load in stochastic clock information
+ data(glmStocALL) ## load in stochastic clock information
  estF.m <- NULL;
  if(!is.null(refM.m)){
    estF.m <- epidish(data.m,ref=refM.m,method="RPC",maxit=500)$est;

@@ -10,9 +10,9 @@
 #'
 #'
 
-calcIntrinClock<-function(path_to_IntrinClock,datMeth,datPheno){
+calcIntrinClock<-function(datMeth,datPheno){
 
-  load(paste0("../data/IntrinClockCpGs.rds"))
+  data(IntrinClockCpGs)
 
   #Create the function for calculating IntrinClock
   returnAge = function(ages) {
