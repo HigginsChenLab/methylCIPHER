@@ -172,12 +172,3 @@ usethis::use_data(LeeRefinedRobust_CpGs, overwrite = TRUE)
 LeeControl_CpGs <- data.frame(CpG = Lee_all$CpGs[Lee_all$Coefficient_CPC != 0][-1],
                              coef = Lee_all$Coefficient_CPC[Lee_all$Coefficient_CPC != 0][-1])
 usethis::use_data(LeeControl_CpGs, overwrite = TRUE)
-
-
-
-
-
-
-
-
-
