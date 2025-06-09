@@ -30,8 +30,6 @@ packages from [Github](https://Cgithub.com/HigginsChenLab/methylCIPHER)
 with:
 
 ``` r
-devtools::install_github("MorganLevineLab/prcPhenoAge")
-devtools::install_github("danbelsky/DunedinPoAm38")
 devtools::install_github("HigginsChenLab/methylCIPHER")
 ```
 
