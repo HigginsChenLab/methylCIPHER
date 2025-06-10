@@ -2,15 +2,13 @@
 #'
 #' @description A function to calculate Systems Age
 #'
-#' @param DNAm a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.
-#' @param pheno Optional: The sample phenotype data (also with samples as rows) that the clock will be appended to.
-#' @param imputation Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.
+#' @inheritParams param_template
 #' @param RData
 #' Either a character string specifying the path to the methylCIPHER folder containing
 #' the `SystemsAge_data.RData` file, or a list/environment containing the contents of
 #' the `SystemsAge_data.RData` file.
 #'
-#' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
+#' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
 #' @export
 #'
 #' @examples
@@ -18,20 +16,18 @@
 #' example_SystemsAge <- calcSystemsAge(
 #'   exampleBetas,
 #'   examplePheno,
-#'   imputation = F,
 #'   # If `SystemsAge_data.RData` has been downloaded to default folder at $HOME
 #'   RData = get_methylCIPHER_path()
-#'  )
+#' )
 #' example_SystemsAge
 #' }
 #'
-calcSystemsAge <- function(DNAm, pheno = NULL, imputation = F, RData = NULL) {
-  if(!is.matrix(DNAm)) {
+calcSystemsAge <- function(DNAm, pheno = NULL, RData = NULL) {
+  if (!is.matrix(DNAm)) {
     # Temporary method before converting all other input into matrix
     DNAm <- as.matrix(DNAm)
   }
   # Input validation
-  checkmate::assert_logical(imputation, len = 1, any.missing = F)
   checkmate::assert(
     checkmate::check_null(RData),
     checkmate::check_character(RData, len = 1, any.missing = FALSE),
@@ -39,6 +35,11 @@ calcSystemsAge <- function(DNAm, pheno = NULL, imputation = F, RData = NULL) {
     checkmate::check_environment(RData),
     combine = "or"
   )
+  checkmate::assert_data_frame(pheno, min.rows = 1, null.ok = TRUE)
+  if (!is.null(pheno)) {
+    stopifnot("rows in `pheno` must correpsond to the same row as `DNAm`" = nrow(pheno) == nrow(DNAm))
+    warning("Currently, checks for rows in `pheno` corresponding to the same row as `DNAm` is not implemented")
+  }
   check_DNAm(DNAm)
 
   if (is.null(RData)) {
@@ -92,57 +93,26 @@ calcSystemsAge <- function(DNAm, pheno = NULL, imputation = F, RData = NULL) {
       load(paste0(home_dir, "/SystemsAge_data.RData"))
     }
   } else if (is.character(RData)) {
-    if(!"SystemsAge_data.RData" %in% list.files(RData)) {
+    if (!"SystemsAge_data.RData" %in% list.files(RData)) {
       stop("The file 'SystemsAge_data.RData' is not found in the provided path.")
     }
     cat("Loading Data...\n")
     SystemsAge_env <- new.env()
     load(file = paste0(RData, "/", "SystemsAge_data.RData"), envir = SystemsAge_env)
-    attach(SystemsAge_env)
   } else if (is.list(RData) || is.environment(RData)) {
     SystemsAge_env <- RData
-    attach(SystemsAge_env)
   }
-  stop("stop here")
-  ## Access CpG names from PCA rotation matrix
-  CpGs <- rownames(DNAmPCA$rotation)
-
-  # Examine missing values
-  # Two types of missing values: CpGs are missing entirely, or CpGs are missing for some samples
-  # For CpGs missing entirely:
-  CpGs_present <- colnames(DNAm) %in% CpGs
-  CpGs_missing <- CpGs[!(CpGs %in% colnames(DNAm))]
-  if (sum(CpGs_present) == length(CpGs)) {
-    message("Systems Age says all CpGs present, proceed to next step")
-  } else {
-    message(paste0("Systems Age says missing ", length(CpGs_missing), " CpGs, please check variable CpGs_missing for list of missing CpGs"))
-  }
-  length(CpGs_missing)
-  # For CpGs missing for some samples:
-  sum(is.na(DNAm))
-  # Please note how many CpGs of each type are missing and report it when publishing.
-  # If there are too many CpGs missing, e.g. >10%, consider re-processing your data using a different pipeline.
-
-  # Perform mean imputation for CpGs missing for some samples:
-  # Note that you may select a different imputation method if you choose
-  # meanimpute <- function(x) ifelse(is.na(x),mean(x,na.rm=T),x)
-  # DNAm <- apply(DNAm,2,meanimpute)
-
-  # For CpGs are missing entirely, re-add them by using mean values from GSE40279 (Hannum 2013; blood)
-  # Be wary of applying this imputation to non-blood tissues (note that Systems Age is trained to quantify aging using blood DNAm)
-  DNAm <- data.frame(DNAm)
-  DNAm[, CpGs_missing] <- NA
-  if (length(CpGs_missing) > 0) {
-    for (i in 1:length(CpGs_missing)) {
-      DNAm[, CpGs_missing[i]] <- imputeMissingCpGs[CpGs_missing[i]]
-    }
-  }
-
-  ## Subset Methylation matrix to only those CpGs used for calculation of Systems Age
-  meth_df <- DNAm[, CpGs]
+  attach(SystemsAge_env)
+  ## Imputation
+  imputed_DNAm <- impute_DNAm(
+    DNAm = DNAm,
+    method = "mean",
+    CpGs = imputeMissingCpGs[intersect(rownames(DNAmPCA$rotation), names(imputeMissingCpGs))],
+    subset = TRUE
+  )
 
   ## Calculate methylation PCs
-  DNAmPCs <- predict(DNAmPCA, meth_df)
+  DNAmPCs <- predict(DNAmPCA, imputed_DNAm)
 
   ## Calculate DNAm system PCs then system scores
   DNAmSystemPCs <- DNAmPCs[, 1:4017] %*% as.matrix(system_vector_coefficients[1:4017, ])
@@ -150,7 +120,7 @@ calcSystemsAge <- function(DNAm, pheno = NULL, imputation = F, RData = NULL) {
   i <- 1
   groups <- c("Blood", "Brain", "Cytokine", "Heart", "Hormone", "Immune", "Kidney", "Liver", "Metab", "Lung", "MusculoSkeletal")
   for (group in groups) {
-    tf <- str_detect(colnames(DNAmSystemPCs), group)
+    tf <- grepl(group, colnames(DNAmSystemPCs))
     sub <- DNAmSystemPCs[, tf]
     sub_system_coefficients <- system_scores_coefficients_scale[tf]
     if (length(sub_system_coefficients) == 1) {
@@ -184,18 +154,11 @@ calcSystemsAge <- function(DNAm, pheno = NULL, imputation = F, RData = NULL) {
     system_ages[, i] <- (((y - transformation_coefs[i, 1]) / transformation_coefs[i, 2]) * transformation_coefs[i, 4]) + transformation_coefs[i, 3]
     system_ages[, i] <- system_ages[, i] / 12
   }
-
-  # ## Append to your data frame (pheno)
-  # ## Check first that data is in correct order
-  # #all(rownames(pheno$Sample_ID) == rownames(system_ages))
-  # DNAmAge <- data.frame(cbind(pheno,system_ages))
-
   detach(SystemsAge_env)
+
   if (is.null(pheno)) {
-    print(system_ages)
+    return(as.data.frame(system_ages))
   } else {
-    all(rownames(pheno$Sample_ID) == rownames(system_ages))
-    DNAmAge <- data.frame(cbind(pheno, system_ages))
-    return(DNAmAge)
+    return(cbind(pheno, system_ages))
   }
 }

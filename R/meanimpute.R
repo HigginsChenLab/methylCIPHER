@@ -1,22 +1,19 @@
-#' Mean Imputation for singly missing CpGs
+#' Mean imputation for Beta Matrix
 #'
-#' @param x A dataframe of CpG Betas with missing values
+#' Performs column mean imputation for missing values in a methylation beta matrix, where rows represent samples and columns represent CpGs.
 #'
-#' @return Mean Imputed dataframe
-#' @export
-meanimpute <- function(x){
-  apply(x,2,function(z)ifelse(is.na(z),mean(z,na.rm=T),z))
-  # na_indices <- which(is.na(x), arr.ind = TRUE)
-  # stopifnot("Check input with check_DNAm" = nrow(na_indices) > 0)
-  # column_means <- colMeans(x, na.rm = TRUE)
-  # x[na_indices] <- column_means[na_indices[, 2]]
-  # return(x)
+#' @inheritParams param_template
+#' @return A matrix of methylation beta values with missing values imputed using column means.
+#'
+#' @keywords internal
+#'
+mean_impute <- function(DNAm) {
+  na_indices <- which(is.na(DNAm), arr.ind = TRUE)
+  column_means <- colMeans(DNAm, na.rm = TRUE)
+  DNAm[na_indices] <- column_means[na_indices[, 2]]
+  return(DNAm)
 }
 
-meanimpute1 <- function(x){
-  na_indices <- which(is.na(x), arr.ind = TRUE)
-  stopifnot("Check input with check_DNAm" = nrow(na_indices) > 0)
-  column_means <- colMeans(x, na.rm = TRUE)
-  x[na_indices] <- column_means[na_indices[, 2]]
-  return(x)
+meanimpute <- function(x){
+  apply(x,2,function(z)ifelse(is.na(z),mean(z,na.rm=T),z))
 }

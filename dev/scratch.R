@@ -1,58 +1,55 @@
-
 load_all()
 
-Sys.getenv("HOME")
-get_methylCIPHER_path()
-list.files(get_methylCIPHER_path())
-
-my_list <- list()
 my_env <- new.env()
 load(paste0(get_methylCIPHER_path(), "/", "SystemsAge_data.RData"), envir = my_env)
 
 debug(calcSystemsAge)
 
-as.matrix(exampleBetas) |> class()
-class()
 example_SystemsAge <- calcSystemsAge(
-   exampleBetas,
-   examplePheno,
-   imputation = F,
-   # If `SystemsAge_data.RData` has been downloaded to default folder at $HOME
-   RData = get_methylCIPHER_path()
+  exampleBetas,
+  # examplePheno,
+  # If `SystemsAge_data.RData` has been downloaded to default folder at $HOME/methylCHIPER
+  RData = my_env
 )
 
-?calcSystemsAge
+example_SystemsAge |> class()
+example_SystemsAge
 
-impute_DNAm <- function(DNAm, method = c("mean"), CpGs = NULL) {
-  suppressWarnings(check_DNAm(DNAm))
-  method <- match.arg(method)
-  checkmate::assert_character(CpGs, min.len = 1, names = "unique", null.ok = TRUE)
-  if(is.null(CpGs)) {
-    CpGs <- numeric(length = ncol(DNAm))
-    names(CpGs) <- colnames(DNAm)
-  }
+pc_env <- new.env()
+load(paste0(get_methylCIPHER_path(), "/", "CalcAllPCClocks.RData"), envir = pc_env)
 
-  # Completely missing CpG
-  needed_cpgs <- setdiff(names(CpGs), colnames(DNAm))
+examplePheno$Female <- 1
+examplePheno$Age <- examplePheno$age
 
-  needed_matrix <- matrix(
-    CpGs[needed_cpgs],
-    ncol = length(needed_cpgs),
-    nrow = nrow(DNAm),
-    byrow = TRUE,
-    dimnames = list(row.names(DNAm), needed_cpgs)
-  )
+example_PCClocks <- calcPCClocks(
+  exampleBetas,
+  examplePheno,
+  # If `CalcAllPCClocks.RData` has been downloaded to default folder at $HOME/methylCHIPER
+  RData = pc_env
+)
 
-  # Imputed CpG
-  matched_cpgs <- intersect(names(CpGs), colnames(DNAm))
-  imputed_matrix <- if(sum(is.na(DNAm[, matched_cpgs])) == 0) {
-    DNAm[, matched_cpgs]
-  } else {
-    meanimpute1(DNAm[, matched_cpgs])
-  }
+example_PCClocks
 
-  return(cbind(imputed_matrix, matched_cpgs))
+# Bench mark mean impute
+with_missing <- as.matrix(exampleBetas)
+set.seed(2025)
+ampute <- sample(seq_along(with_missing), size = 10000)
+with_missing[ampute] <- NA
+
+meanimpute <- function(x){
+  apply(x,2,function(z)ifelse(is.na(z),mean(z,na.rm=T),z))
 }
 
+meanimpute1 <- function(x){
+  na_indices <- which(is.na(x), arr.ind = TRUE)
+  column_means <- colMeans(x, na.rm = TRUE)
+  x[na_indices] <- column_means[na_indices[, 2]]
+  return(x)
+}
 
-impute_DNAm(as.matrix(exampleBetas), CpGs = my_env$imputeMissingCpGs[1:2])
+all.equal(meanimpute(with_missing), meanimpute1(with_missing))
+
+microbenchmark::microbenchmark(
+  meanimpute(with_missing),
+  meanimpute1(with_missing)
+)

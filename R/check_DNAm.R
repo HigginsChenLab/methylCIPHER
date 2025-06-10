@@ -16,13 +16,13 @@ check_DNAm <- function(DNAm, missing_allowed = TRUE) {
   if (missing_allowed) {
     missing <- is.na(DNAm)
     if (any(colSums(missing) == nrow(missing))) {
-      stop("CpGs with all NA detected.")
+      stop("CpGs with all NA are not allowed.")
     }
     if (any(rowSums(missing) == ncol(missing))) {
-      stop("Samples with all NA detected.")
+      stop("Samples with all NA are not allowed.")
     }
     if (any(missing)) {
-      warning("Missing values in DNAm detected.")
+      warning("Missing values in DNAm detected. Imputation handled by `impute_DNAm`.")
     }
   }
 

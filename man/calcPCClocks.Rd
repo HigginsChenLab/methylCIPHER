@@ -4,21 +4,32 @@
 \alias{calcPCClocks}
 \title{calcPCClocks}
 \usage{
-calcPCClocks(datMeth, datPheno)
+calcPCClocks(DNAm, pheno, RData = NULL)
 }
 \arguments{
-\item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
+\item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
 
-\item{pheno}{Optional: The sample phenotype data (also with samples as rows) that the clock will be appended to.}
+\item{pheno}{A data.frame containing the phenotype of the samples where each row must correspond to each row of `DNAm`. Must contains the following columns: `Female` = 1 or 0 and chronological age in years.}
+
+\item{RData}{Either a character string specifying the path to the methylCIPHER folder containing
+the `CalcAllPCClocks.RData` file, or a list/environment containing the contents of
+the `CalcAllPCClocks.RData` file.}
 }
 \value{
-If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
+A data.frame of calculated clock values appened to `pheno`.
 }
 \description{
-A function to calculate all PC Clocks
+A function to calculate Systems Age
 }
 \examples{
-calcPhenoAge(exampleBetas, examplePheno)
-
+\dontrun{
+example_PCClocks <- calcPCClocks(
+  exampleBetas,
+  examplePheno,
+  # If `PCClocks_data.RData` has been downloaded to default folder at $HOME
+  RData = get_methylCIPHER_path()
+)
+example_PCClocks
+}
 
 }

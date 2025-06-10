@@ -4,28 +4,31 @@
 \alias{calcSystemsAge}
 \title{calcSystemsAge}
 \usage{
-calcSystemsAge(DNAm, pheno = NULL, imputation = F, RData = NULL)
+calcSystemsAge(DNAm, pheno = NULL, RData = NULL)
 }
 \arguments{
-\item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
+\item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
 
-\item{pheno}{Optional: The sample phenotype data (also with samples as rows) that the clock will be appended to.}
-
-\item{imputation}{Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.}
+\item{pheno}{Optional: A data frame or matrix containing sample phenotype data, with samples as rows. The clock results will be appended to this data. Defaults to \code{NULL}.}
 
 \item{RData}{Either a character string specifying the path to the methylCIPHER folder containing
 the `SystemsAge_data.RData` file, or a list/environment containing the contents of
 the `SystemsAge_data.RData` file.}
 }
 \value{
-If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
+If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
 }
 \description{
 A function to calculate Systems Age
 }
 \examples{
 \dontrun{
-example_SystemsAge <- calcSystemsAge(exampleBetas, examplePheno, imputation = F)
+example_SystemsAge <- calcSystemsAge(
+  exampleBetas,
+  examplePheno,
+  # If `SystemsAge_data.RData` has been downloaded to default folder at $HOME
+  RData = get_methylCIPHER_path()
+)
 example_SystemsAge
 }
 

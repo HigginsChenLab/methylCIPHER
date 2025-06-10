@@ -7,8 +7,18 @@
 # on the path or list of dependencies
 # Then proceed as normal
 
+# Copied from cmdstanr github path.R
 get_methylCIPHER_default_path <- function() {
-  return(paste(Sys.getenv("HOME"), "methylCIPHER", sep = "/"))
+  home <- Sys.getenv("HOME")
+  if (.Platform$OS.type == "windows") {
+    userprofile <- Sys.getenv("USERPROFILE")
+    h_drivepath <- file.path(Sys.getenv("HOMEDRIVE"), Sys.getenv("HOMEPATH"))
+    win_home <- ifelse(userprofile == "", h_drivepath, userprofile)
+    if (win_home != "") {
+      home <- win_home
+    }
+  }
+  return(paste0(home, "/", "methylCIPHER"))
 }
 
 set_methylCIPHER_path <- function(path) {
