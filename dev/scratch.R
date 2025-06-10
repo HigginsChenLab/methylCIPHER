@@ -18,6 +18,9 @@ example_SystemsAge
 pc_env <- new.env()
 load(paste0(get_methylCIPHER_path(), "/", "CalcAllPCClocks.RData"), envir = pc_env)
 
+pc_env$imputeMissingCpGs |> length()
+all.equal(sort(pc_env$CpGs), sort(names(pc_env$imputeMissingCpGs)))
+
 examplePheno$Female <- 1
 examplePheno$Age <- examplePheno$age
 

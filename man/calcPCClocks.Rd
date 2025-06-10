@@ -19,7 +19,7 @@ the `CalcAllPCClocks.RData` file.}
 A data.frame of calculated clock values appened to `pheno`.
 }
 \description{
-A function to calculate Systems Age
+A function to calculate PC Clocks
 }
 \examples{
 \dontrun{
