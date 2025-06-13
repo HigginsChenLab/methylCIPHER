@@ -7,7 +7,7 @@
 align_pheno(pheno, Sample_ID)
 }
 \arguments{
-\item{pheno}{A data frame or matrix containing sample phenotype data, with samples as rows. Must include a column called `Sample_ID` that contains the ids of the samples to be matched with the beta matrix.}
+\item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include a column called `Sample_ID` that contains the ids of the samples to be matched with the beta matrix.}
 }
 \description{
 Filter and sort pheno given a list of ids. ids are guaranteed to be in pheno.

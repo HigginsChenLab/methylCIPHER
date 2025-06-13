@@ -74,15 +74,19 @@ calcSystemsAge <- function(DNAm, pheno = NULL, RData = NULL) {
   }
 
   ## Imputation
-  imputed_DNAm <- impute_DNAm(
+  DNAm <- impute_DNAm(
     DNAm = DNAm,
     method = "mean",
     CpGs = RData$imputeMissingCpGs,
     subset = TRUE
   )
 
+  ## Re-align to make sure things lined up with the object
+  DNAm <- DNAm[, names(RData$imputeMissingCpGs), drop = F]
+  stopifnot(all(colnames(DNAm) == names(RData$imputeMissingCpGs)))
+
   ## Calculate methylation PCs
-  DNAmPCs <- predict(RData$DNAmPCA, imputed_DNAm)
+  DNAmPCs <- predict(RData$DNAmPCA, DNAm)
 
   ## Calculate DNAm system PCs then system scores
   DNAmSystemPCs <- DNAmPCs[, 1:4017] %*% as.matrix(RData$system_vector_coefficients[1:4017, ])

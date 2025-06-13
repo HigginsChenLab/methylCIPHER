@@ -22,9 +22,9 @@ system.time(
 # names(DNAmPCA)
 # DNAmPCA |> lapply(lobstr::obj_size)
 all.equal(CpGs, names(imputeMissingCpGs))
-lapply(SystemsAge_data, lobstr::obj_size)
 
 SystemsAge_data <- list(
+  CpGs = CpGs,
   Systems_clock_coefficients = Systems_clock_coefficients,
   DNAmPCA = DNAmPCA,
   Age_prediction_model = Age_prediction_model,
@@ -35,6 +35,8 @@ SystemsAge_data <- list(
   system_scores_coefficients_scale = system_scores_coefficients_scale,
   systems_PCA = systems_PCA
 )
+
+lapply(SystemsAge_data, lobstr::obj_size)
 
 # generate the intended hash
 rlang::hash(SystemsAge_data)

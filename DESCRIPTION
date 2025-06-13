@@ -23,7 +23,7 @@ Suggests:
     learnr,
     gradethis (>= 0.2.10.9000),
     devtools,
-    testthat
+    testthat (>= 3.0.0)
 Depends: 
     R (>= 3.5)
 Remotes: 
@@ -31,3 +31,4 @@ Remotes:
     MorganLevineLab/prcPhenoAge,
     rstudio/gradethis,
     rstudio/learnr
+Config/testthat/edition: 3

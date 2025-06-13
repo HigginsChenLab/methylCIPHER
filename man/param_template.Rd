@@ -9,7 +9,7 @@ param_template(DNAm, pheno, imputation)
 \arguments{
 \item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
 
-\item{pheno}{A data frame or matrix containing sample phenotype data, with samples as rows. Must include a column called `Sample_ID` that contains the ids of the samples to be matched with the beta matrix.}
+\item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include a column called `Sample_ID` that contains the ids of the samples to be matched with the beta matrix.}
 
 \item{imputation}{Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.}
 }

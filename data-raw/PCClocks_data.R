@@ -22,6 +22,7 @@ system.time(
 all.equal(CpGs, names(imputeMissingCpGs))
 
 PCClocks_data <- list(
+  CpGs = CpGs,
   CalcPCDNAmTL = CalcPCDNAmTL,
   CalcPCPhenoAge = CalcPCPhenoAge,
   CalcPCGrimAge = CalcPCGrimAge,

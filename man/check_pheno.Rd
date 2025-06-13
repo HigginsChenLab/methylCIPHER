@@ -7,7 +7,7 @@
 check_pheno(pheno, extra_columns = NULL)
 }
 \arguments{
-\item{pheno}{A data frame or matrix containing sample phenotype data, with samples as rows. Must include a column called `Sample_ID` that contains the ids of the samples to be matched with the beta matrix.}
+\item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include a column called `Sample_ID` that contains the ids of the samples to be matched with the beta matrix.}
 
 \item{extra_columns}{An optional character vector specifying additional columns to check.}
 }

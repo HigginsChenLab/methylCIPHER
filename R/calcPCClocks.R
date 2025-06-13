@@ -1,145 +1,101 @@
 #' calcPCClocks
 #'
-#' @description A function to calculate all PC Clocks
+#' @description A function to calculate PC Clocks
 #'
-#' @param DNAm a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.
-#' @param pheno Optional: The sample phenotype data (also with samples as rows) that the clock will be appended to.
-#' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
+#' @inheritParams param_template_female_age
+#' @param RData
+#' Either a character string specifying the path to the methylCIPHER folder containing
+#' the `PCClocks_data.qs2` file or a list containing the contents of
+#' the `PCClocks_data.qs2` file created by [load_PCClocks_data()].
+#'
+#' @return A data.frame of calculated clock values appended to `pheno`.
 #' @export
 #'
-#' @examples calcPhenoAge(exampleBetas, examplePheno)
-#'
-#'
+#' @examples
+#' \dontrun{
+#' example_PCClocks <- calcPCClocks(
+#'   exampleBetas,
+#'   examplePheno,
+#'   RData = get_methylCIPHER_path()
+#' )
+#' example_PCClocks
+#' }
+calcPCClocks <- function(DNAm, pheno, RData = NULL) {
+  # Input validation
+  # Check DNAm
+  check_DNAm(DNAm)
+  # Check RData
+  checkmate::assert(
+    checkmate::check_null(RData),
+    checkmate::check_character(RData, len = 1, any.missing = FALSE),
+    checkmate::check_list(RData, any.missing = FALSE),
+    combine = "or"
+  )
+  # Check Pheno
+  check_pheno(pheno, extra_columns = c("Female", "Age"))
+  # Check Consistent between `pheno` and `DNAm`
+  need_align <- if (length(row.names(DNAm)) != length(pheno$Sample_ID)) {
+    TRUE
+  } else if (any(row.names(DNAm) != pheno$Sample_ID)) {
+    TRUE
+  } else {
+    FALSE
+  }
+  if (need_align) {
+    samples <- intersect(row.names(DNAm), pheno$Sample_ID)
+    DNAm <- DNAm[samples, , drop = FALSE]
+    pheno <- align_pheno(pheno, samples)
+    stopifnot("`DNAm` and `pheno` samples alignment failed. Check `Sample_ID` of pheno and row.names() of `DNAm`" = all.equal(row.names(DNAm), pheno$Sample_ID))
+    message("Samples inconsistencies between DNAm and Pheno were detected and corrected.")
+  }
+  # handle RData
+  if (is.null(RData)) {
+    RData <- load_PCClocks_data()
+  }
+  if (is.character(RData)) {
+    info <- file.info(RData)
+    # if pass a folder
+    if (info$isdir) {
+      # then convert path to read into folder/file.qs2
+      RData <- file.path(RData, "PCClocks_data.qs2")
+    }
+    # then convert RData into the list of objects to be used
+    RData <- load_PCClocks_data(RData)
+  }
 
-calcPCClocks <- function(datMeth, datPheno, RData){
+  ## Imputation
+  DNAm <- impute_DNAm(
+    DNAm = DNAm,
+    method = "mean",
+    CpGs = RData$imputeMissingCpGs,
+    subset = TRUE
+  )
 
-  # if (requireNamespace("rstudioapi", quietly = TRUE) &&
-  #     rstudioapi::isAvailable() &&
-  #     nzchar(rstudioapi::getActiveDocumentContext()$path)) {
-  #
-  #   current_path <- dirname(rstudioapi::getActiveDocumentContext()$path)
-  #
-  # } else {
-  #
-  #   current_path <- getwd()  # fallback to current working directory
-  # }
-  #
-  #
-  # #add check that path_to_PCClocks ends with a /
-  #
-  # #path_to_PCClocks should end with a "/"
-  # #datMeth is a matrix of methylation Beta values, where row names are samples, and
-  # #   column names are CpGs
-  # #datPheno has rows as samples and columns as phenotype variables. This can also
-  # #   include the original clocks if you used the Horvath online calculator as well.
-  # #   It MUST include a column named "Age" and a column named "Female"
-  #
-  # if(!("Age" %in% variable.names(datPheno))){
-  #   stop("Error: datPheno must have a column named Age")
-  # }
-  # if(!("Female" %in% variable.names(datPheno))){
-  #   stop("Error: datPheno must have a column named Female")
-  # }
-  # if(sum(startsWith(colnames(datMeth),"cg")) == 0){
-  #   warning("Warning: It looks like you may need to format datMeth using t(datMeth) to get samples as rows!")
-  # }
-  #
-  #
-  # #Note: this code assumes all your files are in one working directory. Alter the code as needed based on file locations.
-  # #Load packages
-  # pkgTest <- function(x)
-  # {
-  #   if (!require(x,character.only = TRUE))
-  #   {
-  #     install.packages(x,dep=TRUE)
-  #     if(!require(x,character.only = TRUE)) stop("Package not found")
-  #   }
-  # }
-  # pkgTest("dplyr")
-  # library(dplyr)
-  # pkgTest("tibble")
-  # library(tibble)
-  # pkgTest("tidyr")
-  # library(tidyr)
-  # pkgTest("googledrive")
-  # library(googledrive)
-  #
-  # googledrive::drive_auth()
-
-
-  #In datPheno, rows are samples and columns are phenotypic variables.
-  #One of the phenotypic variables must be "Age", and another one "Female" (coded as Female = 1, Male = 0; should be a numeric variable as this will be included in PCGrimAge calculation)
-  #Also ensure that the order of datMeth sample IDs matches your phenotype data sample IDs, otherwise your data will be scrambled
-
-  # home_dir<-Sys.getenv("HOME")
-  #
-  # if (file.exists(paste0(home_dir,"/CalcAllPCClocks.RData"))) {
-  #   cat("PCClocks File Exists in Home Directory. Loading Data...\n")
-  #   load(paste0(home_dir,"/CalcAllPCClocks.RData"))
-  # } else {
-  #   cat("PCClocks Data does not exist in package directory. Downloading data...\n")
-  #   public_file <-  drive_get(as_id("1xhFUMBSrjRta3tgL0OTBLVgNlLnJJNRZ"))
-  #   drive_download(public_file, path = paste0(home_dir,"/CalcAllPCClocks.RData"), overwrite = TRUE)
-  #   load(paste0(home_dir,"/CalcAllPCClocks.RData"))
-  # }
-
-  #load(file = paste(path_to_PCClocks_directory,"CalcAllPCClocks.RData", sep = ""))
-  attach(RData)
-  message("PCClocks Data successfully loaded")
-
-  #If needed: Fill in missing CpGs needed for calculation of PCs; use mean values from GSE40279 (Hannum 2013; blood)- note that for other tissues you might prefer to use a different one
-  datMeth <- as.data.frame(datMeth)
-  # if(length(c(CpGs[!(CpGs %in% colnames(datMeth))],CpGs[apply(datMeth[,colnames(datMeth) %in% CpGs], 2, function(x)all(is.na(x)))])) == 0){
-  #   message("PCClocks - No CpGs were NA for all samples")
-  # } else{
-  #   missingCpGs <- c(CpGs[!(CpGs %in% colnames(datMeth))])
-  #   datMeth[,missingCpGs] <- NA
-  #   datMeth = datMeth[,CpGs]
-  #   missingCpGs <- CpGs[apply(datMeth[,CpGs], 2, function(x)all(is.na(x)))]
-  #   for(i in 1:length(missingCpGs)){
-  #     datMeth[,missingCpGs[i]] <- imputeMissingCpGs[missingCpGs[i]]
-  #   }
-  #   message("PCClocks - Any missing CpGs successfully filled in (see function for more details)")
-  # }
-
-  #Prepare methylation data for calculation of PC Clocks (subset to 78,464 CpGs and perform imputation if needed)
-  datMeth <- datMeth[,names(imputeMissingCpGs)]
-  meanimpute <- function(x) ifelse(is.na(x),mean(x,na.rm=T),x)
-  datMeth <- apply(datMeth,2,meanimpute)
-  #Note: you may substitute another imputation method of your choice (e.g. KNN), but we have not found the method makes a significant difference.
-  message("Mean imputation successfully completed for any missing CpG values")
-
-  #Initialize a data frame for PC clocks
-  DNAmAge <- datPheno
-
-  #var = readline(prompt = "To check whether datMeth and datPheno match up, type the column name in datPheno with sample names (or type skip):")
-  #if(var != "skip"){
-  #  if(sum(DNAmAge[,var] == rownames(datMeth)) != dim(DNAmAge[,var])[1]){
-  #    warning("Warning: It would appear that datPheno and datMeth do not have matching sample order! Check your inputs!")
-  #  } else message("datPheno and datMeth sample order verified to match!")
-  #}
+  ## Re-align to make sure things lined up with the object
+  DNAm <- DNAm[, names(RData$imputeMissingCpGs), drop = F]
+  stopifnot(all(colnames(DNAm) == names(RData$imputeMissingCpGs)))
 
   message("Calculating PC Clocks now")
 
-  #Calculate PC Clocks
-  DNAmAge$PCHorvath1 <- as.numeric(anti.trafo(sweep(as.matrix(datMeth),2,CalcPCHorvath1$center) %*% CalcPCHorvath1$rotation %*% CalcPCHorvath1$model + CalcPCHorvath1$intercept))
-  DNAmAge$PCHorvath2 <- as.numeric(anti.trafo(sweep(as.matrix(datMeth),2,CalcPCHorvath2$center) %*% CalcPCHorvath2$rotation %*% CalcPCHorvath2$model + CalcPCHorvath2$intercept))
-  DNAmAge$PCHannum <- as.numeric(sweep(as.matrix(datMeth),2,CalcPCHannum$center) %*% CalcPCHannum$rotation %*% CalcPCHannum$model + CalcPCHannum$intercept)
-  DNAmAge$PCPhenoAge <- as.numeric(sweep(as.matrix(datMeth),2,CalcPCPhenoAge$center) %*% CalcPCPhenoAge$rotation %*% CalcPCPhenoAge$model + CalcPCPhenoAge$intercept)
-  DNAmAge$PCDNAmTL <- as.numeric(sweep(as.matrix(datMeth),2,CalcPCDNAmTL$center) %*% CalcPCDNAmTL$rotation %*% CalcPCDNAmTL$model + CalcPCDNAmTL$intercept)
-  temp <- cbind(sweep(as.matrix(datMeth),2,CalcPCGrimAge$center) %*% CalcPCGrimAge$rotation,Female = DNAmAge$Female,Age = DNAmAge$Age)
-  DNAmAge$PCPACKYRS <- as.numeric(temp[,names(CalcPCGrimAge$PCPACKYRS.model)] %*% CalcPCGrimAge$PCPACKYRS.model + CalcPCGrimAge$PCPACKYRS.intercept)
-  DNAmAge$PCADM <- as.numeric(temp[,names(CalcPCGrimAge$PCADM.model)] %*% CalcPCGrimAge$PCADM.model + CalcPCGrimAge$PCADM.intercept)
-  DNAmAge$PCB2M <- as.numeric(temp[,names(CalcPCGrimAge$PCB2M.model)] %*% CalcPCGrimAge$PCB2M.model + CalcPCGrimAge$PCB2M.intercept)
-  DNAmAge$PCCystatinC <- as.numeric(temp[,names(CalcPCGrimAge$PCCystatinC.model)] %*% CalcPCGrimAge$PCCystatinC.model + CalcPCGrimAge$PCCystatinC.intercept)
-  DNAmAge$PCGDF15 <- as.numeric(temp[,names(CalcPCGrimAge$PCGDF15.model)] %*% CalcPCGrimAge$PCGDF15.model + CalcPCGrimAge$PCGDF15.intercept)
-  DNAmAge$PCLeptin <- as.numeric(temp[,names(CalcPCGrimAge$PCLeptin.model)] %*% CalcPCGrimAge$PCLeptin.model + CalcPCGrimAge$PCLeptin.intercept)
-  DNAmAge$PCPAI1 <- as.numeric(temp[,names(CalcPCGrimAge$PCPAI1.model)] %*% CalcPCGrimAge$PCPAI1.model + CalcPCGrimAge$PCPAI1.intercept)
-  DNAmAge$PCTIMP1 <- as.numeric(temp[,names(CalcPCGrimAge$PCTIMP1.model)] %*% CalcPCGrimAge$PCTIMP1.model + CalcPCGrimAge$PCTIMP1.intercept)
-  DNAmAge$PCGrimAge <- as.numeric(as.matrix(DNAmAge[,CalcPCGrimAge$components]) %*% CalcPCGrimAge$PCGrimAge.model + CalcPCGrimAge$PCGrimAge.intercept)
+  # Calculate PC Clocks
+  pheno$PCHorvath1 <- as.numeric(anti.trafo(sweep(DNAm, 2, RData$CalcPCHorvath1$center) %*% RData$CalcPCHorvath1$rotation %*% RData$CalcPCHorvath1$model + RData$CalcPCHorvath1$intercept))
+  pheno$PCHorvath2 <- as.numeric(anti.trafo(sweep(DNAm, 2, RData$CalcPCHorvath2$center) %*% RData$CalcPCHorvath2$rotation %*% RData$CalcPCHorvath2$model + RData$CalcPCHorvath2$intercept))
+  pheno$PCHannum <- as.numeric(sweep(DNAm, 2, RData$CalcPCHannum$center) %*% RData$CalcPCHannum$rotation %*% RData$CalcPCHannum$model + RData$CalcPCHannum$intercept)
+  pheno$PCPhenoAge <- as.numeric(sweep(DNAm, 2, RData$CalcPCPhenoAge$center) %*% RData$CalcPCPhenoAge$rotation %*% RData$CalcPCPhenoAge$model + RData$CalcPCPhenoAge$intercept)
+  pheno$PCDNAmTL <- as.numeric(sweep(DNAm, 2, RData$CalcPCDNAmTL$center) %*% RData$CalcPCDNAmTL$rotation %*% RData$CalcPCDNAmTL$model + RData$CalcPCDNAmTL$intercept)
+  temp <- cbind(sweep(DNAm, 2, RData$CalcPCGrimAge$center) %*% RData$CalcPCGrimAge$rotation, Female = pheno$Female, Age = pheno$Age)
+  pheno$PCPACKYRS <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCPACKYRS.model)] %*% RData$CalcPCGrimAge$PCPACKYRS.model + RData$CalcPCGrimAge$PCPACKYRS.intercept)
+  pheno$PCADM <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCADM.model)] %*% RData$CalcPCGrimAge$PCADM.model + RData$CalcPCGrimAge$PCADM.intercept)
+  pheno$PCB2M <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCB2M.model)] %*% RData$CalcPCGrimAge$PCB2M.model + RData$CalcPCGrimAge$PCB2M.intercept)
+  pheno$PCCystatinC <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCCystatinC.model)] %*% RData$CalcPCGrimAge$PCCystatinC.model + RData$CalcPCGrimAge$PCCystatinC.intercept)
+  pheno$PCGDF15 <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCGDF15.model)] %*% RData$CalcPCGrimAge$PCGDF15.model + RData$CalcPCGrimAge$PCGDF15.intercept)
+  pheno$PCLeptin <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCLeptin.model)] %*% RData$CalcPCGrimAge$PCLeptin.model + RData$CalcPCGrimAge$PCLeptin.intercept)
+  pheno$PCPAI1 <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCPAI1.model)] %*% RData$CalcPCGrimAge$PCPAI1.model + RData$CalcPCGrimAge$PCPAI1.intercept)
+  pheno$PCTIMP1 <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCTIMP1.model)] %*% RData$CalcPCGrimAge$PCTIMP1.model + RData$CalcPCGrimAge$PCTIMP1.intercept)
+  pheno$PCGrimAge <- as.numeric(as.matrix(subset(pheno, select = RData$CalcPCGrimAge$components)) %*% RData$CalcPCGrimAge$PCGrimAge.model + RData$CalcPCGrimAge$PCGrimAge.intercept)
 
   message("PC Clocks successfully calculated!")
-  detach(RData)
-  return(DNAmAge)
+
+  return(pheno)
 }
 
