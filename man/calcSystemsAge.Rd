@@ -9,11 +9,11 @@ calcSystemsAge(DNAm, pheno = NULL, RData = NULL)
 \arguments{
 \item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
 
-\item{pheno}{Optional: A data frame or matrix containing sample phenotype data, with samples as rows. The clock results will be appended to this data. Defaults to \code{NULL}.}
+\item{pheno}{A data frame or matrix containing sample phenotype data, with samples as rows. Must include a column called `Sample_ID` that contains the ids of the samples to be matched with the beta matrix.}
 
 \item{RData}{Either a character string specifying the path to the methylCIPHER folder containing
-the `SystemsAge_data.RData` file, or a list/environment containing the contents of
-the `SystemsAge_data.RData` file.}
+the `SystemsAge_data.qs2` file or a list containing the contents of
+the `SystemsAge_data.qs2` file created by [load_SystemsAge_data()].}
 }
 \value{
 If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
@@ -26,7 +26,6 @@ A function to calculate Systems Age
 example_SystemsAge <- calcSystemsAge(
   exampleBetas,
   examplePheno,
-  # If `SystemsAge_data.RData` has been downloaded to default folder at $HOME
   RData = get_methylCIPHER_path()
 )
 example_SystemsAge

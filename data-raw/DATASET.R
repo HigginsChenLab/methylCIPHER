@@ -119,7 +119,14 @@ usethis::use_data(DNAmTL_CpGs, overwrite = TRUE)
 load("data-raw/Ltd_CpG_beta_example.RData")
 exampleBetas <- as.data.frame(exampleBetas)
 exampleBetas <- exampleBetas[1:5,]
+exampleBetas <- as.matrix(exampleBetas)
 usethis::use_data(exampleBetas, overwrite = TRUE)
+
+#add `Sample_ID` to examplePheno
+names(examplePheno)[which(names(examplePheno) == "name")] <- "Sample_ID"
+names(examplePheno)[which(names(examplePheno) == "age")] <- "Age"
+examplePheno$Female <- ifelse(examplePheno$gender == "M", 0, 1)
+usethis::use_data(examplePheno, overwrite = TRUE)
 
 #prepare Horvath Online Calculator csv data
 HorvathOnlineRef <- read.csv("data-raw/cgHorvathNew.csv")

@@ -16,14 +16,16 @@ Imports:
     methods,
     DunedinPoAm38 (>= 0.1.0),
     prcPhenoAge (>= 0.1.0),
-    checkmate
+    checkmate,
+    qs2,
+    rlang
 Suggests:
     learnr,
     gradethis (>= 0.2.10.9000),
     devtools,
     testthat
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5)
 Remotes: 
     danbelsky/DunedinPoAm38,
     MorganLevineLab/prcPhenoAge,

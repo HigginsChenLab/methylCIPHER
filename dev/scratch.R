@@ -1,58 +1,26 @@
+# Todo
+## Imputation CpGs default
+## Investigate hangs after error caused by something keeps running even when failed.
+
+# Changes
+## Change DNAm to matrix
+## Enforce Sample_ID column in pheno. Uniqueness not enforced.
+## When pheno is included, automatic alignment are performed
+## RData is either a list or a path.
+## Please change exampleBetas to matrix. and add Sample_ID, Female, Age for examplePheno
+
 load_all()
+PCClocks_data <- load_PCClocks_data()
 
-my_env <- new.env()
-load(paste0(get_methylCIPHER_path(), "/", "SystemsAge_data.RData"), envir = my_env)
+# original ----
+test_betas <- impute_DNAm(exampleBetas, method = "mean", CpGs = PCClocks_data$imputeMissingCpGs)
+test_pheno <- align_pheno(examplePheno, row.names(test_betas))
 
-debug(calcSystemsAge)
+orig_clock <- calcPCClocks(test_betas, test_pheno, PCClocks_data)
+mod_clock <- calcPCClocks1(test_betas, test_pheno, PCClocks_data)
 
-example_SystemsAge <- calcSystemsAge(
-  exampleBetas,
-  # examplePheno,
-  # If `SystemsAge_data.RData` has been downloaded to default folder at $HOME/methylCHIPER
-  RData = my_env
-)
+all.equal(orig_clock, mod_clock)
+orig_clock
+mod_clock
 
-example_SystemsAge |> class()
-example_SystemsAge
-
-pc_env <- new.env()
-load(paste0(get_methylCIPHER_path(), "/", "CalcAllPCClocks.RData"), envir = pc_env)
-
-pc_env$imputeMissingCpGs |> length()
-all.equal(sort(pc_env$CpGs), sort(names(pc_env$imputeMissingCpGs)))
-
-examplePheno$Female <- 1
-examplePheno$Age <- examplePheno$age
-
-example_PCClocks <- calcPCClocks(
-  exampleBetas,
-  examplePheno,
-  # If `CalcAllPCClocks.RData` has been downloaded to default folder at $HOME/methylCHIPER
-  RData = pc_env
-)
-
-example_PCClocks
-
-# Bench mark mean impute
-with_missing <- as.matrix(exampleBetas)
-set.seed(2025)
-ampute <- sample(seq_along(with_missing), size = 10000)
-with_missing[ampute] <- NA
-
-meanimpute <- function(x){
-  apply(x,2,function(z)ifelse(is.na(z),mean(z,na.rm=T),z))
-}
-
-meanimpute1 <- function(x){
-  na_indices <- which(is.na(x), arr.ind = TRUE)
-  column_means <- colMeans(x, na.rm = TRUE)
-  x[na_indices] <- column_means[na_indices[, 2]]
-  return(x)
-}
-
-all.equal(meanimpute(with_missing), meanimpute1(with_missing))
-
-microbenchmark::microbenchmark(
-  meanimpute(with_missing),
-  meanimpute1(with_missing)
-)
+# git restore --source=a48d583285d92c4f4a1266357dd24a1482894afd -- R/calcPCClocks.R
