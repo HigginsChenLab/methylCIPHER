@@ -43,6 +43,9 @@ calcPCClocks <- function(DNAm, pheno, RData = NULL) {
   }
   if (need_align) {
     samples <- intersect(row.names(DNAm), pheno$Sample_ID)
+    if (length(samples) == 0) {
+      stop("DNAm and pheno have no Sample_ID in common")
+    }
     DNAm <- DNAm[samples, , drop = FALSE]
     pheno <- align_pheno(pheno, samples)
     stopifnot("`DNAm` and `pheno` samples alignment failed. Check `Sample_ID` of pheno and row.names() of `DNAm`" = all.equal(row.names(DNAm), pheno$Sample_ID))
@@ -73,7 +76,6 @@ calcPCClocks <- function(DNAm, pheno, RData = NULL) {
 
   ## Re-align to make sure things lined up with the object
   DNAm <- DNAm[, names(RData$imputeMissingCpGs), drop = F]
-  stopifnot(all(colnames(DNAm) == names(RData$imputeMissingCpGs)))
 
   message("Calculating PC Clocks now")
 
@@ -98,4 +100,3 @@ calcPCClocks <- function(DNAm, pheno, RData = NULL) {
 
   return(pheno)
 }
-

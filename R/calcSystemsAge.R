@@ -52,6 +52,9 @@ calcSystemsAge <- function(DNAm, pheno = NULL, RData = NULL) {
     }
     if (need_align) {
       samples <- intersect(row.names(DNAm), pheno$Sample_ID)
+      if (length(samples) == 0) {
+        stop("DNAm and pheno have no Sample_ID in common")
+      }
       DNAm <- DNAm[samples, , drop = FALSE]
       pheno <- align_pheno(pheno, samples)
       stopifnot("`DNAm` and `pheno` samples alignment failed. Check `Sample_ID` of pheno and row.names() of `DNAm`" = all.equal(row.names(DNAm), pheno$Sample_ID))
@@ -83,7 +86,6 @@ calcSystemsAge <- function(DNAm, pheno = NULL, RData = NULL) {
 
   ## Re-align to make sure things lined up with the object
   DNAm <- DNAm[, names(RData$imputeMissingCpGs), drop = F]
-  stopifnot(all(colnames(DNAm) == names(RData$imputeMissingCpGs)))
 
   ## Calculate methylation PCs
   DNAmPCs <- predict(RData$DNAmPCA, DNAm)

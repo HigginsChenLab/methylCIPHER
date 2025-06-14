@@ -17,9 +17,10 @@ Imports:
     DunedinPoAm38 (>= 0.1.0),
     prcPhenoAge (>= 0.1.0),
     checkmate,
-    qs2,
-    rlang
+    qs2
 Suggests:
+    rlang,
+    fs,
     learnr,
     gradethis (>= 0.2.10.9000),
     devtools,

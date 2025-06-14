@@ -9,7 +9,10 @@ calcSystemsAge(DNAm, pheno = NULL, RData = NULL)
 \arguments{
 \item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
 
-\item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include a column called `Sample_ID` that contains the ids of the samples to be matched with the beta matrix.}
+\item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
+\itemize{
+  \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
+}}
 
 \item{RData}{Either a character string specifying the path to the methylCIPHER folder containing
 the `SystemsAge_data.qs2` file or a list containing the contents of

@@ -11,7 +11,7 @@ calcPCClocks(DNAm, pheno, RData = NULL)
 
 \item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
 \itemize{
-  \item \code{Sample_ID}: Character vector of sample IDs to match with the beta matrix.
+  \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
   \item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
   \item \code{Age}: Numeric vector of chronological ages (finite values).
 }}

@@ -108,21 +108,3 @@ check_pheno <- function(pheno, extra_columns = NULL) {
 
   invisible(TRUE)
 }
-
-#' Align Pheno
-#'
-#' Filter and sort pheno given a list of ids. ids are guaranteed to be in pheno.
-#'
-#' @inheritParams param_template
-#'
-#' @examples
-#' \dontrun{
-#' examplePheno$Sample_ID <- examplePheno$name
-#' align_pheno(examplePheno, c("7786915023_R02C02", "7786915023_R02C02"))
-#' }
-#'
-#' @keywords internal
-align_pheno <- function(pheno, Sample_ID) {
-  indices <- match(Sample_ID, pheno$Sample_ID)
-  return(pheno[indices, , drop = F])
-}
