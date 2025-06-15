@@ -72,7 +72,7 @@ check_DNAm <- function(DNAm, missing_allowed = TRUE) {
 #' \itemize{
 #'   \item \code{pheno} is a data frame with at least one row.
 #'   \item \code{pheno} contains a column named "Sample_ID", which must be a character vector without missing values.
-#'   \item If "Female" is specified in \code{extra_columns}, \code{pheno} must contain a column named "Female", which must be an integerish vector with values 0 or 1 and no missing values.
+#'   \item If "Female" is specified in \code{extra_columns}, \code{pheno} must contain a column named "Female", which must be an numeric vector with values 0 or 1 and no missing values.
 #'   \item If "Age" is specified in \code{extra_columns}, \code{pheno} must contain a column named "Age", which must be a numeric vector with finite values and no missing values.
 #' }
 #'

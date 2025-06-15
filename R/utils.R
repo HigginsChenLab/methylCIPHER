@@ -8,6 +8,9 @@
 #'   \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
 #' }
 #' @param imputation Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.
+#'
+#' @return If you added the `pheno` input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
+#'
 #' @keywords internal
 param_template <- function(DNAm, pheno, imputation) {}
 
@@ -22,6 +25,9 @@ param_template <- function(DNAm, pheno, imputation) {}
 #'   \item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
 #'   \item \code{Age}: Numeric vector of chronological ages (finite values).
 #' }
+#'
+#' @return A data.frame of calculated clock values appended to `pheno`.
+#'
 #' @keywords internal
 param_template_female_age <- function(DNAm, pheno, imputation) {}
 

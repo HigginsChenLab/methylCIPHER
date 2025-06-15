@@ -16,6 +16,9 @@ param_template(DNAm, pheno, imputation)
 
 \item{imputation}{Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.}
 }
+\value{
+If you added the `pheno` input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
+}
 \description{
 Template function to inherit parameters for other functions.
 }

@@ -19,7 +19,7 @@ the `SystemsAge_data.qs2` file or a list containing the contents of
 the `SystemsAge_data.qs2` file created by [load_SystemsAge_data()].}
 }
 \value{
-If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
+If you added the `pheno` input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
 }
 \description{
 A function to calculate Systems Age

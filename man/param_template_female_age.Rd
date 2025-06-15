@@ -18,6 +18,9 @@ param_template_female_age(DNAm, pheno, imputation)
 
 \item{imputation}{Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.}
 }
+\value{
+A data.frame of calculated clock values appended to `pheno`.
+}
 \description{
 Template function to inherit parameters for other functions requiring phenotype data.
 }

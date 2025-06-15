@@ -2,23 +2,32 @@
 % Please edit documentation in R/calcGrimAgeV2.R
 \name{calcGrimAgeV2}
 \alias{calcGrimAgeV2}
-\title{calcGrimAge2V2}
+\title{calcGrimAgeV2}
 \usage{
-calcGrimAgeV2(datMeth, datPheno)
+calcGrimAgeV2(DNAm, pheno)
 }
 \arguments{
-\item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
+\item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
 
-\item{pheno}{Optional: The sample phenotype data (also with samples as rows) that the clock will be appended to.}
+\item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
+\itemize{
+  \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
+  \item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
+  \item \code{Age}: Numeric vector of chronological ages (finite values).
+}}
 }
 \value{
-If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
+A data.frame of calculated clock values appended to `pheno`.
 }
 \description{
 A function to calculate GrimAgeV2
 }
 \examples{
-calcPhenoAge(exampleBetas, examplePheno)
-
-
+\dontrun{
+GrimAgeV2 <- calcGrimAgeV2(
+  exampleBetas,
+  examplePheno
+)
+GrimAgeV2
+}
 }

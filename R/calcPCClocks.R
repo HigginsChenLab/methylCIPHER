@@ -8,7 +8,8 @@
 #' the `PCClocks_data.qs2` file or a list containing the contents of
 #' the `PCClocks_data.qs2` file created by [load_PCClocks_data()].
 #'
-#' @return A data.frame of calculated clock values appended to `pheno`.
+#' @inherit param_template_female_age return
+#'
 #' @export
 #'
 #' @examples
