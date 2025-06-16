@@ -1,12 +1,22 @@
-#' calcPCClocks
+#' Calculate PC Clocks
 #'
-#' @description A function to calculate PC Clocks
+#' @description
+#' Calculates PC Clocks
 #'
 #' @inheritParams param_template_female_age
 #' @param RData
-#' Either a character string specifying the path to the methylCIPHER folder containing
-#' the `PCClocks_data.qs2` file or a list containing the contents of
-#' the `PCClocks_data.qs2` file created by [load_PCClocks_data()].
+#' Default to \code{NULL}, which is the default path to the downloaded data folder.
+#' Either a character string specifying the path to the folder containing
+#' the `PCClocks_data.qs2` file, or a list containing the contents of the
+#' `PCClocks_data.qs2` file loaded via [load_PCClocks_data()]. See Details.
+#'
+#' @details
+#' Systems Age calculation requires the `PCClocks_data.qs2` object, which can be
+#' downloaded using [download_methylCIPHER()]. Provide either the path to the
+#' downloaded `PCClocks_data.qs2` file or the object loaded with
+#' [load_PCClocks_data()] to the `RData` parameter. The advantage of passing
+#' in the loaded data is that if this function were to be run multiple times,
+#' then the object won't be loaded in each time.
 #'
 #' @inherit param_template_female_age return
 #'
@@ -14,12 +24,21 @@
 #'
 #' @examples
 #' \dontrun{
-#' example_PCClocks <- calcPCClocks(
-#'   exampleBetas,
-#'   examplePheno,
-#'   RData = get_methylCIPHER_path()
+#' # Download the external data
+#' download_methylCIPHER(clocks = "PCClocks")
+#'
+#' # Either path to the data
+#' RData <- get_methylCIPHER_path()
+#' # Or load in the object
+#' RData <- load_PCClocks_data(get_methylCIPHER_path())
+#'
+#' # Calculate Systems Age using example data
+#' result <- calcPCClocks(
+#'   betas = exampleBetas,
+#'   pheno = examplePheno,
+#'   RData = RData
 #' )
-#' example_PCClocks
+#' result
 #' }
 calcPCClocks <- function(DNAm, pheno, RData = NULL) {
   # Input validation
@@ -55,15 +74,7 @@ calcPCClocks <- function(DNAm, pheno, RData = NULL) {
   # handle RData
   if (is.null(RData)) {
     RData <- load_PCClocks_data()
-  }
-  if (is.character(RData)) {
-    info <- file.info(RData)
-    # if pass a folder
-    if (info$isdir) {
-      # then convert path to read into folder/file.qs2
-      RData <- file.path(RData, "PCClocks_data.qs2")
-    }
-    # then convert RData into the list of objects to be used
+  } else if (is.character(RData)) {
     RData <- load_PCClocks_data(RData)
   }
 

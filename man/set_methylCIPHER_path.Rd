@@ -9,16 +9,19 @@ set_methylCIPHER_path(path)
 \arguments{
 \item{path}{A string specifying the custom path to the methylCIPHER data directory.}
 }
-\value{
-None
-}
 \description{
 This function allows the user to set a custom directory path for storing
 methylCIPHER data, which is required for SystemsAge and PCClocks. The specified
 path is stored in R's options under "methylCIPHER.path".
 }
 \examples{
-get_methylCIPHER_path() # Default Path
-set_methylCIPHER_path(".") # Change to "."
-get_methylCIPHER_path() # New Path
+# Returns the default path
+get_methylCIPHER_path()
+# Sets path to current directory
+set_methylCIPHER_path(".")
+# Returns the new path
+get_methylCIPHER_path()
+}
+\seealso{
+\code{\link{set_methylCIPHER_path}}, \code{\link{get_methylCIPHER_default_path}}
 }

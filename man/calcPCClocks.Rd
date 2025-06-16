@@ -2,7 +2,7 @@
 % Please edit documentation in R/calcPCClocks.R
 \name{calcPCClocks}
 \alias{calcPCClocks}
-\title{calcPCClocks}
+\title{Calculate PC Clocks}
 \usage{
 calcPCClocks(DNAm, pheno, RData = NULL)
 }
@@ -16,23 +16,41 @@ calcPCClocks(DNAm, pheno, RData = NULL)
   \item \code{Age}: Numeric vector of chronological ages (finite values).
 }}
 
-\item{RData}{Either a character string specifying the path to the methylCIPHER folder containing
-the `PCClocks_data.qs2` file or a list containing the contents of
-the `PCClocks_data.qs2` file created by [load_PCClocks_data()].}
+\item{RData}{Default to \code{NULL}, which is the default path to the downloaded data folder.
+Either a character string specifying the path to the folder containing
+the `PCClocks_data.qs2` file, or a list containing the contents of the
+`PCClocks_data.qs2` file loaded via [load_PCClocks_data()]. See Details.}
 }
 \value{
 A data.frame of calculated clock values appended to `pheno`.
 }
 \description{
-A function to calculate PC Clocks
+Calculates PC Clocks
+}
+\details{
+Systems Age calculation requires the `PCClocks_data.qs2` object, which can be
+downloaded using [download_methylCIPHER()]. Provide either the path to the
+downloaded `PCClocks_data.qs2` file or the object loaded with
+[load_PCClocks_data()] to the `RData` parameter. The advantage of passing
+in the loaded data is that if this function were to be run multiple times,
+then the object won't be loaded in each time.
 }
 \examples{
 \dontrun{
-example_PCClocks <- calcPCClocks(
-  exampleBetas,
-  examplePheno,
-  RData = get_methylCIPHER_path()
+# Download the external data
+download_methylCIPHER(clocks = "PCClocks")
+
+# Either path to the data
+RData <- get_methylCIPHER_path()
+# Or load in the object
+RData <- load_PCClocks_data(get_methylCIPHER_path())
+
+# Calculate Systems Age using example data
+result <- calcPCClocks(
+  betas = exampleBetas,
+  pheno = examplePheno,
+  RData = RData
 )
-example_PCClocks
+result
 }
 }

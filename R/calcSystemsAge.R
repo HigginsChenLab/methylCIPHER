@@ -1,26 +1,45 @@
-#' calcSystemsAge
+#' Calculate Systems Age
 #'
-#' @description A function to calculate Systems Age
+#' @description
+#' Calculates Systems Age
 #'
 #' @inheritParams param_template
 #' @param RData
-#' Either a character string specifying the path to the methylCIPHER folder containing
-#' the `SystemsAge_data.qs2` file or a list containing the contents of
-#' the `SystemsAge_data.qs2` file created by [load_SystemsAge_data()].
+#' Default to \code{NULL}, which is the default path to the downloaded data folder.
+#' Either a character string specifying the path to the folder containing
+#' the `SystemsAge_data.qs2` file, or a list containing the contents of the
+#' `SystemsAge_data.qs2` file loaded via [load_SystemsAge_data()]. See Details.
+#'
+#' @details
+#' Systems Age calculation requires the `SystemsAge_data.qs2` object, which can be
+#' downloaded using [download_methylCIPHER()]. Provide either the path to the
+#' downloaded `SystemsAge_data.qs2` file or the object loaded with
+#' [load_SystemsAge_data()] to the `RData` parameter. The advantage of passing
+#' in the loaded data is that if this function were to be run multiple times,
+#' then the object won't be loaded in each time.
 #'
 #' @inherit param_template return
+#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' example_SystemsAge <- calcSystemsAge(
-#'   exampleBetas,
-#'   examplePheno,
-#'   RData = get_methylCIPHER_path()
-#' )
-#' example_SystemsAge
-#' }
+#' # Download the external data
+#' download_methylCIPHER(clocks = "SystemsAge")
 #'
+#' # Either path to the data
+#' RData <- get_methylCIPHER_path()
+#' # Or load in the object
+#' RData <- load_SystemsAge_data(get_methylCIPHER_path())
+#'
+#' # Calculate Systems Age using example data
+#' result <- calcSystemsAge(
+#'   betas = exampleBetas,
+#'   pheno = examplePheno,
+#'   RData = RData
+#' )
+#' result
+#' }
 calcSystemsAge <- function(DNAm, pheno = NULL, RData = NULL) {
   # Code for calculating Systems Age
   # Main Authors:
@@ -61,18 +80,10 @@ calcSystemsAge <- function(DNAm, pheno = NULL, RData = NULL) {
       message("Samples inconsistencies between DNAm and Pheno were detected and corrected.")
     }
   }
-  # handle RData
+    # handle RData
   if (is.null(RData)) {
     RData <- load_SystemsAge_data()
-  }
-  if (is.character(RData)) {
-    info <- file.info(RData)
-    # if pass a folder
-    if (info$isdir) {
-      # then convert path to read into folder/file.qs2
-      RData <- file.path(RData, "SystemsAge_data.qs2")
-    }
-    # then convert RData into the list of objects to be used
+  } else if (is.character(RData)) {
     RData <- load_SystemsAge_data(RData)
   }
 

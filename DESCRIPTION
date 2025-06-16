@@ -20,6 +20,7 @@ Suggests:
     rlang,
     fs,
     learnr,
+    googledrive,
     gradethis (>= 0.2.10.9000),
     devtools,
     testthat (>= 3.0.0)

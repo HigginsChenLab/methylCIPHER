@@ -7,16 +7,27 @@
 get_methylCIPHER_path()
 }
 \value{
-The path to the methylCIPHER data directory.
+A character string specifying the path to the methylCIPHER data directory.
 }
 \description{
-This function retrieves the path to the methylCIPHER data directory, which is
-required for SystemsAge and PCClocks. It first checks if a custom path has been
-set using [set_methylCIPHER_path()] or [options()]. If no custom path is found, it returns
-the default path obtained from [get_methylCIPHER_default_path()].
+Retrieves the path to the methylCIPHER data directory. The function checks for a custom path set via
+\code{\link{set_methylCIPHER_path}} or the \code{methylCIPHER.path} option
+(see \code{\link{options}}). If no custom path is specified, it returns the
+default path from \code{\link{get_methylCIPHER_default_path}}.
+}
+\details{
+Tips: To set a custom path permanently, add
+\code{options(methylCIPHER.path = "non_default_path")} to your \code{.Rprofile}
+file.
 }
 \examples{
-get_methylCIPHER_path() # Default Path
-set_methylCIPHER_path(".") # Change to "."
-get_methylCIPHER_path() # New Path
+# Returns the default path
+get_methylCIPHER_path()
+# Sets path to current directory
+set_methylCIPHER_path(".")
+# Returns the new path
+get_methylCIPHER_path()
+}
+\seealso{
+\code{\link{set_methylCIPHER_path}}, \code{\link{get_methylCIPHER_default_path}}
 }

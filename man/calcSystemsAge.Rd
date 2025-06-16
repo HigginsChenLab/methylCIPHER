@@ -2,7 +2,7 @@
 % Please edit documentation in R/calcSystemsAge.R
 \name{calcSystemsAge}
 \alias{calcSystemsAge}
-\title{calcSystemsAge}
+\title{Calculate Systems Age}
 \usage{
 calcSystemsAge(DNAm, pheno = NULL, RData = NULL)
 }
@@ -14,24 +14,41 @@ calcSystemsAge(DNAm, pheno = NULL, RData = NULL)
   \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
 }}
 
-\item{RData}{Either a character string specifying the path to the methylCIPHER folder containing
-the `SystemsAge_data.qs2` file or a list containing the contents of
-the `SystemsAge_data.qs2` file created by [load_SystemsAge_data()].}
+\item{RData}{Default to \code{NULL}, which is the default path to the downloaded data folder.
+Either a character string specifying the path to the folder containing
+the `SystemsAge_data.qs2` file, or a list containing the contents of the
+`SystemsAge_data.qs2` file loaded via [load_SystemsAge_data()]. See Details.}
 }
 \value{
 If you added the `pheno` input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
 }
 \description{
-A function to calculate Systems Age
+Calculates Systems Age
+}
+\details{
+Systems Age calculation requires the `SystemsAge_data.qs2` object, which can be
+downloaded using [download_methylCIPHER()]. Provide either the path to the
+downloaded `SystemsAge_data.qs2` file or the object loaded with
+[load_SystemsAge_data()] to the `RData` parameter. The advantage of passing
+in the loaded data is that if this function were to be run multiple times,
+then the object won't be loaded in each time.
 }
 \examples{
 \dontrun{
-example_SystemsAge <- calcSystemsAge(
-  exampleBetas,
-  examplePheno,
-  RData = get_methylCIPHER_path()
-)
-example_SystemsAge
-}
+# Download the external data
+download_methylCIPHER(clocks = "SystemsAge")
 
+# Either path to the data
+RData <- get_methylCIPHER_path()
+# Or load in the object
+RData <- load_SystemsAge_data(get_methylCIPHER_path())
+
+# Calculate Systems Age using example data
+result <- calcSystemsAge(
+  betas = exampleBetas,
+  pheno = examplePheno,
+  RData = RData
+)
+result
+}
 }
