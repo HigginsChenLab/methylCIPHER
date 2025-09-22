@@ -20,5 +20,4 @@ A function to calculate IntrinClock
 \examples{
 calcEpiDish(exampleBetas, examplePheno)
 
-
 }

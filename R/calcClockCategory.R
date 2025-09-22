@@ -13,47 +13,37 @@
 #' @export
 #'
 #' @examples calcClockCategory(exampleBetas, examplePheno, category = "chronological", imputation = T)
-calcClockCategory <- function(DNAm, pheno , category = NULL,
-                              CpGImputation = NULL, imputation = T){
-
+calcClockCategory <- function(DNAm, pheno, category = NULL,
+                              CpGImputation = NULL, imputation = T) {
   message("Please remember to cite all of the clocks you have used! Please refer to the README.md file for assistance.")
 
-  if(suppressWarnings(as.logical("originals" %in% category))){
-
+  if (suppressWarnings(as.logical("originals" %in% category))) {
     pheno <- calcBocklandt(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcGaragnani(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcWeidner(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcVidalBralo(DNAm, pheno, CpGImputation, imputation)
-
   }
-  if(suppressWarnings(as.logical("chronological" %in% category))){
-
+  if (suppressWarnings(as.logical("chronological" %in% category))) {
     pheno <- calcHannum(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcHorvath1(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcLin(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcZhang2019(DNAm, pheno, CpGImputation, imputation)
-
   }
-  if(suppressWarnings(as.logical("phenotypic" %in% category))){
-
+  if (suppressWarnings(as.logical("phenotypic" %in% category))) {
     pheno <- calcPhenoAge(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcHRSInChPhenoAge(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcDunedinPoAm38(DNAm, pheno, CpGImputation, imputation)
-    #pheno <- prcPhenoAge::calcPRCPhenoAge(DNAm, pheno, CpGImputation, imputation)
-    #pheno <- prcPhenoAge::calcnonPRCPhenoAge(DNAm, pheno, CpGImputation, imputation)
-
+    # pheno <- prcPhenoAge::calcPRCPhenoAge(DNAm, pheno, CpGImputation, imputation)
+    # pheno <- prcPhenoAge::calcnonPRCPhenoAge(DNAm, pheno, CpGImputation, imputation)
   }
-  if(suppressWarnings(as.logical("mitotic" %in% category))){
-
+  if (suppressWarnings(as.logical("mitotic" %in% category))) {
     pheno <- calcEpiTOC(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcMiAge(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcDNAmTL(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcEpiTOC2(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcHypoClock(DNAm, pheno, CpGImputation, imputation)
-
   }
-  if(suppressWarnings(any(as.logical(category %in% c("pediatric", "gestational"))))){
-
+  if (suppressWarnings(any(as.logical(category %in% c("pediatric", "gestational"))))) {
     pheno <- calcBohlin(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcKnight(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcLeeControl(DNAm, pheno, CpGImputation, imputation)
@@ -61,31 +51,30 @@ calcClockCategory <- function(DNAm, pheno , category = NULL,
     pheno <- calcLeeRefinedRobust(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcMayne(DNAm, pheno, CpGImputation, imputation)
     pheno <- calcPEDBE(DNAm, pheno, CpGImputation, imputation)
-
   }
 
-  if(suppressWarnings(as.logical("adult" %in% category))){
-
-    clockNames <- base::setdiff(clockOptions()[1:30],
-                                c("calcBohlin","calcKnight","calcLeeControl",
-                                  "calcLeeRobust","calcLeeRefinedRobust","calcMayne",
-                                  "calcPEDBE"))
-    for(i in 1:length(clockNames)){
+  if (suppressWarnings(as.logical("adult" %in% category))) {
+    clockNames <- base::setdiff(
+      clockOptions()[1:30],
+      c(
+        "calcBohlin", "calcKnight", "calcLeeControl",
+        "calcLeeRobust", "calcLeeRefinedRobust", "calcMayne",
+        "calcPEDBE"
+      )
+    )
+    for (i in 1:length(clockNames)) {
       clockFun <- get(clockNames[i])
       pheno <- clockFun(DNAm, pheno, CpGImputation, imputation)
     }
   }
 
-  if(suppressWarnings(as.logical("all" %in% category))){
-
+  if (suppressWarnings(as.logical("all" %in% category))) {
     clockNames <- clockOptions()[1:30]
-    for(i in 1:length(clockNames)){
+    for (i in 1:length(clockNames)) {
       clockFun <- get(clockNames[i])
       pheno <- clockFun(DNAm, pheno, CpGImputation, imputation)
     }
-
   }
 
   pheno
-
 }

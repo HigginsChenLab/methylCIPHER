@@ -4,7 +4,7 @@
 \alias{calcPCClocks}
 \title{Calculate PC Clocks}
 \usage{
-calcPCClocks(DNAm, pheno, RData = NULL)
+calcPCClocks(DNAm, pheno, ID = "Sample_ID", RData = NULL)
 }
 \arguments{
 \item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
@@ -15,6 +15,8 @@ calcPCClocks(DNAm, pheno, RData = NULL)
   \item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
   \item \code{Age}: Numeric vector of chronological ages (finite values).
 }}
+
+\item{ID}{Column in `pheno` that indicates the ID of each sample.}
 
 \item{RData}{Default to \code{NULL}, which is the default path to the downloaded data folder.
 Either a character string specifying the path to the folder containing

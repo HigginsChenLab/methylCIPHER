@@ -11,13 +11,12 @@
 #' @export
 #'
 #' @examples calcCausAge(exampleBetas, examplePheno, imputation = F)
-calcCausAge <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation = F){
-
+calcCausAge <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F) {
   #######################
   ### Read in the Data###
   #######################
 
-  #data("CausAge_CpGs")
+  # data("CausAge_CpGs")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
@@ -30,27 +29,25 @@ calcCausAge <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation = 
   ###################################################################################
 
   if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
-
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
   } else if (CpGCheck == T | imputation == F) {
-
     present <- CausAge_CpGs$CpG %in% colnames(DNAm)
 
     betas <- DNAm[, na.omit(match(CausAge_CpGs$CpG, colnames(DNAm)))]
 
-    tt <- sweep(betas, MARGIN = 2, CausAge_CpGs$Beta[present],
-                `*`)
+    tt <- sweep(betas,
+      MARGIN = 2, CausAge_CpGs$Beta[present],
+      `*`
+    )
     CausAge <- as.numeric(rowSums(tt, na.rm = T) + 86.80816381)
 
     if (is.null(pheno)) {
       CausAge
-    }  else {
+    } else {
       pheno$CausAge <- CausAge
       pheno
     }
-
-  }  else {
+  } else {
     message("Imputation of mean CpG Values occured for CausAge")
     missingCpGs <- CausAge_CpGs$CpG[!(CausAge_CpGs$CpG %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))

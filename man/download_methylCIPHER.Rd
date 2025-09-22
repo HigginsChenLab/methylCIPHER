@@ -6,33 +6,45 @@
 \usage{
 download_methylCIPHER(
   clocks = c("all", "SystemsAge", "PCClocks"),
-  path = NULL,
-  force = FALSE
+  source = c("googledrive", "zenodo"),
+  path = ".",
+  force = TRUE,
+  ...
 )
 }
 \arguments{
-\item{clocks}{A character vector specifying which clocks to download. Options
-are `"all"`, `"SystemsAge"`, and `"PCClocks"`. Default is "all", which includes
-both `"SystemsAge"` and `"PCClocks"`.}
+\item{clocks}{A character vector specifying which clocks to download. Valid options
+include `"all"`, `"SystemsAge"`, and `"PCClocks"`. The default is `"all"`, which
+includes both `"SystemsAge"` and `"PCClocks"`. Multiple specific clocks can be
+requested, e.g., `c("SystemsAge", "PCClocks")`.}
+
+\item{source}{A character string specifying the download source: `"googledrive"` or
+`"zenodo"`. The default is `"googledrive"`. Note that `"zenodo"` can sometimes be slow
+and time out, while `"googledrive"` requires authentication via web browser.}
 
 \item{path}{The directory path where the downloaded files will be saved.
-If \code{NULL}, it defaults to the path returned by [get_methylCIPHER_path()].}
+If \code{NULL} (the default), it uses the path returned by [get_methylCIPHER_path()].}
 
 \item{force}{A logical value indicating whether to force the download even if
-the files already exist. Default is \code{FALSE}.}
+the files already exist in the target directory. Defaults to \code{FALSE}.}
+
+\item{...}{Additional arguments passed to [googledrive::drive_auth()] or
+[zen4R::ZenodoRecord()].}
 }
 \value{
-Invisibly returns `TRUE` if downloads were attempted or if there was
-nothing to download.
+Invisibly returns \code{TRUE} if downloads were attempted or if there was
+  nothing to download.
 }
 \description{
-This function downloads external data for specific methylCIPHER clocks to a specified directory.
+This function downloads external data for specific methylCIPHER clocks to a specified
+directory.
 }
 \details{
-Some clocks have large data dependencies that has to be first downloaded
-before the clocks can be calculated. This function download the requested clock
-to a specified path or default path returned by [get_methylCIPHER_path()]. SEe
-[get_methylCIPHER_path()] on instructions on how to set/change the default path.
+Some clocks have large data dependencies that must be downloaded before the
+  clocks can be calculated. This function downloads the requested clock data to a
+  specified path or the default path returned by [get_methylCIPHER_path()].
+  See [get_methylCIPHER_path()] for instructions on how to set or change
+  the default path.
 }
 \examples{
 \dontrun{
@@ -44,6 +56,9 @@ download_methylCIPHER(clocks = "SystemsAge", path = "/path/to/directory")
 
 # Force re-download of specified clock
 download_methylCIPHER(clocks = "SystemsAge", force = TRUE)
+
+# Download from Google Drive (may prompt for authentication)
+download_methylCIPHER(source = "googledrive")
 }
 
 }

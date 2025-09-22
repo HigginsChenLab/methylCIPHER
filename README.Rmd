@@ -75,7 +75,7 @@ clockOptions()
 To do so, here is an example:
 
 ```{r}
-userClocks <- c("calcSmokingMcCartney","calcPhenoAge","calcEpiTOC2")
+userClocks <- c("calcSmokingMcCartney", "calcPhenoAge", "calcEpiTOC2")
 calcUserClocks(userClocks, exampleBetas, examplePheno, imputation = F)
 ```
 

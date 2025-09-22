@@ -40,7 +40,7 @@
 #' )
 #' result
 #' }
-calcPCClocks <- function(DNAm, pheno, RData = NULL) {
+calcPCClocks <- function(DNAm, pheno, ID = "Sample_ID", RData = NULL) {
   # Input validation
   # Check DNAm
   check_DNAm(DNAm)
@@ -52,23 +52,17 @@ calcPCClocks <- function(DNAm, pheno, RData = NULL) {
     combine = "or"
   )
   # Check Pheno
-  check_pheno(pheno, extra_columns = c("Female", "Age"))
+  check_pheno(pheno, ID = ID, extra_columns = c("Female", "Age"))
   # Check Consistent between `pheno` and `DNAm`
-  need_align <- if (length(row.names(DNAm)) != length(pheno$Sample_ID)) {
-    TRUE
-  } else if (any(row.names(DNAm) != pheno$Sample_ID)) {
-    TRUE
-  } else {
-    FALSE
-  }
+  need_align <- !isTRUE(all.equal(row.names(DNAm), pheno[[ID]]))
   if (need_align) {
-    samples <- intersect(row.names(DNAm), pheno$Sample_ID)
+    samples <- intersect(row.names(DNAm), pheno[[ID]])
     if (length(samples) == 0) {
-      stop("DNAm and pheno have no Sample_ID in common")
+      stop("DNAm and pheno have no ID in common.")
     }
     DNAm <- DNAm[samples, , drop = FALSE]
-    pheno <- align_pheno(pheno, samples)
-    stopifnot("`DNAm` and `pheno` samples alignment failed. Check `Sample_ID` of pheno and row.names() of `DNAm`" = all.equal(row.names(DNAm), pheno$Sample_ID))
+    pheno <- align_pheno(pheno, samples, ID = ID)
+    stopifnot("`DNAm` and `pheno` samples alignment failed. Check ID of pheno and row.names() of `DNAm`" = all.equal(row.names(DNAm), pheno[[ID]]))
     message("Samples inconsistencies between DNAm and Pheno were detected and corrected.")
   }
   # handle RData
@@ -76,6 +70,10 @@ calcPCClocks <- function(DNAm, pheno, RData = NULL) {
     RData <- load_PCClocks_data()
   } else if (is.character(RData)) {
     RData <- load_PCClocks_data(RData)
+  }
+
+  if(rlang::hash(RData) != "46386ec4be2b2a5239cf67b242d7dc24") {
+    stop("The downloaded PCClocks data is corrupted or the wrong data (e.g., SystemsAge) was passed. See `?download_methylCIPHER()`.")
   }
 
   ## Imputation
@@ -97,15 +95,15 @@ calcPCClocks <- function(DNAm, pheno, RData = NULL) {
   pheno$PCHannum <- as.numeric(sweep(DNAm, 2, RData$CalcPCHannum$center) %*% RData$CalcPCHannum$rotation %*% RData$CalcPCHannum$model + RData$CalcPCHannum$intercept)
   pheno$PCPhenoAge <- as.numeric(sweep(DNAm, 2, RData$CalcPCPhenoAge$center) %*% RData$CalcPCPhenoAge$rotation %*% RData$CalcPCPhenoAge$model + RData$CalcPCPhenoAge$intercept)
   pheno$PCDNAmTL <- as.numeric(sweep(DNAm, 2, RData$CalcPCDNAmTL$center) %*% RData$CalcPCDNAmTL$rotation %*% RData$CalcPCDNAmTL$model + RData$CalcPCDNAmTL$intercept)
-  temp <- cbind(sweep(DNAm, 2, RData$CalcPCGrimAge$center) %*% RData$CalcPCGrimAge$rotation, Female = pheno$Female, Age = pheno$Age)
-  pheno$PCPACKYRS <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCPACKYRS.model)] %*% RData$CalcPCGrimAge$PCPACKYRS.model + RData$CalcPCGrimAge$PCPACKYRS.intercept)
-  pheno$PCADM <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCADM.model)] %*% RData$CalcPCGrimAge$PCADM.model + RData$CalcPCGrimAge$PCADM.intercept)
-  pheno$PCB2M <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCB2M.model)] %*% RData$CalcPCGrimAge$PCB2M.model + RData$CalcPCGrimAge$PCB2M.intercept)
-  pheno$PCCystatinC <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCCystatinC.model)] %*% RData$CalcPCGrimAge$PCCystatinC.model + RData$CalcPCGrimAge$PCCystatinC.intercept)
-  pheno$PCGDF15 <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCGDF15.model)] %*% RData$CalcPCGrimAge$PCGDF15.model + RData$CalcPCGrimAge$PCGDF15.intercept)
-  pheno$PCLeptin <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCLeptin.model)] %*% RData$CalcPCGrimAge$PCLeptin.model + RData$CalcPCGrimAge$PCLeptin.intercept)
-  pheno$PCPAI1 <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCPAI1.model)] %*% RData$CalcPCGrimAge$PCPAI1.model + RData$CalcPCGrimAge$PCPAI1.intercept)
-  pheno$PCTIMP1 <- as.numeric(temp[, names(RData$CalcPCGrimAge$PCTIMP1.model)] %*% RData$CalcPCGrimAge$PCTIMP1.model + RData$CalcPCGrimAge$PCTIMP1.intercept)
+  DNAm <- cbind(sweep(DNAm, 2, RData$CalcPCGrimAge$center) %*% RData$CalcPCGrimAge$rotation, Female = pheno$Female, Age = pheno$Age)
+  pheno$PCPACKYRS <- as.numeric(DNAm[, names(RData$CalcPCGrimAge$PCPACKYRS.model)] %*% RData$CalcPCGrimAge$PCPACKYRS.model + RData$CalcPCGrimAge$PCPACKYRS.intercept)
+  pheno$PCADM <- as.numeric(DNAm[, names(RData$CalcPCGrimAge$PCADM.model)] %*% RData$CalcPCGrimAge$PCADM.model + RData$CalcPCGrimAge$PCADM.intercept)
+  pheno$PCB2M <- as.numeric(DNAm[, names(RData$CalcPCGrimAge$PCB2M.model)] %*% RData$CalcPCGrimAge$PCB2M.model + RData$CalcPCGrimAge$PCB2M.intercept)
+  pheno$PCCystatinC <- as.numeric(DNAm[, names(RData$CalcPCGrimAge$PCCystatinC.model)] %*% RData$CalcPCGrimAge$PCCystatinC.model + RData$CalcPCGrimAge$PCCystatinC.intercept)
+  pheno$PCGDF15 <- as.numeric(DNAm[, names(RData$CalcPCGrimAge$PCGDF15.model)] %*% RData$CalcPCGrimAge$PCGDF15.model + RData$CalcPCGrimAge$PCGDF15.intercept)
+  pheno$PCLeptin <- as.numeric(DNAm[, names(RData$CalcPCGrimAge$PCLeptin.model)] %*% RData$CalcPCGrimAge$PCLeptin.model + RData$CalcPCGrimAge$PCLeptin.intercept)
+  pheno$PCPAI1 <- as.numeric(DNAm[, names(RData$CalcPCGrimAge$PCPAI1.model)] %*% RData$CalcPCGrimAge$PCPAI1.model + RData$CalcPCGrimAge$PCPAI1.intercept)
+  pheno$PCTIMP1 <- as.numeric(DNAm[, names(RData$CalcPCGrimAge$PCTIMP1.model)] %*% RData$CalcPCGrimAge$PCTIMP1.model + RData$CalcPCGrimAge$PCTIMP1.intercept)
   pheno$PCGrimAge <- as.numeric(as.matrix(subset(pheno, select = RData$CalcPCGrimAge$components)) %*% RData$CalcPCGrimAge$PCGrimAge.model + RData$CalcPCGrimAge$PCGrimAge.intercept)
 
   message("PC Clocks successfully calculated!")

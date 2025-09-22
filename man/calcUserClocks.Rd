@@ -24,6 +24,6 @@ A dataframe that has column names of the core clocks giving you multiple clocks 
 A function to calculate multiple epigenetic clocks at once, as defined by the user.
 }
 \examples{
-userClocks <- c("calcSmokingMcCartney","calcPhenoAge","calcEpiTOC2")
+userClocks <- c("calcSmokingMcCartney", "calcPhenoAge", "calcEpiTOC2")
 calcUserClocks(userClocks, exampleBetas, examplePheno, imputation = T)
 }

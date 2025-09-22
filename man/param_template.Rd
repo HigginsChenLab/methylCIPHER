@@ -4,7 +4,7 @@
 \alias{param_template}
 \title{Inherit parameters for functions}
 \usage{
-param_template(DNAm, pheno, imputation)
+param_template(DNAm, pheno, ID, imputation)
 }
 \arguments{
 \item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
@@ -13,6 +13,8 @@ param_template(DNAm, pheno, imputation)
 \itemize{
   \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
 }}
+
+\item{ID}{Column in `pheno` that indicates the ID of each sample.}
 
 \item{imputation}{Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.}
 }

@@ -11,13 +11,12 @@
 #' @export
 #'
 #' @examples calcGaragnani(exampleBetas, examplePheno, imputation = T)
-calcGaragnani <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-
+calcGaragnani <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) {
   #######################
   ### Read in the Data###
   #######################
 
-  #data("Garagnani_CpG")
+  # data("Garagnani_CpG")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
@@ -29,23 +28,16 @@ calcGaragnani <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation =
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && imputation == T){
-
+  if (CpGCheck == F && imputation == T) {
     stop("Necessary CpG is missing!")
+  } else if (CpGCheck == T) {
+    Garagnani <- DNAm[, "cg16867657"]
 
-  }
-
-  else if(CpGCheck == T){
-
-    Garagnani=DNAm[,"cg16867657"]
-
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       Garagnani
-    } else{
+    } else {
       pheno$Garagnani <- Garagnani
       pheno
     }
-
   }
-
 }

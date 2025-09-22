@@ -11,13 +11,12 @@
 #' @export
 #'
 #' @examples calcDNAmTL(exampleBetas, examplePheno, imputation = T)
-calcDNAmTL <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-
+calcDNAmTL <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) {
   #######################
   ### Read in the Data###
   #######################
 
-  #data("DNAmTL_CpGs")
+  # data("DNAmTL_CpGs")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
@@ -29,49 +28,42 @@ calcDNAmTL <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && is.null(CpGImputation) && imputation == T){
-
+  if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
-  } else if(CpGCheck == T | imputation == F){
-
+  } else if (CpGCheck == T | imputation == F) {
     present <- DNAmTL_CpGs$ID %in% colnames(DNAm)
 
-    betas <- DNAm[,na.omit(match(DNAmTL_CpGs$ID,colnames(DNAm)))]
+    betas <- DNAm[, na.omit(match(DNAmTL_CpGs$ID, colnames(DNAm)))]
     tt <- sweep(betas, MARGIN = 2, DNAmTL_CpGs$Coef[present], `*`)
 
-    DNAmTL <- as.numeric(rowSums(tt,na.rm=T)-7.924780053)
-    if(is.null(pheno)){
+    DNAmTL <- as.numeric(rowSums(tt, na.rm = T) - 7.924780053)
+    if (is.null(pheno)) {
       DNAmTL
-    } else{
+    } else {
       pheno$DNAmTL <- DNAmTL
       pheno
     }
-
   } else {
     message("Imputation of mean CpG Values occured for DNAmTL")
     missingCpGs <- DNAmTL_CpGs$ID[!(DNAmTL_CpGs$ID %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
 
-    for(j in 1:length(missingCpGs)){
-      meanVals <- CpGImputation[match(missingCpGs[j],names(CpGImputation))]
-      tempDNAm[,j] <- rep(meanVals,dim(DNAm)[1])
+    for (j in 1:length(missingCpGs)) {
+      meanVals <- CpGImputation[match(missingCpGs[j], names(CpGImputation))]
+      tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
-    DNAm <- cbind(DNAm,tempDNAm)
+    DNAm <- cbind(DNAm, tempDNAm)
 
-    betas <- DNAm[,match(DNAmTL_CpGs$ID,colnames(DNAm))]
+    betas <- DNAm[, match(DNAmTL_CpGs$ID, colnames(DNAm))]
     tt <- sweep(betas, MARGIN = 2, DNAmTL_CpGs$Coef, `*`)
 
-    DNAmTL <- as.numeric(rowSums(tt,na.rm=T)-7.924780053)
-    if(is.null(pheno)){
+    DNAmTL <- as.numeric(rowSums(tt, na.rm = T) - 7.924780053)
+    if (is.null(pheno)) {
       DNAmTL
-    } else{
+    } else {
       pheno$DNAmTL <- DNAmTL
       pheno
     }
-
   }
-
 }
-

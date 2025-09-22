@@ -66,23 +66,31 @@ set_methylCIPHER_path <- function(path) {
 
 #' Download methylCIPHER Clock Data
 #'
-#' This function downloads external data for specific methylCIPHER clocks to a specified directory.
+#' This function downloads external data for specific methylCIPHER clocks to a specified
+#' directory.
 #'
-#' @param clocks A character vector specifying which clocks to download. Options
-#' are `"all"`, `"SystemsAge"`, and `"PCClocks"`. Default is "all", which includes
-#' both `"SystemsAge"` and `"PCClocks"`.
+#' @param clocks A character vector specifying which clocks to download. Valid options
+#'   include `"all"`, `"SystemsAge"`, and `"PCClocks"`. The default is `"all"`, which
+#'   includes both `"SystemsAge"` and `"PCClocks"`. Multiple specific clocks can be
+#'   requested, e.g., `c("SystemsAge", "PCClocks")`.
 #' @param path The directory path where the downloaded files will be saved.
-#' If \code{NULL}, it defaults to the path returned by [get_methylCIPHER_path()].
+#'   If \code{NULL} (the default), it uses the path returned by [get_methylCIPHER_path()].
+#' @param source A character string specifying the download source: `"googledrive"` or
+#'   `"zenodo"`. The default is `"googledrive"`. Note that `"zenodo"` can sometimes be slow
+#'   and time out, while `"googledrive"` requires authentication via web browser.
 #' @param force A logical value indicating whether to force the download even if
-#' the files already exist. Default is \code{FALSE}.
+#'   the files already exist in the target directory. Defaults to \code{FALSE}.
+#' @param ... Additional arguments passed to [googledrive::drive_auth()] or
+#'   [zen4R::ZenodoRecord()].
 #'
-#' @return Invisibly returns `TRUE` if downloads were attempted or if there was
-#' nothing to download.
+#' @return Invisibly returns \code{TRUE} if downloads were attempted or if there was
+#'   nothing to download.
 #'
-#' @details Some clocks have large data dependencies that has to be first downloaded
-#' before the clocks can be calculated. This function download the requested clock
-#' to a specified path or default path returned by [get_methylCIPHER_path()]. SEe
-#' [get_methylCIPHER_path()] on instructions on how to set/change the default path.
+#' @details Some clocks have large data dependencies that must be downloaded before the
+#'   clocks can be calculated. This function downloads the requested clock data to a
+#'   specified path or the default path returned by [get_methylCIPHER_path()].
+#'   See [get_methylCIPHER_path()] for instructions on how to set or change
+#'   the default path.
 #'
 #' @examples
 #' \dontrun{
@@ -94,45 +102,62 @@ set_methylCIPHER_path <- function(path) {
 #'
 #' # Force re-download of specified clock
 #' download_methylCIPHER(clocks = "SystemsAge", force = TRUE)
+#'
+#' # Download from Google Drive (may prompt for authentication)
+#' download_methylCIPHER(source = "googledrive")
 #' }
 #'
 #' @export
 download_methylCIPHER <- function(
     clocks = c("all", "SystemsAge", "PCClocks"),
-    path = NULL,
-    force = FALSE) {
-  # Input validation
+    source = c("googledrive", "zenodo"),
+    path = ".",
+    force = TRUE,
+    ...) {
+  # pre-conditioning
   clocks <- match.arg(clocks, several.ok = TRUE)
+  source <- match.arg(source)
+
   if (is.null(path)) {
     path <- get_methylCIPHER_path()
-    if(!dir.exists(path)) {
-      dir.create(path, showWarnings = TRUE)
+    if (!dir.exists(path)) {
+      message("Creating a new folder at ", path)
+      dir.create(path, showWarnings = TRUE, recursive = TRUE)
     }
   }
-  checkmate::assert_directory_exists(path, access = "rw")
+
+  # Validate path exists and is writable
+  checkmate::assert_directory_exists(path, access = "rw", .var.name = "path")
+
   # "all" = download all clocks
   if ("all" %in% clocks) {
-    clocks <- c("SystemsAge", "PCClocks")
+    clocks <- c("PCClocks", "SystemsAge")
   }
   clocks <- unique(clocks)
 
-  # Which files to download?
-  download_tbl <- subset(large_clocks_data, clock %in% clocks)
-  # Download to path
-  download_tbl$download_to <- file.path(path, download_tbl$download_name)
-  # Handling of force. If exists then don't download. If exist & force then re-download
-  download_tbl$exists <- if (force) {
-    FALSE
+  metadata <- large_clocks_data[[source]]
+  download_name <- paste0(clocks, "_data.qs2")
+  download_to <- file.path(path, download_name)
+
+  exists <- if (force) {
+    rep(FALSE, times = length(download_to))
   } else {
-    file.exists(download_tbl$download_to)
+    file.exists(download_to)
   }
-  download_tbl <- subset(download_tbl, exists == FALSE)
-  if (nrow(download_tbl) == 0) {
-    message("Nothing to download. Set `force = TRUE` to re-download existing files.")
+
+  if (any(exists)) {
+    message(paste("Skipping", sum(exists), "file(s) that already exist. Use force = TRUE to re-download."))
+    clocks <- clocks[!exists]
+    download_name <- download_name[!exists]
+    download_to <- download_to[!exists]
+  }
+
+  if (length(clocks) == 0) {
+    message("No files to download.")
     return(invisible(TRUE))
   }
-  # Authenticate with Google Drive if any files require it
-  if (any(download_tbl$type == "googledrive")) {
+
+  if (source == "googledrive") {
     if (!requireNamespace("googledrive", quietly = TRUE)) {
       stop("Please install the 'googledrive' package to download these files (`install.packages('googledrive')`).")
     }
@@ -140,34 +165,42 @@ download_methylCIPHER <- function(
     on.exit(googledrive::drive_deauth(), add = TRUE)
   }
 
-  # Download
-  message(paste("Attempting to download", nrow(download_tbl), "file(s)..."))
-  for (i in seq_len(nrow(download_tbl))) {
+  message(paste("Attempting to download", length(clocks), "file(s)..."))
+  download_success <- logical(length(clocks))
+
+  for (i in seq_along(clocks)) {
     tryCatch(
       {
-        if (download_tbl$type[i] == "googledrive") {
+        message("Downloading ", clocks[i], "...")
+
+        if (source == "googledrive") {
+          file_i <- subset(metadata, path %in% download_name[i])
+          file_i <- as.list(file_i)
           googledrive::drive_download(
-            file = googledrive::as_id(download_tbl$url[i]),
-            path = download_tbl$download_to[i],
-            overwrite = TRUE
+            file = file_i$id,
+            path = download_to[i],
+            overwrite = TRUE,
+            ...
           )
-        } else {
-          download.file(url = download_tbl$url[i], destfile = download_tbl$download_to[i])
+          download_success[i] <- TRUE
         }
+
+        if (source == "zenodo") {
+          metadata$downloadFiles(path = path, files = list(download_name[i]), ...)
+          download_success[i] <- TRUE
+        }
+
+        message("Successfully downloaded ", clocks[i])
       },
       error = function(e) {
-        warning(
-          paste(
-            "Failed to download:",
-            download_tbl$download_name[i],
-            "\nError:",
-            e$message
-          )
-        )
+        message("Error: ", e$message)
+        warning(paste("Failed to download:", download_name[i]), call. = FALSE)
+        download_success[i] <- FALSE
       }
     )
   }
-  return(invisible(TRUE))
+
+  return(invisible(download_success))
 }
 
 #' Dependency Factory

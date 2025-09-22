@@ -36,37 +36,18 @@
 # ### Dependency Cleanup
 # - Remove `dplyr` and `readr` as dependencies.
 
-library(FlowSorted.Blood.EPIC)
-library(data.table)
-
-FlowSorted.Blood.EPIC <- libraryDataGet("FlowSorted.Blood.EPIC")
-
 load_all()
 
-phenos <- as.data.frame(colData(FlowSorted.Blood.EPIC))
-phenos <- subset(phenos, select = c("Sex", "Age"))
-phenos$Sample_ID <- row.names(phenos)
-phenos$Female <- as.numeric(phenos$Sex == "F")
-row.names(phenos) <- NULL
-phenos <- subset(phenos, !is.na(Sex), select = c("Age", "Sample_ID", "Female"))
+pc <- load_PCClocks_data()
+systems <- load_SystemsAge_data()
 
-betas <- getBeta(FlowSorted.Blood.EPIC)
-betas <- removeNAcol(t(betas)[phenos$Sample_ID, , drop = F])
+calcSystemsAge(DNAm = exampleBetas, pheno = examplePheno, RData = systems)
+pheno2 <- examplePheno
+pheno2[c(1, 3), "Female"] <- NA
+pheno2
 
-betas |> dim()
+calcPCClocks(DNAm = exampleBetas, pheno = pheno2, RData = pc)
 
-library(tibble)
-grim1 <- calcGrimAgeV2(betas, phenos)
-grim2 <- calcGrimAgeV2_1(betas, as.data.table(phenos))
+calcSystemsAge(DNAm = exampleBetas, ID = "KEKWK", pheno = pheno2, RData = pc)
 
-for(i in setdiff(CalcGrimAge2$components, c("Age", "Female"))) {
-  print(cor(grim1[[i]], grim2[[i]]))
-}
-
-plot(grim1[[i]], grim2[[i]])
-abline(a = 0, b = 1)
-
-load_all()
-grim1 <- calcSystemsAge(exampleBetas, examplePheno, RData = ".")
-grim1
-
+systems$systems_PCA

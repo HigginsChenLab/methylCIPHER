@@ -12,13 +12,12 @@
 #' @source <https://zenodo.org/record/2632938#.YfGA3S-B2Cg>
 #'
 #' @examples calcEpiTOC2(exampleBetas, examplePheno, imputation = T)
-calcEpiTOC2 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T, approximated = F){
-
+calcEpiTOC2 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T, approximated = F) {
   #######################
   ### Read in the Data###
   #######################
 
-  #data("EpiToc2_CpGs")
+  # data("EpiToc2_CpGs")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
@@ -30,68 +29,63 @@ calcEpiTOC2 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && is.null(CpGImputation) && imputation == T){
-
+  if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
-  } else if(CpGCheck == T | imputation == F){
-
+  } else if (CpGCheck == T | imputation == F) {
     ### do epiTOC2
-    map.idx <- match(rownames(EpiToc2_CpGs),colnames(DNAm));
-    rep.idx <- which(is.na(map.idx)==FALSE);
-    #print(paste("Number of represented epiTOC2 CpGs (max=163)=",length(rep.idx),sep=""))
-    tmp.m <- as.matrix(DNAm[,map.idx[rep.idx]]);
-    TNSC.v <- 2*colMeans(diag(1/(EpiToc2_CpGs[rep.idx,1]*(1-EpiToc2_CpGs[rep.idx,2])), nrow = length(rep.idx)) %*% (t(tmp.m) - EpiToc2_CpGs[rep.idx,2]),na.rm=TRUE);
-    TNSC2.v <- 2*colMeans(diag(1/EpiToc2_CpGs[rep.idx,1], nrow = length(rep.idx)) %*% t(tmp.m),na.rm=TRUE);
+    map.idx <- match(rownames(EpiToc2_CpGs), colnames(DNAm))
+    rep.idx <- which(is.na(map.idx) == FALSE)
+    # print(paste("Number of represented epiTOC2 CpGs (max=163)=",length(rep.idx),sep=""))
+    tmp.m <- as.matrix(DNAm[, map.idx[rep.idx]])
+    TNSC.v <- 2 * colMeans(diag(1 / (EpiToc2_CpGs[rep.idx, 1] * (1 - EpiToc2_CpGs[rep.idx, 2])), nrow = length(rep.idx)) %*% (t(tmp.m) - EpiToc2_CpGs[rep.idx, 2]), na.rm = TRUE)
+    TNSC2.v <- 2 * colMeans(diag(1 / EpiToc2_CpGs[rep.idx, 1], nrow = length(rep.idx)) %*% t(tmp.m), na.rm = TRUE)
 
-    if(approximated == F){
-      if(is.null(pheno)){
+    if (approximated == F) {
+      if (is.null(pheno)) {
         TNSC.v
-      } else{
+      } else {
         pheno$epiTOC2 <- TNSC.v
         pheno
       }
-    } else if(approximated == T){
-      if(is.null(pheno)){
+    } else if (approximated == T) {
+      if (is.null(pheno)) {
         TNSC2.v
-      } else{
+      } else {
         pheno$epiTOC2 <- TNSC2.v
         pheno
       }
     }
-
-
   } else {
     message("Imputation of mean CpG Values occured for epiTOC2")
     missingCpGs <- rownames(EpiToc2_CpGs)[!(rownames(EpiToc2_CpGs) %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
 
-    for(j in 1:length(missingCpGs)){
-      meanVals <- CpGImputation[match(missingCpGs[j],names(CpGImputation))]
-      tempDNAm[,j] <- rep(meanVals,dim(DNAm)[1])
+    for (j in 1:length(missingCpGs)) {
+      meanVals <- CpGImputation[match(missingCpGs[j], names(CpGImputation))]
+      tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
-    DNAm <- cbind(DNAm,tempDNAm)
+    DNAm <- cbind(DNAm, tempDNAm)
 
     ### do epiTOC2
-    map.idx <- match(rownames(EpiToc2_CpGs),colnames(DNAm));
-    rep.idx <- which(is.na(map.idx)==FALSE);
-    #print(paste("Number of represented epiTOC2 CpGs (max=163)=",length(rep.idx),sep=""))
-    tmp.m <- DNAm[,map.idx[rep.idx]];
-    TNSC.v <- 2*colMeans(diag(1/(EpiToc2_CpGs[rep.idx,1]*(1-EpiToc2_CpGs[rep.idx,2]))) %*% (t(tmp.m) - EpiToc2_CpGs[rep.idx,2]),na.rm=TRUE);
-    TNSC2.v <- 2*colMeans(diag(1/EpiToc2_CpGs[rep.idx,1]) %*% t(tmp.m),na.rm=TRUE);
+    map.idx <- match(rownames(EpiToc2_CpGs), colnames(DNAm))
+    rep.idx <- which(is.na(map.idx) == FALSE)
+    # print(paste("Number of represented epiTOC2 CpGs (max=163)=",length(rep.idx),sep=""))
+    tmp.m <- DNAm[, map.idx[rep.idx]]
+    TNSC.v <- 2 * colMeans(diag(1 / (EpiToc2_CpGs[rep.idx, 1] * (1 - EpiToc2_CpGs[rep.idx, 2]))) %*% (t(tmp.m) - EpiToc2_CpGs[rep.idx, 2]), na.rm = TRUE)
+    TNSC2.v <- 2 * colMeans(diag(1 / EpiToc2_CpGs[rep.idx, 1]) %*% t(tmp.m), na.rm = TRUE)
 
-    if(approximated == F){
-      if(is.null(pheno)){
+    if (approximated == F) {
+      if (is.null(pheno)) {
         TNSC.v
-      } else{
+      } else {
         pheno$epiTOC2 <- TNSC.v
         pheno
       }
-    } else if(approximated == T){
-      if(is.null(pheno)){
+    } else if (approximated == T) {
+      if (is.null(pheno)) {
         TNSC2.v
-      } else{
+      } else {
         pheno$epiTOC2 <- TNSC2.v
         pheno
       }

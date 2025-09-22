@@ -12,8 +12,7 @@
 #' @source <https://doi.org/10.7554/eLife.54870>
 #'
 #' @examples calcDunedinPoAm38(exampleBetas, examplePheno, imputation = T)
-calcDunedinPoAm38 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-
+calcDunedinPoAm38 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) {
   ###########################
   ### Read in the Library ###
   ###########################
@@ -32,45 +31,39 @@ calcDunedinPoAm38 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputati
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && is.null(CpGImputation) && imputation == T){
-
+  if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
-  } else if(CpGCheck == T | imputation == F){
-
+  } else if (CpGCheck == T | imputation == F) {
     ### do DunedinPoAm38
 
     PoAm <- unlist(DunedinPoAm38::PoAmProjector(newBeta))
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       PoAm
-    } else{
+    } else {
       pheno$DunedinPoAm38 <- PoAm
       pheno
     }
-
   } else {
     message("Imputation of mean CpG Values occured for epiTOC2")
     missingCpGs <- DunedinPoAmCpGs[!(DunedinPoAmCpGs %in% rownames(newBeta))]
     tempDNAm <- matrix(ncol = dim(newBeta)[2], nrow = length(missingCpGs))
 
-    for(j in 1:length(missingCpGs)){
-      meanVals <- CpGImputation[match(missingCpGs[j],names(CpGImputation))]
-      tempDNAm[j,] <- rep(meanVals,dim(newBeta)[2])
+    for (j in 1:length(missingCpGs)) {
+      meanVals <- CpGImputation[match(missingCpGs[j], names(CpGImputation))]
+      tempDNAm[j, ] <- rep(meanVals, dim(newBeta)[2])
     }
     rownames(tempDNAm) <- missingCpGs
-    newBeta <- cbind(newBeta,tempDNAm)
+    newBeta <- cbind(newBeta, tempDNAm)
 
     ### do epiTOC
     PoAm <- unlist(DunedinPoAm38::PoAmProjector(newBeta))
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       PoAm
-    } else{
+    } else {
       pheno$DunedinPoAm38 <- PoAm
       pheno
     }
-
   }
-
 }

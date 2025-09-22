@@ -12,13 +12,12 @@
 #' @source <https://zenodo.org/record/2632938#.YfGA3S-B2Cg>
 #'
 #' @examples calcEpiTOC(exampleBetas, examplePheno, imputation = T)
-calcEpiTOC <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-
+calcEpiTOC <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) {
   #######################
   ### Read in the Data###
   #######################
 
-  #data("EpiToc_CpGs")
+  # data("EpiToc_CpGs")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
@@ -30,50 +29,44 @@ calcEpiTOC <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && is.null(CpGImputation) && imputation == T){
-
+  if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
-  } else if(CpGCheck == T | imputation == F){
-
+  } else if (CpGCheck == T | imputation == F) {
     ### do epiTOC
-    common.v <- intersect(colnames(DNAm),EpiToc_CpGs);
-    #print(paste("Number of represented epiTOC CpGs (max=385)=",length(common.v),sep=""));
-    map.idx <- match(common.v,colnames(DNAm));
-    pcgtAge.v <- rowMeans(as.matrix(DNAm[,map.idx]),na.rm=TRUE);
+    common.v <- intersect(colnames(DNAm), EpiToc_CpGs)
+    # print(paste("Number of represented epiTOC CpGs (max=385)=",length(common.v),sep=""));
+    map.idx <- match(common.v, colnames(DNAm))
+    pcgtAge.v <- rowMeans(as.matrix(DNAm[, map.idx]), na.rm = TRUE)
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       pcgtAge.v
-    } else{
+    } else {
       pheno$EpiTOC <- pcgtAge.v
       pheno
     }
-
   } else {
     message("Imputation of mean CpG Values occured for epiTOC2")
     missingCpGs <- EpiToc_CpGs[!(EpiToc_CpGs %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
 
-    for(j in 1:length(missingCpGs)){
-      meanVals <- CpGImputation[match(missingCpGs[j],names(CpGImputation))]
-      tempDNAm[,j] <- rep(meanVals,dim(DNAm)[1])
+    for (j in 1:length(missingCpGs)) {
+      meanVals <- CpGImputation[match(missingCpGs[j], names(CpGImputation))]
+      tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
-    DNAm <- cbind(DNAm,tempDNAm)
+    DNAm <- cbind(DNAm, tempDNAm)
 
     ### do epiTOC
-    common.v <- intersect(colnames(DNAm),EpiToc_CpGs);
-    #print(paste("Number of represented epiTOC CpGs (max=385)=",length(common.v),sep=""));
-    map.idx <- match(common.v,colnames(DNAm));
-    pcgtAge.v <- rowMeans(DNAm[,map.idx],na.rm=TRUE);
+    common.v <- intersect(colnames(DNAm), EpiToc_CpGs)
+    # print(paste("Number of represented epiTOC CpGs (max=385)=",length(common.v),sep=""));
+    map.idx <- match(common.v, colnames(DNAm))
+    pcgtAge.v <- rowMeans(DNAm[, map.idx], na.rm = TRUE)
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       pcgtAge.v
-    } else{
+    } else {
       pheno$EpiTOC <- pcgtAge.v
       pheno
     }
-
   }
-
 }

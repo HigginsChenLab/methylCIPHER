@@ -4,7 +4,7 @@
 \alias{calcSystemsAge}
 \title{Calculate Systems Age}
 \usage{
-calcSystemsAge(DNAm, pheno = NULL, RData = NULL)
+calcSystemsAge(DNAm, pheno = NULL, ID = "Sample_ID", RData = NULL)
 }
 \arguments{
 \item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
@@ -13,6 +13,8 @@ calcSystemsAge(DNAm, pheno = NULL, RData = NULL)
 \itemize{
   \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
 }}
+
+\item{ID}{Column in `pheno` that indicates the ID of each sample.}
 
 \item{RData}{Default to \code{NULL}, which is the default path to the downloaded data folder.
 Either a character string specifying the path to the folder containing

@@ -24,8 +24,4 @@ A function to calculate RetroClock450k
 \examples{
 calcPhenoAge(exampleBetas, examplePheno, imputation = F)
 
-
-
-
-
 }

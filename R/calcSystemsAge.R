@@ -40,7 +40,7 @@
 #' )
 #' result
 #' }
-calcSystemsAge <- function(DNAm, pheno = NULL, RData = NULL) {
+calcSystemsAge <- function(DNAm, pheno = NULL, ID = "Sample_ID", RData = NULL) {
   # Code for calculating Systems Age
   # Main Authors:
   # Raghav Sehgal, Yale University, raghav.sehgal@yale.edu
@@ -60,31 +60,29 @@ calcSystemsAge <- function(DNAm, pheno = NULL, RData = NULL) {
   )
   # Check Pheno
   if (!is.null(pheno)) {
-    check_pheno(pheno)
+    check_pheno(pheno, ID = ID)
     # Check Consistent between `pheno` and `DNAm`
-    need_align <- if (length(row.names(DNAm)) != length(pheno$Sample_ID)) {
-      TRUE
-    } else if (any(row.names(DNAm) != pheno$Sample_ID)) {
-      TRUE
-    } else {
-      FALSE
-    }
+    need_align <- !isTRUE(all.equal(row.names(DNAm), pheno[[ID]]))
     if (need_align) {
-      samples <- intersect(row.names(DNAm), pheno$Sample_ID)
+      samples <- intersect(row.names(DNAm), pheno[[ID]])
       if (length(samples) == 0) {
-        stop("DNAm and pheno have no Sample_ID in common")
+        stop("DNAm and pheno have no ID in common.")
       }
       DNAm <- DNAm[samples, , drop = FALSE]
-      pheno <- align_pheno(pheno, samples)
-      stopifnot("`DNAm` and `pheno` samples alignment failed. Check `Sample_ID` of pheno and row.names() of `DNAm`" = all.equal(row.names(DNAm), pheno$Sample_ID))
+      pheno <- align_pheno(pheno, samples, ID = ID)
+      stopifnot("`DNAm` and `pheno` samples alignment failed. Check ID of pheno and row.names() of `DNAm`" = all.equal(row.names(DNAm), pheno[[ID]]))
       message("Samples inconsistencies between DNAm and Pheno were detected and corrected.")
     }
   }
-    # handle RData
+  # handle RData
   if (is.null(RData)) {
     RData <- load_SystemsAge_data()
   } else if (is.character(RData)) {
     RData <- load_SystemsAge_data(RData)
+  }
+
+  if(rlang::hash(RData) != "d984914ff6aa17d8a6047fed5f9f6e4d") {
+    stop("The downloaded SystemsAge data is corrupted or the wrong data (e.g., PCClocks) was passed. See `?download_methylCIPHER()`.")
   }
 
   ## Imputation

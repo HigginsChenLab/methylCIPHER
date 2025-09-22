@@ -34,13 +34,13 @@ check_DNAm <- function(DNAm, missing_allowed = TRUE) {
   # CpGs names has to be colnames
   checkmate::assert_character(colnames(DNAm), unique = TRUE, null.ok = FALSE)
 
-  if(is.null(row.names(DNAm))) {
+  if (is.null(row.names(DNAm))) {
     warning("DNAm sample names as row.names are not detected.")
   }
-  if(nrow(DNAm) > ncol(DNAm)) {
+  if (nrow(DNAm) > ncol(DNAm)) {
     warning("DNAm should be formatted in samples * CpG. Currently, DNAm have more rows (samples) than columns (CpGs) which is highly unlikely.")
   }
-  if(!any(grepl("^cg", colnames(DNAm)))) {
+  if (!any(grepl("^cg", colnames(DNAm)))) {
     warning("Warning: It looks like you may need to format DNAm using t(DNAm) to get samples as rows!")
   }
 
@@ -79,30 +79,30 @@ check_DNAm <- function(DNAm, missing_allowed = TRUE) {
 #' @return The function performs the checks and stops with an error if any check fails.
 #'
 #' @keywords internal
-check_pheno <- function(pheno, extra_columns = NULL) {
+check_pheno <- function(pheno, ID, extra_columns = NULL) {
   checkmate::assert_data_frame(pheno, min.rows = 1, null.ok = FALSE)
   # check `Sample_ID`. By default this column must be here if pheno is ever added.
-  stopifnot("`pheno` must contain `Sample_ID` column" = "Sample_ID" %in% names(pheno))
+  stopifnot("Indicated ID column not found in `pheno`" = ID %in% names(pheno))
   checkmate::assert_character(
-    pheno[["Sample_ID"]],
+    pheno[[ID]],
     any.missing = FALSE,
     null.ok = FALSE,
   )
-  if("Female" %in% extra_columns) {
+  if ("Female" %in% extra_columns) {
     checkmate::assert_integerish(
       pheno[["Female"]],
       lower = 0,
       upper = 1,
       null.ok = FALSE,
-      any.missing = FALSE
+      any.missing = TRUE
     )
   }
-  if("Age" %in% extra_columns) {
+  if ("Age" %in% extra_columns) {
     checkmate::assert_numeric(
       pheno[["Age"]],
       finite = TRUE,
       null.ok = FALSE,
-      any.missing = FALSE
+      any.missing = TRUE
     )
   }
 

@@ -120,7 +120,3 @@ formatHorvathOnline <- function(DNAm, Pheno, writePath) {
   message(paste("The .csv files 'DNAm_Horvath_Online_Calculator_input' and 'Pheno_Horvath_Online_Calculator_input' have been generated.
           They can be found in", writePath))
 }
-
-
-
-

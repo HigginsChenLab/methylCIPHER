@@ -36,7 +36,7 @@ impute_DNAm <- function(DNAm, method = c("mean"), CpGs = NULL, subset = TRUE) {
   checkmate::assert_numeric(CpGs, min.len = 1, names = "unique", null.ok = TRUE)
   checkmate::assert_logical(subset, len = 1, any.missing = FALSE, null.ok = FALSE)
 
-  if(is.null(CpGs)) {
+  if (is.null(CpGs)) {
     CpGs <- numeric(length = ncol(DNAm))
     names(CpGs) <- colnames(DNAm)
   }
@@ -53,16 +53,16 @@ impute_DNAm <- function(DNAm, method = c("mean"), CpGs = NULL, subset = TRUE) {
   )
 
   # Imputed CpG
-  to_be_imputed <- if(subset) {
+  to_be_imputed <- if (subset) {
     intersect(names(CpGs), colnames(DNAm))
   } else {
     colnames(DNAm)
   }
   n_miss <- colSums(is.na(DNAm[, to_be_imputed, drop = F]))
 
-  imputed_matrix <- if(sum(n_miss) == 0) {
+  imputed_matrix <- if (sum(n_miss) == 0) {
     DNAm[, to_be_imputed, drop = F]
-  } else if(method == "mean") {
+  } else if (method == "mean") {
     cbind(
       DNAm[, names(which(n_miss == 0)), drop = F],
       mean_impute(DNAm[, names(which(n_miss > 0)), drop = F])

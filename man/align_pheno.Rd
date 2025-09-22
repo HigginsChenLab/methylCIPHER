@@ -4,13 +4,15 @@
 \alias{align_pheno}
 \title{Align Pheno}
 \usage{
-align_pheno(pheno, Sample_ID)
+align_pheno(pheno, Sample_ID, ID)
 }
 \arguments{
 \item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
 \itemize{
   \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
 }}
+
+\item{ID}{Column in `pheno` that indicates the ID of each sample.}
 }
 \description{
 Filter and sort pheno given a list of ids. ids must be in pheno.

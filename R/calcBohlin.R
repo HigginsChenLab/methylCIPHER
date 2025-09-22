@@ -11,13 +11,12 @@
 #' @export
 #'
 #' @examples calcBohlin(exampleBetas, examplePheno, imputation = T)
-calcBohlin <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-
+calcBohlin <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) {
   #######################
   ### Read in the Data###
   #######################
 
-  #data("Bohlin_CpGs")
+  # data("Bohlin_CpGs")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
@@ -28,49 +27,43 @@ calcBohlin <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && is.null(CpGImputation) && imputation == T){
-
+  if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
-  } else if(CpGCheck == T | imputation == F){
-
+  } else if (CpGCheck == T | imputation == F) {
     present <- Bohlin_CpGs$CpG %in% colnames(DNAm)
 
-    betas <- DNAm[,na.omit(match(Bohlin_CpGs$CpG,colnames(DNAm)))]
+    betas <- DNAm[, na.omit(match(Bohlin_CpGs$CpG, colnames(DNAm)))]
     tt <- rep(0, dim(DNAm)[1])
 
-    tt <- rowSums(sweep(as.matrix(betas), MARGIN = 2, Bohlin_CpGs$coef[present],`*`), na.rm = T) + 277.2421
+    tt <- rowSums(sweep(as.matrix(betas), MARGIN = 2, Bohlin_CpGs$coef[present], `*`), na.rm = T) + 277.2421
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       tt
-    } else{
+    } else {
       pheno$PhenoAge <- tt
       pheno
     }
-
   } else {
     message("Imputation of mean CpG Values occured for Bohlin GA")
     missingCpGs <- Bohlin_CpGs$CpG[!(Bohlin_CpGs$CpG %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
 
-    for(j in 1:length(missingCpGs)){
-      meanVals <- CpGImputation[match(missingCpGs[j],names(CpGImputation))]
-      tempDNAm[,j] <- rep(meanVals,dim(DNAm)[1])
+    for (j in 1:length(missingCpGs)) {
+      meanVals <- CpGImputation[match(missingCpGs[j], names(CpGImputation))]
+      tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
-    DNAm <- cbind(DNAm,tempDNAm)
+    DNAm <- cbind(DNAm, tempDNAm)
 
-    betas <- DNAm[,match(Bohlin_CpGs$CpG,colnames(DNAm))]
+    betas <- DNAm[, match(Bohlin_CpGs$CpG, colnames(DNAm))]
     tt <- rep(0, dim(DNAm)[1])
-    tt <- rowSums(sweep(betas, MARGIN = 2, Bohlin_CpGs$coef,`*`)) + 277.2421
+    tt <- rowSums(sweep(betas, MARGIN = 2, Bohlin_CpGs$coef, `*`)) + 277.2421
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       tt
-    } else{
+    } else {
       pheno$Bohlin <- tt
       pheno
     }
-
   }
-
 }

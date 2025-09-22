@@ -4,13 +4,15 @@
 \alias{check_pheno}
 \title{Check Phenotype Data Frame}
 \usage{
-check_pheno(pheno, extra_columns = NULL)
+check_pheno(pheno, ID, extra_columns = NULL)
 }
 \arguments{
 \item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
 \itemize{
   \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
 }}
+
+\item{ID}{Column in `pheno` that indicates the ID of each sample.}
 
 \item{extra_columns}{An optional character vector specifying additional columns to check.}
 }

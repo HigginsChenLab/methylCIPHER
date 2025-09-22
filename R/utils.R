@@ -7,12 +7,13 @@
 #' \itemize{
 #'   \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
 #' }
+#' @param ID Column in `pheno` that indicates the ID of each sample.
 #' @param imputation Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.
 #'
 #' @return If you added the `pheno` input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
 #'
 #' @keywords internal
-param_template <- function(DNAm, pheno, imputation) {}
+param_template <- function(DNAm, pheno, ID, imputation) {}
 
 #' Inherit parameters for functions. With Female and Age
 #'
@@ -29,7 +30,7 @@ param_template <- function(DNAm, pheno, imputation) {}
 #' @return A data.frame of calculated clock values appended to `pheno`.
 #'
 #' @keywords internal
-param_template_female_age <- function(DNAm, pheno, imputation) {}
+param_template_female_age <- function(DNAm, pheno, ID, imputation) {}
 
 #' @keywords internal
 #' @noRd
@@ -49,8 +50,8 @@ head1 <- function(x, n = 5, m = 5) {
 #' }
 #'
 #' @keywords internal
-align_pheno <- function(pheno, Sample_ID) {
-  indices <- match(Sample_ID, pheno$Sample_ID)
+align_pheno <- function(pheno, Sample_ID, ID) {
+  indices <- match(Sample_ID, pheno[[ID]])
   return(pheno[indices, , drop = F])
 }
 
@@ -78,8 +79,30 @@ zero_cpgs <- function(CpGs) {
 #' @return DNAm with columns removed where all values are NA.
 #'
 #' @keywords internal
-removeNAcol <- function(DNAm){
+removeNAcol <- function(DNAm) {
   na <- is.na(DNAm)
   keep <- (colSums(na) < nrow(DNAm))
   return(DNAm[, keep])
+}
+
+#' trafo
+#'
+#' @param x A vector of sample ages
+#' @param adult.age Age boundary of adulthood--set to 20
+#'
+#' @return a vector of transformed ages
+trafo <- function(x, adult.age = 20) {
+  x <- (x + 1) / (1 + adult.age)
+  y <- ifelse(x <= 1, log(x), x - 1)
+  y
+}
+
+#' Developmental Age Transformation
+#'
+#' @param x A vector of sample ages
+#' @param adult.age The age considered to be the cutoff for adulthood
+#'
+#' @return transformed age prediction
+anti.trafo <- function(x, adult.age = 20) {
+  ifelse(x < 0, (1 + adult.age) * exp(x) - 1, (1 + adult.age) * x + adult.age)
 }
