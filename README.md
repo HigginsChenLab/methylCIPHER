@@ -21,10 +21,9 @@
 
 ## Executive Summary
 
-This README was prepared in direct response to Dr. Higgins-Chen’s suggestion to **curate manuscripts and associated methods for wearable biomarkers of aging and mental health**, styled after [HigginsChenLab/methylCIPHER](https://github.com/HigginsChenLab/methylCIPHER).  
-It summarizes only the three **Biomarkers of Aging Consortium** consensus papers (*Cell 2023*, *Nature Medicine 2024*, *Nature Aging 2024*) that Dr. Higgins-Chen has provided.  
+It summarizes only the three **Biomarkers of Aging Consortium** consensus papers (*Cell 2023*, *Nature Medicine 2024*, *Nature Aging 2024*).
 
-Key additions beyond a simple table include:  
+Key additions:
 - **Per-row references**, showing every claim is traceable.  
 - **Evidence-type labeling** (cross-sectional, longitudinal, interventional) as in *Nat Med 2024*.  
 - **Mental health linkages** highlighted in Notes for sleep, HRV, circadian, and activity.  
