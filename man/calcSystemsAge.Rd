@@ -11,27 +11,27 @@ calcSystemsAge(DNAm, pheno = NULL, ID = "Sample_ID", RData = NULL)
 
 \item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
 \itemize{
-  \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
+\item \code{Sample_ID}: Character vector of sample IDs to match with \code{DNAm}.
 }}
 
-\item{ID}{Column in `pheno` that indicates the ID of each sample.}
+\item{ID}{Column in \code{pheno} that indicates the ID of each sample.}
 
 \item{RData}{Default to \code{NULL}, which is the default path to the downloaded data folder.
 Either a character string specifying the path to the folder containing
-the `SystemsAge_data.qs2` file, or a list containing the contents of the
-`SystemsAge_data.qs2` file loaded via [load_SystemsAge_data()]. See Details.}
+the \code{SystemsAge_data.qs2} file, or a list containing the contents of the
+\code{SystemsAge_data.qs2} file loaded via \code{\link[=load_SystemsAge_data]{load_SystemsAge_data()}}. See Details.}
 }
 \value{
-If you added the `pheno` input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
+If you added the \code{pheno} input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
 }
 \description{
 Calculates Systems Age
 }
 \details{
-Systems Age calculation requires the `SystemsAge_data.qs2` object, which can be
-downloaded using [download_methylCIPHER()]. Provide either the path to the
-downloaded `SystemsAge_data.qs2` file or the object loaded with
-[load_SystemsAge_data()] to the `RData` parameter. The advantage of passing
+Systems Age calculation requires the \code{SystemsAge_data.qs2} object, which can be
+downloaded using \code{\link[=download_methylCIPHER]{download_methylCIPHER()}}. Provide either the path to the
+downloaded \code{SystemsAge_data.qs2} file or the object loaded with
+\code{\link[=load_SystemsAge_data]{load_SystemsAge_data()}} to the \code{RData} parameter. The advantage of passing
 in the loaded data is that if this function were to be run multiple times,
 then the object won't be loaded in each time.
 }

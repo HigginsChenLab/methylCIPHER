@@ -5,7 +5,7 @@
 #'
 #' @inheritParams param_template
 #' @param RData
-#' Default to \code{NULL}, which is the default path to the downloaded data folder.
+#' Default to `NULL`, which is the default path to the downloaded data folder.
 #' Either a character string specifying the path to the folder containing
 #' the `SystemsAge_data.qs2` file, or a list containing the contents of the
 #' `SystemsAge_data.qs2` file loaded via [load_SystemsAge_data()]. See Details.
@@ -81,7 +81,7 @@ calcSystemsAge <- function(DNAm, pheno = NULL, ID = "Sample_ID", RData = NULL) {
     RData <- load_SystemsAge_data(RData)
   }
 
-  if(rlang::hash(RData) != "d984914ff6aa17d8a6047fed5f9f6e4d") {
+  if (rlang::hash(RData) != "d984914ff6aa17d8a6047fed5f9f6e4d") {
     stop("The downloaded SystemsAge data is corrupted or the wrong data (e.g., PCClocks) was passed. See `?download_methylCIPHER()`.")
   }
 

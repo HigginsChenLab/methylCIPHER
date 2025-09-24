@@ -11,9 +11,9 @@ A character string specifying the path to the methylCIPHER data directory.
 }
 \description{
 Retrieves the path to the methylCIPHER data directory. The function checks for a custom path set via
-\code{\link{set_methylCIPHER_path}} or the \code{methylCIPHER.path} option
-(see \code{\link{options}}). If no custom path is specified, it returns the
-default path from \code{\link{get_methylCIPHER_default_path}}.
+\code{\link[=set_methylCIPHER_path]{set_methylCIPHER_path()}} or the \code{methylCIPHER.path} option
+(see \code{\link[=options]{options()}}). If no custom path is specified, it returns the
+default path from \code{\link[=get_methylCIPHER_default_path]{get_methylCIPHER_default_path()}}.
 }
 \details{
 Tips: To set a custom path permanently, add
@@ -29,5 +29,5 @@ set_methylCIPHER_path(".")
 get_methylCIPHER_path()
 }
 \seealso{
-\code{\link{set_methylCIPHER_path}}, \code{\link{get_methylCIPHER_default_path}}
+\code{\link[=set_methylCIPHER_path]{set_methylCIPHER_path()}}, \code{\link[=get_methylCIPHER_default_path]{get_methylCIPHER_default_path()}}
 }

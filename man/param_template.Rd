@@ -11,15 +11,15 @@ param_template(DNAm, pheno, ID, imputation)
 
 \item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
 \itemize{
-  \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
+\item \code{Sample_ID}: Character vector of sample IDs to match with \code{DNAm}.
 }}
 
-\item{ID}{Column in `pheno` that indicates the ID of each sample.}
+\item{ID}{Column in \code{pheno} that indicates the ID of each sample.}
 
 \item{imputation}{Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.}
 }
 \value{
-If you added the `pheno` input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
+If you added the \code{pheno} input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
 }
 \description{
 Template function to inherit parameters for other functions.

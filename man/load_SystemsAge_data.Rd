@@ -8,7 +8,7 @@ load_SystemsAge_data(path = NULL)
 }
 \arguments{
 \item{path}{Character string specifying the file path to the .qs2 file.
-If `NULL`, loads from the path at [get_methylCIPHER_path()].}
+If \code{NULL}, loads from the path at \code{\link[=get_methylCIPHER_path]{get_methylCIPHER_path()}}.}
 }
 \value{
 A list containing objects needed to calculate SystemsAge.

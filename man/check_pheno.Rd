@@ -9,10 +9,10 @@ check_pheno(pheno, ID, extra_columns = NULL)
 \arguments{
 \item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
 \itemize{
-  \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
+\item \code{Sample_ID}: Character vector of sample IDs to match with \code{DNAm}.
 }}
 
-\item{ID}{Column in `pheno` that indicates the ID of each sample.}
+\item{ID}{Column in \code{pheno} that indicates the ID of each sample.}
 
 \item{extra_columns}{An optional character vector specifying additional columns to check.}
 }
@@ -20,15 +20,15 @@ check_pheno(pheno, ID, extra_columns = NULL)
 The function performs the checks and stops with an error if any check fails.
 }
 \description{
-This function checks the phenotype data frame (`pheno`) to ensure it contains the required columns and that the data types are correct.
+This function checks the phenotype data frame (\code{pheno}) to ensure it contains the required columns and that the data types are correct.
 }
 \details{
 The function performs the following checks and stops with an error if any of the following conditions are not met:
 \itemize{
-  \item \code{pheno} is a data frame with at least one row.
-  \item \code{pheno} contains a column named "Sample_ID", which must be a character vector without missing values.
-  \item If "Female" is specified in \code{extra_columns}, \code{pheno} must contain a column named "Female", which must be an numeric vector with values 0 or 1 and no missing values.
-  \item If "Age" is specified in \code{extra_columns}, \code{pheno} must contain a column named "Age", which must be a numeric vector with finite values and no missing values.
+\item \code{pheno} is a data frame with at least one row.
+\item \code{pheno} contains a column named "Sample_ID", which must be a character vector without missing values.
+\item If "Female" is specified in \code{extra_columns}, \code{pheno} must contain a column named "Female", which must be an numeric vector with values 0 or 1 and no missing values.
+\item If "Age" is specified in \code{extra_columns}, \code{pheno} must contain a column named "Age", which must be a numeric vector with finite values and no missing values.
 }
 }
 \keyword{internal}

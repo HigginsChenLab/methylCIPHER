@@ -14,7 +14,7 @@ formatHorvathOnline(DNAm, Pheno, writePath)
 \item{writePath}{The path to the directory where you want the properly formatted DNAm and Pheno files (.csv) saved to be uploaded.}
 }
 \value{
-Formatted .csv files for input to the online Horvath calculator at <http://dnamage.genetics.ucla.edu/home>. This will provide access to GrimAge, Beta value based blood cell composition, and a few epigenetic clocks.
+Formatted .csv files for input to the online Horvath calculator at \url{http://dnamage.genetics.ucla.edu/home}. This will provide access to GrimAge, Beta value based blood cell composition, and a few epigenetic clocks.
 }
 \description{
 A formatting Function for the Horvath Online Calculator

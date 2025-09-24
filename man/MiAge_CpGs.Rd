@@ -7,12 +7,12 @@
 \format{
 A data frame with 268 rows (CpGs) and 2 variables:
 \describe{
-  \item{CpGs}{The CpG names from Illumina Array IDs used in the current clock}
-  \item{Age-hyper/Age-hypo}{An indication of whether the CpG becomes hyper or hypo methylated with age}
+\item{CpGs}{The CpG names from Illumina Array IDs used in the current clock}
+\item{Age-hyper/Age-hypo}{An indication of whether the CpG becomes hyper or hypo methylated with age}
 }
 }
 \source{
-<http://www.columbia.edu/~sw2206/softwares.htm>
+\url{http://www.columbia.edu/~sw2206/softwares.htm}
 }
 \usage{
 MiAge_CpGs

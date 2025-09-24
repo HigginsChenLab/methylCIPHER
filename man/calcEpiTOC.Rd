@@ -4,7 +4,7 @@
 \alias{calcEpiTOC}
 \title{calcEpiTOC}
 \source{
-<https://zenodo.org/record/2632938#.YfGA3S-B2Cg>
+\url{https://zenodo.org/record/2632938#.YfGA3S-B2Cg}
 }
 \usage{
 calcEpiTOC(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)

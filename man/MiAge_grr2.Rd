@@ -10,5 +10,5 @@ MiAge_grr2(x, b, c, d, betaj)
 The derivative of fr2 with respect to n_{j}
 }
 \description{
-#' @description A function used by the original MiAge code found <http://www.columbia.edu/~sw2206/softwares.htm>
+#' @description A function used by the original MiAge code found \url{http://www.columbia.edu/~sw2206/softwares.htm}
 }

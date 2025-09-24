@@ -11,29 +11,29 @@ calcPCClocks(DNAm, pheno, ID = "Sample_ID", RData = NULL)
 
 \item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
 \itemize{
-  \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
-  \item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
-  \item \code{Age}: Numeric vector of chronological ages (finite values).
+\item \code{Sample_ID}: Character vector of sample IDs to match with \code{DNAm}.
+\item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
+\item \code{Age}: Numeric vector of chronological ages (finite values).
 }}
 
-\item{ID}{Column in `pheno` that indicates the ID of each sample.}
+\item{ID}{Column in \code{pheno} that indicates the ID of each sample.}
 
 \item{RData}{Default to \code{NULL}, which is the default path to the downloaded data folder.
 Either a character string specifying the path to the folder containing
-the `PCClocks_data.qs2` file, or a list containing the contents of the
-`PCClocks_data.qs2` file loaded via [load_PCClocks_data()]. See Details.}
+the \code{PCClocks_data.qs2} file, or a list containing the contents of the
+\code{PCClocks_data.qs2} file loaded via \code{\link[=load_PCClocks_data]{load_PCClocks_data()}}. See Details.}
 }
 \value{
-A data.frame of calculated clock values appended to `pheno`.
+A data.frame of calculated clock values appended to \code{pheno}.
 }
 \description{
 Calculates PC Clocks
 }
 \details{
-Systems Age calculation requires the `PCClocks_data.qs2` object, which can be
-downloaded using [download_methylCIPHER()]. Provide either the path to the
-downloaded `PCClocks_data.qs2` file or the object loaded with
-[load_PCClocks_data()] to the `RData` parameter. The advantage of passing
+Systems Age calculation requires the \code{PCClocks_data.qs2} object, which can be
+downloaded using \code{\link[=download_methylCIPHER]{download_methylCIPHER()}}. Provide either the path to the
+downloaded \code{PCClocks_data.qs2} file or the object loaded with
+\code{\link[=load_PCClocks_data]{load_PCClocks_data()}} to the \code{RData} parameter. The advantage of passing
 in the loaded data is that if this function were to be run multiple times,
 then the object won't be loaded in each time.
 }

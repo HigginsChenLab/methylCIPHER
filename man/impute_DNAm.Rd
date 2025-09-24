@@ -11,9 +11,9 @@ impute_DNAm(DNAm, method = c("mean"), CpGs = NULL, subset = TRUE)
 
 \item{method}{The method used to impute missing values within existing CpG sites. Currently, only "mean" is supported, which imputes missing values with the column mean.}
 
-\item{CpGs}{A named numeric vector where names are CpGs names and values are used to impute completely missing CpG sites across all samples. If `NULL`, no new CpG sites are added, and only missing values in existing CpG sites are imputed.}
+\item{CpGs}{A named numeric vector where names are CpGs names and values are used to impute completely missing CpG sites across all samples. If \code{NULL}, no new CpG sites are added, and only missing values in existing CpG sites are imputed.}
 
-\item{subset}{A boolean. If `TRUE`, then only the CpGs provided in the `CpGs` argument are imputed and returned. Otherwise, all CpGs that have missing values in `DNAm` will be imputed and the full DNAm matrix with missing CpGs are returned.}
+\item{subset}{A boolean. If \code{TRUE}, then only the CpGs provided in the \code{CpGs} argument are imputed and returned. Otherwise, all CpGs that have missing values in \code{DNAm} will be imputed and the full DNAm matrix with missing CpGs are returned.}
 }
 \value{
 An imputed numeric matrix with no missing values
@@ -23,7 +23,7 @@ This function imputes missing values in a DNA methylation matrix and adds comple
 }
 \details{
 The function handles two types of missing data in a DNA methylation beta matrix: 1) completely missing CpGs are filled in with the provided values and 2) missing values of existing CpGs are filled in by supported method (e.g, mean imputation).
-If `CpGs` is `NULL` only missing values in the existing columns are imputed.
+If \code{CpGs} is \code{NULL} only missing values in the existing columns are imputed.
 }
 \examples{
 \dontrun{

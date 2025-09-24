@@ -20,17 +20,17 @@ This function performs a series of checks on the DNA methylation data matrix to 
 \details{
 The function performs the following checks and stops with an error if any of the following conditions are not met:
 \itemize{
-  \item \code{DNAm} is a matrix with double values, with at least one row and one column.
-  \item If \code{missing_allowed} is \code{FALSE}, \code{DNAm} must not contain any missing values.
-  \item If \code{missing_allowed} is \code{TRUE}, \code{DNAm} may contain missing values, but no column or row can be entirely \code{NA}.
-  \item Column names of \code{DNAm} must be unique character strings.
+\item \code{DNAm} is a matrix with double values, with at least one row and one column.
+\item If \code{missing_allowed} is \code{FALSE}, \code{DNAm} must not contain any missing values.
+\item If \code{missing_allowed} is \code{TRUE}, \code{DNAm} may contain missing values, but no column or row can be entirely \code{NA}.
+\item Column names of \code{DNAm} must be unique character strings.
 }
 Additionally, the function issues warnings for the following conditions:
 \itemize{
-  \item If row names of \code{DNAm} are not set, as they should typically represent sample names.
-  \item If there are more samples (rows) than cpgs (column), which is unusual for DNA methylation data.
-  \item No column names start with "cg", suggesting that the matrix might need to be transposed.
-  \item If missing values are present and \code{missing_allowed} is \code{TRUE}, indicating that imputation will be handled by \code{impute_DNAm}.
+\item If row names of \code{DNAm} are not set, as they should typically represent sample names.
+\item If there are more samples (rows) than cpgs (column), which is unusual for DNA methylation data.
+\item No column names start with "cg", suggesting that the matrix might need to be transposed.
+\item If missing values are present and \code{missing_allowed} is \code{TRUE}, indicating that imputation will be handled by \code{impute_DNAm}.
 }
 }
 \keyword{internal}

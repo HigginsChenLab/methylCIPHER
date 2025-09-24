@@ -4,7 +4,7 @@
 
 ## Add
 library(googledrive)
-clocks <- c("SystemsAge_data.qs2", "PCClocks_data.qs2")
+clocks <- c("SystemsAge_data.qs2", "PCClocks_data.qs2", "methylCIPHER_test.csv")
 
 drive_auth()
 
@@ -17,14 +17,14 @@ large_clocks_gdrive$drive_resource <- NULL
 
 drive_deauth()
 
-library(zen4R)
-zenodo <- ZenodoManager$new(logger = "INFO")
-rec <- zenodo$getRecordByDOI("10.5281/zenodo.17162604")
-rec$listFiles(pretty = TRUE)
+# library(zen4R)
+# zenodo <- ZenodoManager$new(logger = "INFO")
+# rec <- zenodo$getRecordByDOI("10.5281/zenodo.17162604")
+# rec$listFiles(pretty = TRUE)
 
 large_clocks_data <- list(
-  "googledrive" = large_clocks_gdrive,
-  "zenodo" = rec
+  "googledrive" = large_clocks_gdrive
+  # , "zenodo" = rec
 )
 
 usethis::use_data(large_clocks_data, internal = TRUE, overwrite = TRUE)

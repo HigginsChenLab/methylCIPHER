@@ -12,7 +12,7 @@ load_data_function(object_name, object_hash)
 \item{object_hash}{hash of object generated in data-raw}
 }
 \description{
-Some functions like [calcPCClocks()] and [calcSystemsAge()] requires large external
+Some functions like \code{\link[=calcPCClocks]{calcPCClocks()}} and \code{\link[=calcSystemsAge]{calcSystemsAge()}} requires large external
 data to be downloaded and loaded into R. The best way to increase the speed
 of this process is to use qs2 storage format. This function factory generate
 functions to load in these data based on a template.

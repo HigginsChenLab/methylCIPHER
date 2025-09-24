@@ -23,5 +23,5 @@ set_methylCIPHER_path(".")
 get_methylCIPHER_path()
 }
 \seealso{
-\code{\link{set_methylCIPHER_path}}, \code{\link{get_methylCIPHER_default_path}}
+\code{\link[=set_methylCIPHER_path]{set_methylCIPHER_path()}}, \code{\link[=get_methylCIPHER_default_path]{get_methylCIPHER_default_path()}}
 }

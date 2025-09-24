@@ -8,7 +8,7 @@
 A vector of CpG names
 }
 \source{
-<https://doi.org/10.1111/acel.12005>
+\url{https://doi.org/10.1111/acel.12005}
 }
 \usage{
 Garagnani_CpG

@@ -3,25 +3,25 @@
 #' This function performs a series of checks on the DNA methylation data matrix to ensure it is properly formatted and contains valid data.
 #'
 #' @inheritParams param_template
-#' @param missing_allowed A logical value indicating whether missing values are allowed in the matrix. Default is \code{TRUE}.
+#' @param missing_allowed A logical value indicating whether missing values are allowed in the matrix. Default is `TRUE`.
 #'
 #' @details
 #' The function performs the following checks and stops with an error if any of the following conditions are not met:
 #' \itemize{
-#'   \item \code{DNAm} is a matrix with double values, with at least one row and one column.
-#'   \item If \code{missing_allowed} is \code{FALSE}, \code{DNAm} must not contain any missing values.
-#'   \item If \code{missing_allowed} is \code{TRUE}, \code{DNAm} may contain missing values, but no column or row can be entirely \code{NA}.
-#'   \item Column names of \code{DNAm} must be unique character strings.
+#'   \item `DNAm` is a matrix with double values, with at least one row and one column.
+#'   \item If `missing_allowed` is `FALSE`, `DNAm` must not contain any missing values.
+#'   \item If `missing_allowed` is `TRUE`, `DNAm` may contain missing values, but no column or row can be entirely `NA`.
+#'   \item Column names of `DNAm` must be unique character strings.
 #' }
 #' Additionally, the function issues warnings for the following conditions:
 #' \itemize{
-#'   \item If row names of \code{DNAm} are not set, as they should typically represent sample names.
+#'   \item If row names of `DNAm` are not set, as they should typically represent sample names.
 #'   \item If there are more samples (rows) than cpgs (column), which is unusual for DNA methylation data.
 #'   \item No column names start with "cg", suggesting that the matrix might need to be transposed.
-#'   \item If missing values are present and \code{missing_allowed} is \code{TRUE}, indicating that imputation will be handled by \code{impute_DNAm}.
+#'   \item If missing values are present and `missing_allowed` is `TRUE`, indicating that imputation will be handled by `impute_DNAm`.
 #' }
 #'
-#' @return Returns \code{invisible(TRUE)} if all checks pass.
+#' @return Returns `invisible(TRUE)` if all checks pass.
 #' @keywords internal
 check_DNAm <- function(DNAm, missing_allowed = TRUE) {
   checkmate::assert_matrix(
@@ -70,10 +70,10 @@ check_DNAm <- function(DNAm, missing_allowed = TRUE) {
 #' @details
 #' The function performs the following checks and stops with an error if any of the following conditions are not met:
 #' \itemize{
-#'   \item \code{pheno} is a data frame with at least one row.
-#'   \item \code{pheno} contains a column named "Sample_ID", which must be a character vector without missing values.
-#'   \item If "Female" is specified in \code{extra_columns}, \code{pheno} must contain a column named "Female", which must be an numeric vector with values 0 or 1 and no missing values.
-#'   \item If "Age" is specified in \code{extra_columns}, \code{pheno} must contain a column named "Age", which must be a numeric vector with finite values and no missing values.
+#'   \item `pheno` is a data frame with at least one row.
+#'   \item `pheno` contains a column named "Sample_ID", which must be a character vector without missing values.
+#'   \item If "Female" is specified in `extra_columns`, `pheno` must contain a column named "Female", which must be an numeric vector with values 0 or 1 and no missing values.
+#'   \item If "Age" is specified in `extra_columns`, `pheno` must contain a column named "Age", which must be a numeric vector with finite values and no missing values.
 #' }
 #'
 #' @return The function performs the checks and stops with an error if any check fails.

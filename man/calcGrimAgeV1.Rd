@@ -11,15 +11,15 @@ calcGrimAgeV1(DNAm, pheno, ID = "Sample_ID")
 
 \item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
 \itemize{
-  \item \code{Sample_ID}: Character vector of sample IDs to match with `DNAm`.
-  \item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
-  \item \code{Age}: Numeric vector of chronological ages (finite values).
+\item \code{Sample_ID}: Character vector of sample IDs to match with \code{DNAm}.
+\item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
+\item \code{Age}: Numeric vector of chronological ages (finite values).
 }}
 
-\item{ID}{Column in `pheno` that indicates the ID of each sample.}
+\item{ID}{Column in \code{pheno} that indicates the ID of each sample.}
 }
 \value{
-A data.frame of calculated clock values appended to `pheno`.
+A data.frame of calculated clock values appended to \code{pheno}.
 }
 \description{
 A function to calculate GrimAgeV1

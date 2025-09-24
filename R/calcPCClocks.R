@@ -5,7 +5,7 @@
 #'
 #' @inheritParams param_template_female_age
 #' @param RData
-#' Default to \code{NULL}, which is the default path to the downloaded data folder.
+#' Default to `NULL`, which is the default path to the downloaded data folder.
 #' Either a character string specifying the path to the folder containing
 #' the `PCClocks_data.qs2` file, or a list containing the contents of the
 #' `PCClocks_data.qs2` file loaded via [load_PCClocks_data()]. See Details.
@@ -72,7 +72,7 @@ calcPCClocks <- function(DNAm, pheno, ID = "Sample_ID", RData = NULL) {
     RData <- load_PCClocks_data(RData)
   }
 
-  if(rlang::hash(RData) != "46386ec4be2b2a5239cf67b242d7dc24") {
+  if (rlang::hash(RData) != "46386ec4be2b2a5239cf67b242d7dc24") {
     stop("The downloaded PCClocks data is corrupted or the wrong data (e.g., SystemsAge) was passed. See `?download_methylCIPHER()`.")
   }
 

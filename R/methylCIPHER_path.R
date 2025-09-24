@@ -22,12 +22,12 @@ get_methylCIPHER_default_path <- function() {
 #' Get Path for methylCIPHER Data
 #'
 #' Retrieves the path to the methylCIPHER data directory. The function checks for a custom path set via
-#' \code{\link{set_methylCIPHER_path}} or the \code{methylCIPHER.path} option
-#' (see \code{\link{options}}). If no custom path is specified, it returns the
-#' default path from \code{\link{get_methylCIPHER_default_path}}.
+#' [set_methylCIPHER_path()] or the `methylCIPHER.path` option
+#' (see [options()]). If no custom path is specified, it returns the
+#' default path from [get_methylCIPHER_default_path()].
 #'
 #' Tips: To set a custom path permanently, add
-#' \code{options(methylCIPHER.path = "non_default_path")} to your \code{.Rprofile}
+#' `options(methylCIPHER.path = "non_default_path")` to your `.Rprofile`
 #' file.
 #'
 #' @return A character string specifying the path to the methylCIPHER data directory.
@@ -40,7 +40,7 @@ get_methylCIPHER_default_path <- function() {
 #' set_methylCIPHER_path(".")
 #' # Returns the new path
 #' get_methylCIPHER_path()
-#' @seealso \code{\link{set_methylCIPHER_path}}, \code{\link{get_methylCIPHER_default_path}}
+#' @seealso [set_methylCIPHER_path()], [get_methylCIPHER_default_path()]
 get_methylCIPHER_path <- function() {
   path <- getOption("methylCIPHER.path")
   if (is.null(path)) {
@@ -74,16 +74,16 @@ set_methylCIPHER_path <- function(path) {
 #'   includes both `"SystemsAge"` and `"PCClocks"`. Multiple specific clocks can be
 #'   requested, e.g., `c("SystemsAge", "PCClocks")`.
 #' @param path The directory path where the downloaded files will be saved.
-#'   If \code{NULL} (the default), it uses the path returned by [get_methylCIPHER_path()].
+#'   If `NULL` (the default), it uses the path returned by [get_methylCIPHER_path()].
 #' @param source A character string specifying the download source: `"googledrive"` or
 #'   `"zenodo"`. The default is `"googledrive"`. Note that `"zenodo"` can sometimes be slow
 #'   and time out, while `"googledrive"` requires authentication via web browser.
 #' @param force A logical value indicating whether to force the download even if
-#'   the files already exist in the target directory. Defaults to \code{FALSE}.
+#'   the files already exist in the target directory. Defaults to `FALSE`.
 #' @param ... Additional arguments passed to [googledrive::drive_auth()] or
 #'   [zen4R::ZenodoRecord()].
 #'
-#' @return Invisibly returns \code{TRUE} if downloads were attempted or if there was
+#' @return Invisibly returns `TRUE` if downloads were attempted or if there was
 #'   nothing to download.
 #'
 #' @details Some clocks have large data dependencies that must be downloaded before the
@@ -109,10 +109,10 @@ set_methylCIPHER_path <- function(path) {
 #'
 #' @export
 download_methylCIPHER <- function(
-    clocks = c("all", "SystemsAge", "PCClocks"),
+    clocks = c("all", "SystemsAge", "PCClocks", "test"),
     source = c("googledrive", "zenodo"),
-    path = ".",
-    force = TRUE,
+    path = NULL,
+    force = FALSE,
     ...) {
   # pre-conditioning
   clocks <- match.arg(clocks, several.ok = TRUE)
@@ -130,13 +130,14 @@ download_methylCIPHER <- function(
   checkmate::assert_directory_exists(path, access = "rw", .var.name = "path")
 
   # "all" = download all clocks
-  if ("all" %in% clocks) {
-    clocks <- c("PCClocks", "SystemsAge")
-  }
   clocks <- unique(clocks)
-
-  metadata <- large_clocks_data[[source]]
-  download_name <- paste0(clocks, "_data.qs2")
+  if ("test" %in% clocks) {
+    clocks <- "methylCIPHER_test.csv"
+    download_name <- clocks
+  } else if ("all" %in% clocks) {
+    clocks <- c("PCClocks", "SystemsAge")
+    download_name <- paste0(clocks, "_data.qs2")
+  }
   download_to <- file.path(path, download_name)
 
   exists <- if (force) {
@@ -165,8 +166,17 @@ download_methylCIPHER <- function(
     on.exit(googledrive::drive_deauth(), add = TRUE)
   }
 
+  if (source == "zenodo") {
+    if (!requireNamespace("zen4R", quietly = TRUE)) {
+      stop("Please install the 'zen4R' package to download these files (`install.packages('zen4R')`).")
+    }
+    zenodo <- zen4R::ZenodoManager$new(logger = "INFO")
+    rec <- zenodo$getRecordByDOI("10.5281/zenodo.17162604")
+  }
+
   message(paste("Attempting to download", length(clocks), "file(s)..."))
   download_success <- logical(length(clocks))
+  names(download_success) <- download_name
 
   for (i in seq_along(clocks)) {
     tryCatch(
@@ -174,7 +184,7 @@ download_methylCIPHER <- function(
         message("Downloading ", clocks[i], "...")
 
         if (source == "googledrive") {
-          file_i <- subset(metadata, path %in% download_name[i])
+          file_i <- subset(large_clocks_data$googledrive, path %in% download_name[i])
           file_i <- as.list(file_i)
           googledrive::drive_download(
             file = file_i$id,
@@ -186,7 +196,7 @@ download_methylCIPHER <- function(
         }
 
         if (source == "zenodo") {
-          metadata$downloadFiles(path = path, files = list(download_name[i]), ...)
+          rec$downloadFiles(path = path, files = list(download_name[i]), ...)
           download_success[i] <- TRUE
         }
 

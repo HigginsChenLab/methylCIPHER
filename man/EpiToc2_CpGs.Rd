@@ -7,12 +7,12 @@
 \format{
 A vector of CpG names
 \describe{
-  \item{delta}{estimated de-novo methylation parameter}
-  \item{beta}{ground-state methylation parameter}
+\item{delta}{estimated de-novo methylation parameter}
+\item{beta}{ground-state methylation parameter}
 }
 }
 \source{
-<https://zenodo.org/record/2632938#.YfGA3S-B2Cg>
+\url{https://zenodo.org/record/2632938#.YfGA3S-B2Cg}
 }
 \usage{
 EpiToc2_CpGs
