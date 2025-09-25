@@ -109,7 +109,7 @@ set_methylCIPHER_path <- function(path) {
 #'
 #' @export
 download_methylCIPHER <- function(
-    clocks = c("all", "SystemsAge", "PCClocks", "test"),
+    clocks = c("all", "SystemsAge", "PCClocks"),
     source = c("googledrive", "zenodo"),
     path = NULL,
     force = FALSE,
@@ -122,22 +122,23 @@ download_methylCIPHER <- function(
     path <- get_methylCIPHER_path()
     if (!dir.exists(path)) {
       message("Creating a new folder at ", path)
-      dir.create(path, showWarnings = TRUE, recursive = TRUE)
+      if (!dir.create(path, showWarnings = TRUE, recursive = TRUE)) {
+        stop("Failed to create directory at ", path)
+      }
     }
   }
-
-  # Validate path exists and is writable
   checkmate::assert_directory_exists(path, access = "rw", .var.name = "path")
 
   # "all" = download all clocks
-  clocks <- unique(clocks)
-  if ("test" %in% clocks) {
-    clocks <- "methylCIPHER_test.csv"
-    download_name <- clocks
-  } else if ("all" %in% clocks) {
+  # if ("test" %in% clocks) {
+  #   clocks <- "methylCIPHER_test.csv"
+  #   download_name <- clocks
+  # } else
+  if ("all" %in% clocks) {
     clocks <- c("PCClocks", "SystemsAge")
-    download_name <- paste0(clocks, "_data.qs2")
   }
+  clocks <- unique(clocks)
+  download_name <- paste0(clocks, "_data.qs2")
   download_to <- file.path(path, download_name)
 
   exists <- if (force) {
@@ -184,7 +185,7 @@ download_methylCIPHER <- function(
         message("Downloading ", clocks[i], "...")
 
         if (source == "googledrive") {
-          file_i <- subset(large_clocks_data$googledrive, path %in% download_name[i])
+          file_i <- subset(large_clocks_data$googledrive, clock %in% clocks[i])
           file_i <- as.list(file_i)
           googledrive::drive_download(
             file = file_i$id,
@@ -192,11 +193,17 @@ download_methylCIPHER <- function(
             overwrite = TRUE,
             ...
           )
+          if (!file.exists(download_to[i])) {
+            stop(paste("File does not exist after download:", download_to[i]))
+          }
           download_success[i] <- TRUE
         }
 
         if (source == "zenodo") {
           rec$downloadFiles(path = path, files = list(download_name[i]), ...)
+          if (!file.exists(download_to[i])) {
+            stop(paste("File does not exist after download:", download_to[i]))
+          }
           download_success[i] <- TRUE
         }
 

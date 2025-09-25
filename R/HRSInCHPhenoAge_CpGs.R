@@ -7,4 +7,5 @@
 #'   \item{CpG}{The CpG names from Illumina Array IDs used in the current clock}
 #'   \item{Weight}{The weighted linear regression beta value of fit for each CpG in the clock.}
 #' }
+#' @source <https://pmc.ncbi.nlm.nih.gov/articles/PMC9586209/>
 "HRSInCHPhenoAge_CpGs"

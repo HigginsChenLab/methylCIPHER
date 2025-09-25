@@ -4,11 +4,16 @@
 
 ## Add
 library(googledrive)
-clocks <- c("SystemsAge_data.qs2", "PCClocks_data.qs2", "methylCIPHER_test.csv")
 
 drive_auth()
 
-large_clocks_gdrive <- drive_get(clocks)
+large_clocks_gdrive <- drive_get(
+  id = as_id(c("1nqwvzoJMrQgGgUCK1kE3J7ybeFv-aUv2", "1lIA1Ia-iMbPYAD7Oy6LvKUD42aMEbDZw")),
+  shared_drive = as_id("1Wji3n3UKYykuydpyyQhTDLVoHVjBZ8Qa"),
+  corpus = "drive"
+)
+large_clocks_gdrive
+
 names(large_clocks_gdrive$id) <- large_clocks_gdrive$name
 
 large_clocks_gdrive$clock <- stringr::str_remove(large_clocks_gdrive$name, "_data.qs2")
