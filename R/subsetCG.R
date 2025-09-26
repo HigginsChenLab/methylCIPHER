@@ -9,10 +9,12 @@
 #' @export
 #'
 #' @examples subsetCG(exampleBetas, HorvathOnlineRef$Name)
-subsetCG <- function(dat,cgSet){
-  match1 = match(cgSet,colnames(dat))
-  if(any(is.na(match1))){warning(paste(sum(is.na(match1)), "CpGs in the requested subset are missing from your data."))}
+subsetCG <- function(dat, cgSet) {
+  match1 <- match(cgSet, colnames(dat))
+  if (any(is.na(match1))) {
+    warning(paste(sum(is.na(match1)), "CpGs in the requested subset are missing from your data."))
+  }
   match1 <- match1[!is.na(match1)]
-  datReduced = dat[,match1]
+  datReduced <- dat[, match1]
   datReduced
 }

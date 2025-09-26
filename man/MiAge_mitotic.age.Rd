@@ -10,5 +10,5 @@ MiAge_mitotic.age(beta, b, c, d)
 The MiAge estimation
 }
 \description{
-A function used by the original MiAge code found <http://www.columbia.edu/~sw2206/softwares.htm>
+A function used by the original MiAge code found \url{http://www.columbia.edu/~sw2206/softwares.htm}
 }

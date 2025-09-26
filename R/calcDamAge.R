@@ -11,37 +11,36 @@
 #' @export
 #'
 #' @examples calcDamAge(exampleBetas, examplePheno, imputation = F)
-
-calcDamAge <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
-{
+calcDamAge <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F) {
   CpGCheck <- length(DamAge_CpGs$CpG) == sum(DamAge_CpGs$CpG %in%
-                                              colnames(DNAm))
+    colnames(DNAm))
   if (CpGCheck == F && is.null(CpGImputation) && imputation ==
-      T) {
+    T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-  }
-  else if (CpGCheck == T | imputation == F) {
+  } else if (CpGCheck == T | imputation == F) {
     present <- DamAge_CpGs$CpG %in% colnames(DNAm)
     betas <- DNAm[, na.omit(match(DamAge_CpGs$CpG, colnames(DNAm)))]
-    tt <- sweep(betas, MARGIN = 2, DamAge_CpGs$Beta[present],
-                `*`)
+    tt <- sweep(betas,
+      MARGIN = 2, DamAge_CpGs$Beta[present],
+      `*`
+    )
     DamAge <- as.numeric(rowSums(tt, na.rm = T) + 543.4315887)
     if (is.null(pheno)) {
       DamAge
-    }
-    else {
+    } else {
       pheno$DamAge <- DamAge
       pheno
     }
-  }
-  else {
+  } else {
     message("Imputation of mean CpG Values occured for DamAge")
     missingCpGs <- DamAge_CpGs$CpG[!(DamAge_CpGs$CpG %in%
-                                      colnames(DNAm))]
+      colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
     for (j in 1:length(missingCpGs)) {
-      meanVals <- CpGImputation[match(missingCpGs[j],
-                                      names(CpGImputation))]
+      meanVals <- CpGImputation[match(
+        missingCpGs[j],
+        names(CpGImputation)
+      )]
       tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
@@ -51,8 +50,7 @@ calcDamAge <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation = F
     DamAge <- as.numeric(rowSums(tt, na.rm = T) + 543.4315887)
     if (is.null(pheno)) {
       DamAge
-    }
-    else {
+    } else {
       pheno$DamAge <- DamAge
       pheno
     }

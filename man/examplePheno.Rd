@@ -8,7 +8,7 @@
 A matrix with 5 rows and 6 variables:
 }
 \source{
-<https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55763>
+\url{https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE55763}
 }
 \usage{
 examplePheno

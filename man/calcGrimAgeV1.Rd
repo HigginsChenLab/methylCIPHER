@@ -2,30 +2,34 @@
 % Please edit documentation in R/calcGrimAgeV1.R
 \name{calcGrimAgeV1}
 \alias{calcGrimAgeV1}
-\title{CalcGrimAgeV1}
+\title{calcGrimAgeV1}
 \usage{
-calcGrimAgeV1(datMeth, datPheno)
+calcGrimAgeV1(DNAm, pheno, ID = "Sample_ID")
 }
 \arguments{
-\item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
+\item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
 
-\item{pheno}{Optional: The sample phenotype data (also with samples as rows) that the clock will be appended to.}
+\item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
+\itemize{
+\item \code{Sample_ID}: Character vector of sample IDs to match with \code{DNAm}.
+\item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
+\item \code{Age}: Numeric vector of chronological ages (finite values).
+}}
 
-\item{CpGImputation}{An optional namesd vector for the mean value of each CpG that will be input from another dataset if such values are missing here (from sample cleaning)}
-
-\item{imputation}{Logical value that will allows you to perform (T)/ skip (F) imputation of mean values for missing CpGs. Warning: when imputation = F if there are missing CpGs, it will automatically ignore these CpGs during calculation, making the clock values less accurate.}
+\item{ID}{Column in \code{pheno} that indicates the ID of each sample.}
 }
 \value{
-If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
+A data.frame of calculated clock values appended to \code{pheno}.
 }
 \description{
 A function to calculate GrimAgeV1
 }
 \examples{
-CalcGrimAgeV1(exampleBetas, examplePheno, imputation = F)
-
-
-
-
-
+\dontrun{
+GrimAgeV1 <- calcGrimAgeV1(
+  exampleBetas,
+  examplePheno
+)
+GrimAgeV1
+}
 }

@@ -8,7 +8,7 @@
 A vector of CpG names
 }
 \source{
-<https://zenodo.org/record/2632938#.YfGA3S-B2Cg>
+\url{https://zenodo.org/record/2632938#.YfGA3S-B2Cg}
 }
 \usage{
 EpiToc_CpGs

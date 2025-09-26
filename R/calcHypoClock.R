@@ -12,13 +12,12 @@
 #' @source <https://zenodo.org/record/2632938#.YfGA3S-B2Cg>
 #'
 #' @examples calcHypoClock(exampleBetas, examplePheno, imputation = T)
-calcHypoClock <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-
+calcHypoClock <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) {
   #######################
   ### Read in the Data###
   #######################
 
-  #data("hypoClock_CpGs")
+  # data("hypoClock_CpGs")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
@@ -30,49 +29,44 @@ calcHypoClock <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation =
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && is.null(CpGImputation) && imputation == T){
-
+  if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
-  } else if(CpGCheck == T | imputation == F){
-
+  } else if (CpGCheck == T | imputation == F) {
     ### do HypoClock
-    common.v <- intersect(colnames(DNAm),hypoClock_CpGs);
-    #print(paste("Number of represented solo-WCGWs (max=678)=",length(common.v),sep=""));
-    map.idx <- match(common.v,colnames(DNAm));
-    hypoSC.v <- rowMeans(DNAm[,map.idx],na.rm=TRUE);
+    common.v <- intersect(colnames(DNAm), hypoClock_CpGs)
+    # print(paste("Number of represented solo-WCGWs (max=678)=",length(common.v),sep=""));
+    map.idx <- match(common.v, colnames(DNAm))
+    hypoSC.v <- rowMeans(DNAm[, map.idx], na.rm = TRUE)
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       hypoSC.v
-    } else{
+    } else {
       pheno$hypoClock <- hypoSC.v
       pheno
     }
-
   } else {
     message("Imputation of mean CpG Values occured for epiTOC2")
     missingCpGs <- hypoClock_CpGs[!(hypoClock_CpGs %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
 
-    for(j in 1:length(missingCpGs)){
-      meanVals <- CpGImputation[match(missingCpGs[j],names(CpGImputation))]
-      tempDNAm[,j] <- rep(meanVals,dim(DNAm)[1])
+    for (j in 1:length(missingCpGs)) {
+      meanVals <- CpGImputation[match(missingCpGs[j], names(CpGImputation))]
+      tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
-    DNAm <- cbind(DNAm,tempDNAm)
+    DNAm <- cbind(DNAm, tempDNAm)
 
     ### do HypoClock
-    common.v <- intersect(colnames(DNAm),hypoClock_CpGs);
-    #print(paste("Number of represented solo-WCGWs (max=678)=",length(common.v),sep=""));
-    map.idx <- match(common.v,colnames(DNAm));
-    hypoSC.v <- rowMeans(DNAm[,map.idx],na.rm=TRUE);
+    common.v <- intersect(colnames(DNAm), hypoClock_CpGs)
+    # print(paste("Number of represented solo-WCGWs (max=678)=",length(common.v),sep=""));
+    map.idx <- match(common.v, colnames(DNAm))
+    hypoSC.v <- rowMeans(DNAm[, map.idx], na.rm = TRUE)
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       hypoSC.v
-    } else{
+    } else {
       pheno$hypoClock <- hypoSC.v
       pheno
     }
-
   }
 }

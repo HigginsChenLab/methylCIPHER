@@ -8,7 +8,7 @@
 A vector of CpG names
 }
 \source{
-<https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3120753/>
+\url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3120753/}
 }
 \usage{
 Bocklandt_CpG

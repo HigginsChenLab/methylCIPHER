@@ -6,29 +6,27 @@
 #' @export
 #'
 #' @examples getClockProbes(exampleBetas)
-getClockInfo <- function(){
-
+getClockInfo <- function() {
   library(googledrive)
   library(googlesheets4)
 
   gs4_auth()
 
-  home_dir<-Sys.getenv("HOME")
+  home_dir <- Sys.getenv("HOME")
 
   sheet_id <- "1fqxvyntgDX4AcQLQobCRNeOZjs2TqaigVwn6LuM6tMo"
 
   df <- read_sheet(sheet_id)
 
-  df <- df[df$MethylCIPHER == "Public",]
+  df <- df[df$MethylCIPHER == "Public", ]
 
   df$TranslAGE <- NULL
   df$MethylCIPHER <- NULL
   df$`Misc Information about Clock` <- NULL
-  df$`Friendly Name`<- NULL
-  df$`Alternative Names`<- NULL
+  df$`Friendly Name` <- NULL
+  df$`Alternative Names` <- NULL
 
   ProbeTable <- as.data.frame(df)
 
   ProbeTable
-
 }

@@ -23,5 +23,5 @@ A function to calculate the Mayne Gestational Age predictor
 }
 \examples{
 calcMayne(exampleBetas, examplePheno, imputation = T)
-calcMayne(exampleBetas, examplePheno, imputation = T, CpGImputation = Mayne_impute) #For the Mayne imputation gold standard
+calcMayne(exampleBetas, examplePheno, imputation = T, CpGImputation = Mayne_impute) # For the Mayne imputation gold standard
 }

@@ -11,13 +11,12 @@
 #' @export
 #'
 #' @examples calcKnight(exampleBetas, examplePheno, imputation = T)
-calcKnight <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-
+calcKnight <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) {
   #######################
   ### Read in the Data###
   #######################
 
-  #data("Knight_CpGs")
+  # data("Knight_CpGs")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
@@ -29,46 +28,40 @@ calcKnight <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && is.null(CpGImputation) && imputation == T){
-
+  if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
-  } else if(CpGCheck == T | imputation == F){
-
+  } else if (CpGCheck == T | imputation == F) {
     present <- Knight_CpGs$CpG %in% colnames(DNAm)
 
-    betas <- DNAm[,na.omit(match(Knight_CpGs$CpG,colnames(DNAm)))]
-    tt <- rowSums(sweep(as.matrix(betas) ,MARGIN = 2, Knight_CpGs$coef[present], `*`), na.rm = T) + 41.7
+    betas <- DNAm[, na.omit(match(Knight_CpGs$CpG, colnames(DNAm)))]
+    tt <- rowSums(sweep(as.matrix(betas), MARGIN = 2, Knight_CpGs$coef[present], `*`), na.rm = T) + 41.7
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       tt
-    } else{
+    } else {
       pheno$Knight <- tt
       pheno
     }
-
   } else {
     message("Imputation of mean CpG Values occured for Hannum")
     missingCpGs <- Knight_CpGs$CpG[!(Knight_CpGs$CpG %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
 
-    for(j in 1:length(missingCpGs)){
-      meanVals <- CpGImputation[match(missingCpGs[j],names(CpGImputation))]
-      tempDNAm[,j] <- rep(meanVals,dim(DNAm)[1])
+    for (j in 1:length(missingCpGs)) {
+      meanVals <- CpGImputation[match(missingCpGs[j], names(CpGImputation))]
+      tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
-    DNAm <- cbind(DNAm,tempDNAm)
+    DNAm <- cbind(DNAm, tempDNAm)
 
-    betas <- DNAm[,match(Knight_CpGs$CpG,colnames(DNAm))]
-    tt <- rowSums(sweep(betas ,MARGIN = 2, Knight_CpGs$coef, `*`)) + 41.7
+    betas <- DNAm[, match(Knight_CpGs$CpG, colnames(DNAm))]
+    tt <- rowSums(sweep(betas, MARGIN = 2, Knight_CpGs$coef, `*`)) + 41.7
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       tt
-    } else{
+    } else {
       pheno$Knight <- tt
       pheno
     }
-
   }
-
 }

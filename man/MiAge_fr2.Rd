@@ -10,5 +10,5 @@ MiAge_fr2(x, b, c, d, betaj)
 objective fuction summed over all CpG istes for patient j
 }
 \description{
-#' @description A function used by the original MiAge code found <http://www.columbia.edu/~sw2206/softwares.htm>
+#' @description A function used by the original MiAge code found \url{http://www.columbia.edu/~sw2206/softwares.htm}
 }

@@ -8,7 +8,7 @@
 A vector of CpG names
 }
 \source{
-<https://doi.org/10.1186/gb-2014-15-2-r24>
+\url{https://doi.org/10.1186/gb-2014-15-2-r24}
 }
 \usage{
 Weidner_CpGs
