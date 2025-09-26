@@ -2,23 +2,57 @@
 % Please edit documentation in R/calcPCClocks.R
 \name{calcPCClocks}
 \alias{calcPCClocks}
-\title{calcPCClocks}
+\title{Calculate PC Clocks}
 \usage{
-calcPCClocks(datMeth, datPheno)
+calcPCClocks(DNAm, pheno, ID = "Sample_ID", RData = NULL)
 }
 \arguments{
-\item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
+\item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
 
-\item{pheno}{Optional: The sample phenotype data (also with samples as rows) that the clock will be appended to.}
+\item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
+\itemize{
+\item \code{Sample_ID}: Character vector of sample IDs to match with \code{DNAm}.
+\item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
+\item \code{Age}: Numeric vector of chronological ages (finite values).
+}}
+
+\item{ID}{Column in \code{pheno} that indicates the ID of each sample.}
+
+\item{RData}{Default to \code{NULL}, which is the default path to the downloaded data folder.
+Either a character string specifying the path to the folder containing
+the \code{PCClocks_data.qs2} file, or a list containing the contents of the
+\code{PCClocks_data.qs2} file loaded via \code{\link[=load_PCClocks_data]{load_PCClocks_data()}}. See Details.}
 }
 \value{
-If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
+A data.frame of calculated clock values appended to \code{pheno}.
 }
 \description{
-A function to calculate all PC Clocks
+Calculates PC Clocks
+}
+\details{
+Systems Age calculation requires the \code{PCClocks_data.qs2} object, which can be
+downloaded using \code{\link[=download_methylCIPHER]{download_methylCIPHER()}}. Provide either the path to the
+downloaded \code{PCClocks_data.qs2} file or the object loaded with
+\code{\link[=load_PCClocks_data]{load_PCClocks_data()}} to the \code{RData} parameter. The advantage of passing
+in the loaded data is that if this function were to be run multiple times,
+then the object won't be loaded in each time.
 }
 \examples{
-calcPhenoAge(exampleBetas, examplePheno)
+\dontrun{
+# Download the external data
+download_methylCIPHER(clocks = "PCClocks")
 
+# Either path to the data
+RData <- get_methylCIPHER_path()
+# Or load in the object
+RData <- load_PCClocks_data(get_methylCIPHER_path())
 
+# Calculate Systems Age using example data
+result <- calcPCClocks(
+  betas = exampleBetas,
+  pheno = examplePheno,
+  RData = RData
+)
+result
+}
 }

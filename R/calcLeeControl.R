@@ -11,13 +11,12 @@
 #' @export
 #'
 #' @examples calcLeeControl(exampleBetas, examplePheno, imputation = T)
-calcLeeControl <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-
+calcLeeControl <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) {
   #######################
   ### Read in the Data###
   #######################
 
-  #data("LeeControl_CpGs")
+  # data("LeeControl_CpGs")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
@@ -28,49 +27,43 @@ calcLeeControl <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation 
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && is.null(CpGImputation) && imputation == T){
-
+  if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
-  } else if(CpGCheck == T | imputation == F){
-
+  } else if (CpGCheck == T | imputation == F) {
     present <- LeeControl_CpGs$CpG %in% colnames(DNAm)
 
-    betas <- DNAm[,na.omit(match(LeeControl_CpGs$CpG,colnames(DNAm)))]
+    betas <- DNAm[, na.omit(match(LeeControl_CpGs$CpG, colnames(DNAm)))]
     tt <- rep(0, dim(DNAm)[1])
 
-    tt <- rowSums(sweep(as.matrix(betas), MARGIN = 2, LeeControl_CpGs$coef[present],`*`), na.rm = T) + 13.06182
+    tt <- rowSums(sweep(as.matrix(betas), MARGIN = 2, LeeControl_CpGs$coef[present], `*`), na.rm = T) + 13.06182
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       tt
-    } else{
+    } else {
       pheno$LeeControl <- tt
       pheno
     }
-
   } else {
     message("Imputation of mean CpG Values occured for Lee Control")
     missingCpGs <- LeeRobust_CpGs$CpG[!(LeeControl_CpGs$CpG %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
 
-    for(j in 1:length(missingCpGs)){
-      meanVals <- CpGImputation[match(missingCpGs[j],names(CpGImputation))]
-      tempDNAm[,j] <- rep(meanVals,dim(DNAm)[1])
+    for (j in 1:length(missingCpGs)) {
+      meanVals <- CpGImputation[match(missingCpGs[j], names(CpGImputation))]
+      tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
-    DNAm <- cbind(DNAm,tempDNAm)
+    DNAm <- cbind(DNAm, tempDNAm)
 
-    betas <- DNAm[,match(LeeControl_CpGs$CpG,colnames(DNAm))]
+    betas <- DNAm[, match(LeeControl_CpGs$CpG, colnames(DNAm))]
     tt <- rep(0, dim(DNAm)[1])
-    tt <- rowSums(sweep(betas, MARGIN = 2, LeeControl_CpGs$coef,`*`)) + 13.06182
+    tt <- rowSums(sweep(betas, MARGIN = 2, LeeControl_CpGs$coef, `*`)) + 13.06182
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       tt
-    } else{
+    } else {
       pheno$LeeControl <- tt
       pheno
     }
-
   }
-
 }

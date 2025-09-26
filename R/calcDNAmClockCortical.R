@@ -12,8 +12,7 @@
 #'
 #' @examples calcDNAmClockCortical(exampleBetas, examplePheno, imputation = T)
 #' @examples calcDNAmClockCortical(exampleBetas, examplePheno, CpGImputation = DNAmClockCortical_imputeRef, imputation = T) # Imputation in the case that there are missing CpGs using the original Brain Imputation from authors
-calcDNAmClockCortical <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-
+calcDNAmClockCortical <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) {
   ###################################################
   ### Check if all necessary CpGs are in the data ###
   ###################################################
@@ -23,49 +22,43 @@ calcDNAmClockCortical <- function(DNAm, pheno = NULL, CpGImputation = NULL, impu
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && is.null(CpGImputation) && imputation == T){
-
+  if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
-  } else if(CpGCheck == T | imputation == F){
-
+  } else if (CpGCheck == T | imputation == F) {
     present <- DNAmClockCortical_CpGs$CpG %in% colnames(DNAm)
 
-    betas <- DNAm[,na.omit(match(DNAmClockCortical_CpGs$CpG,colnames(DNAm)))]
+    betas <- DNAm[, na.omit(match(DNAmClockCortical_CpGs$CpG, colnames(DNAm)))]
     tt <- rep(0, dim(DNAm)[1])
 
-    tt <- anti.trafo(rowSums(sweep(as.matrix(betas), MARGIN = 2, DNAmClockCortical_CpGs$coef[present],`*`), na.rm = T) + 0.577682570446177)
+    tt <- anti.trafo(rowSums(sweep(as.matrix(betas), MARGIN = 2, DNAmClockCortical_CpGs$coef[present], `*`), na.rm = T) + 0.577682570446177)
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       tt
-    } else{
+    } else {
       pheno$PhenoAge <- tt
       pheno
     }
-
   } else {
     message("Imputation of mean CpG Values occured for DNAmClockCortical")
     missingCpGs <- DNAmClockCortical_CpGs$CpG[!(DNAmClockCortical_CpGs$CpG %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
 
-    for(j in 1:length(missingCpGs)){
-      meanVals <- CpGImputation[match(missingCpGs[j],names(CpGImputation))]
-      tempDNAm[,j] <- rep(meanVals,dim(DNAm)[1])
+    for (j in 1:length(missingCpGs)) {
+      meanVals <- CpGImputation[match(missingCpGs[j], names(CpGImputation))]
+      tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
-    DNAm <- cbind(DNAm,tempDNAm)
+    DNAm <- cbind(DNAm, tempDNAm)
 
-    betas <- DNAm[,match(DNAmClockCortical_CpGs$CpG,colnames(DNAm))]
+    betas <- DNAm[, match(DNAmClockCortical_CpGs$CpG, colnames(DNAm))]
     tt <- rep(0, dim(DNAm)[1])
-    tt <- anti.trafo(rowSums(sweep(betas, MARGIN = 2, DNAmClockCortical_CpGs$coef,`*`)) + 0.577682570446177)
+    tt <- anti.trafo(rowSums(sweep(betas, MARGIN = 2, DNAmClockCortical_CpGs$coef, `*`)) + 0.577682570446177)
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       tt
-    } else{
+    } else {
       pheno$DNAmClockCortical <- tt
       pheno
     }
-
   }
-
 }

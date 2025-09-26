@@ -35,46 +35,45 @@
 #### eaa: a list of 3 vectors containing the extrinsic age-acceleration for StocH, StocP and StocZ clocks
 #### iaa: a list of 3 vectors containing the intrinsic age-acceleration for StocH, StocP and StocZ clocks
 
-calcStochClocks <- function(data.m,datPheno,ages.v=NULL,refM.m=NULL){
- library(glmnet);
- library(EpiDISH);
+calcStochClocks <- function(data.m, datPheno, ages.v = NULL, refM.m = NULL) {
+  library(glmnet)
+  library(EpiDISH)
 
- data.m <- t(data.m)
+  data.m <- t(data.m)
 
- data(glmStocALL) ## load in stochastic clock information
- estF.m <- NULL;
- if(!is.null(refM.m)){
-   estF.m <- epidish(data.m,ref=refM.m,method="RPC",maxit=500)$est;
- }
- predMage.lv <- list();
- eaa.lv <- list();
- iaa.lv <- list();
- for(c in 1:length(glmStocALL.lo)){
-  glm.o <- glmStocALL.lo[[c]];
-  coef.m <- coef(glm.o);
-  intC <- coef.m[1,ncol(coef.m)]; ### intercept term
-  coef.v <- coef.m[-1,ncol(coef.m)]; ### estimated regression coefficients
-  commonCpGs.v <- intersect(names(coef.v),rownames(data.m));
-  rep.idx <- match(commonCpGs.v,names(coef.v));
-  map.idx <- match(commonCpGs.v,rownames(data.m));
-  predMage.lv[[c]] <- as.vector(intC + matrix(coef.v[rep.idx],nrow=1) %*% data.m[map.idx,]);
-  if(!is.null(ages.v)){
-     eaa.lv[[c]] <- lm(predMage.lv[[c]] ~ ages.v)$res;
-     if(!is.null(refM.m)){
-      iaa.lv[[c]] <- lm(predMage.lv[[c]] ~ ages.v + estF.m)$res;
-     }
+  data(glmStocALL) ## load in stochastic clock information
+  estF.m <- NULL
+  if (!is.null(refM.m)) {
+    estF.m <- epidish(data.m, ref = refM.m, method = "RPC", maxit = 500)$est
   }
- }
+  predMage.lv <- list()
+  eaa.lv <- list()
+  iaa.lv <- list()
+  for (c in 1:length(glmStocALL.lo)) {
+    glm.o <- glmStocALL.lo[[c]]
+    coef.m <- coef(glm.o)
+    intC <- coef.m[1, ncol(coef.m)] ### intercept term
+    coef.v <- coef.m[-1, ncol(coef.m)] ### estimated regression coefficients
+    commonCpGs.v <- intersect(names(coef.v), rownames(data.m))
+    rep.idx <- match(commonCpGs.v, names(coef.v))
+    map.idx <- match(commonCpGs.v, rownames(data.m))
+    predMage.lv[[c]] <- as.vector(intC + matrix(coef.v[rep.idx], nrow = 1) %*% data.m[map.idx, ])
+    if (!is.null(ages.v)) {
+      eaa.lv[[c]] <- lm(predMage.lv[[c]] ~ ages.v)$res
+      if (!is.null(refM.m)) {
+        iaa.lv[[c]] <- lm(predMage.lv[[c]] ~ ages.v + estF.m)$res
+      }
+    }
+  }
 
- df <- data.frame(
-   StocH = predMage.lv[[1]],
-   StocP = predMage.lv[[2]],
-   StocZ = predMage.lv[[3]]
- )
+  df <- data.frame(
+    StocH = predMage.lv[[1]],
+    StocP = predMage.lv[[2]],
+    StocZ = predMage.lv[[3]]
+  )
 
-datPheno <- cbind(datPheno,df)
+  datPheno <- cbind(datPheno, df)
 
- #return(list(mage=predMage.lv,eaa=eaa.lv,iaa=iaa.lv,estF=estF.m));
+  # return(list(mage=predMage.lv,eaa=eaa.lv,iaa=iaa.lv,estF=estF.m));
   return(datPheno)
 }
-

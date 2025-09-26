@@ -11,8 +11,7 @@
 #' @export
 #'
 #' @examples calcCoreClocks(exampleBetas, examplePheno, imputation = T)
-calcCoreClocks <- function(DNAm, pheno , CpGImputation = NULL, imputation = T){
-
+calcCoreClocks <- function(DNAm, pheno, CpGImputation = NULL, imputation = T) {
   message("Please remember to cite the core Clocks you have used! Please refer to the README.md file for assistance.")
 
   pheno <- calcHannum(DNAm, pheno, CpGImputation, imputation)
@@ -21,5 +20,4 @@ calcCoreClocks <- function(DNAm, pheno , CpGImputation = NULL, imputation = T){
   pheno <- calcEpiTOC2(DNAm, pheno, CpGImputation, imputation)
 
   pheno
-
 }

@@ -11,13 +11,12 @@
 #' @export
 #'
 #' @examples calcWeidner(exampleBetas, examplePheno, imputation = T)
-calcWeidner <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T){
-
+calcWeidner <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) {
   #######################
   ### Read in the Data###
   #######################
 
-  #data("Weidner_CpGs")
+  # data("Weidner_CpGs")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
@@ -29,44 +28,38 @@ calcWeidner <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T
   ### The calculation will be performed or an error will be thrown as appropriate ###
   ###################################################################################
 
-  if(CpGCheck == F && is.null(CpGImputation) && imputation == T){
-
+  if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-
-  } else if(CpGCheck == T | imputation == F){
-
+  } else if (CpGCheck == T | imputation == F) {
     present <- Weidner_CpGs %in% colnames(DNAm)
 
-    Weidner <- 111.83 + rowSums(DNAm[,na.omit(match(colnames(DNAm), Weidner_CpGs))] * c(-64.57, -42.57, + 75.15)[present])
+    Weidner <- 111.83 + rowSums(DNAm[, na.omit(match(colnames(DNAm), Weidner_CpGs))] * c(-64.57, -42.57, +75.15)[present])
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       Weidner
-    } else{
+    } else {
       pheno$Weidner <- Weidner
       pheno
     }
-
   } else {
     message("Imputation of mean CpG Values occured for Weidner")
     missingCpGs <- Weidner_CpGs[!(Weidner_CpGs %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
 
-    for(j in 1:length(missingCpGs)){
-      meanVals <- CpGImputation[match(missingCpGs[j],names(CpGImputation))]
-      tempDNAm[,j] <- rep(meanVals,dim(DNAm)[1])
+    for (j in 1:length(missingCpGs)) {
+      meanVals <- CpGImputation[match(missingCpGs[j], names(CpGImputation))]
+      tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
-    DNAm <- cbind(DNAm,tempDNAm)
+    DNAm <- cbind(DNAm, tempDNAm)
 
-    Weidner <- 111.83 + rowSums(DNAm[,na.omit(match(colnames(DNAm), Weidner_CpGs))] * c(-64.57, -42.57, + 75.15)[present])
+    Weidner <- 111.83 + rowSums(DNAm[, na.omit(match(colnames(DNAm), Weidner_CpGs))] * c(-64.57, -42.57, +75.15)[present])
 
-    if(is.null(pheno)){
+    if (is.null(pheno)) {
       Weidner
-    } else{
+    } else {
       pheno$Weidner <- Weidner
       pheno
     }
-
   }
-
 }

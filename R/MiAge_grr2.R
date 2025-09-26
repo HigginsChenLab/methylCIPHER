@@ -4,8 +4,8 @@
 #'
 #' @return The derivative of fr2 with respect to n_{j}
 #' @export
-MiAge_grr2 <- function(x,b,c,d,betaj)  ## derivative of fr.j with respect to n_{j}
+MiAge_grr2 <- function(x, b, c, d, betaj) ## derivative of fr.j with respect to n_{j}
 {
-  nj=x
-  return(2*sum((c+b^(nj-1)*d-betaj)*b^(nj-1)*log(b)*d,na.rm=T))
+  nj <- x
+  return(2 * sum((c + b^(nj - 1) * d - betaj) * b^(nj - 1) * log(b) * d, na.rm = T))
 }

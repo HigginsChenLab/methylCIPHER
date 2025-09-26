@@ -8,7 +8,7 @@
 A list object of length 4 containing the parameters necessary to run MiAge_mitotic.age
 }
 \source{
-<http://www.columbia.edu/~sw2206/softwares.htm>
+\url{http://www.columbia.edu/~sw2206/softwares.htm}
 }
 \usage{
 MiAge_parameters

@@ -4,7 +4,7 @@
 \alias{calcDunedinPoAm38}
 \title{calcDunedinPoAm38}
 \source{
-<https://doi.org/10.7554/eLife.54870>
+\url{https://doi.org/10.7554/eLife.54870}
 }
 \usage{
 calcDunedinPoAm38(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)

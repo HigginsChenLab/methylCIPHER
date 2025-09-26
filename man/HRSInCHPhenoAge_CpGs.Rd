@@ -7,12 +7,9 @@
 \format{
 A data frame with 959 rows (CpGs) and 2 variables:
 \describe{
-  \item{CpG}{The CpG names from Illumina Array IDs used in the current clock}
-  \item{Weight}{The weighted linear regression beta value of fit for each CpG in the clock.}
+\item{CpG}{The CpG names from Illumina Array IDs used in the current clock}
+\item{Weight}{The weighted linear regression beta value of fit for each CpG in the clock.}
 }
-}
-\source{
-<[get-from-Albert]>
 }
 \usage{
 HRSInCHPhenoAge_CpGs

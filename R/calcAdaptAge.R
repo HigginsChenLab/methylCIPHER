@@ -11,37 +11,36 @@
 #' @export
 #'
 #' @examples calcAdaptAge(exampleBetas, examplePheno, imputation = F)
-
-calcAdaptAge <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
-{
+calcAdaptAge <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = F) {
   CpGCheck <- length(AdaptAge_CpGs$CpG) == sum(AdaptAge_CpGs$CpG %in%
-                                              colnames(DNAm))
+    colnames(DNAm))
   if (CpGCheck == F && is.null(CpGImputation) && imputation ==
-      T) {
+    T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
-  }
-  else if (CpGCheck == T | imputation == F) {
+  } else if (CpGCheck == T | imputation == F) {
     present <- AdaptAge_CpGs$CpG %in% colnames(DNAm)
     betas <- DNAm[, na.omit(match(AdaptAge_CpGs$CpG, colnames(DNAm)))]
-    tt <- sweep(betas, MARGIN = 2, AdaptAge_CpGs$Beta[present],
-                `*`)
+    tt <- sweep(betas,
+      MARGIN = 2, AdaptAge_CpGs$Beta[present],
+      `*`
+    )
     AdaptAge <- as.numeric(rowSums(tt, na.rm = T) - 511.9742762)
     if (is.null(pheno)) {
       AdaptAge
-    }
-    else {
+    } else {
       pheno$AdaptAge <- AdaptAge
       pheno
     }
-  }
-  else {
+  } else {
     message("Imputation of mean CpG Values occured for AdaptAge")
     missingCpGs <- AdaptAge_CpGs$CpG[!(AdaptAge_CpGs$CpG %in%
-                                      colnames(DNAm))]
+      colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
     for (j in 1:length(missingCpGs)) {
-      meanVals <- CpGImputation[match(missingCpGs[j],
-                                      names(CpGImputation))]
+      meanVals <- CpGImputation[match(
+        missingCpGs[j],
+        names(CpGImputation)
+      )]
       tempDNAm[, j] <- rep(meanVals, dim(DNAm)[1])
     }
     colnames(tempDNAm) <- missingCpGs
@@ -51,8 +50,7 @@ calcAdaptAge <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation =
     AdaptAge <- as.numeric(rowSums(tt, na.rm = T) - 511.9742762)
     if (is.null(pheno)) {
       AdaptAge
-    }
-    else {
+    } else {
       pheno$AdaptAge <- AdaptAge
       pheno
     }

@@ -11,17 +11,13 @@
 #' @return A dataframe that has column names of the core clocks giving you multiple clocks at once in an easy to compute function. These will be appended onto the existing pheno dataframe as defined in the inputs.
 #' @export
 #'
-#' @examples userClocks <- c("calcSmokingMcCartney","calcPhenoAge","calcEpiTOC2")
+#' @examples userClocks <- c("calcSmokingMcCartney", "calcPhenoAge", "calcEpiTOC2")
 #' @examples calcUserClocks(userClocks, exampleBetas, examplePheno, imputation = T)
-calcUserClocks <- function(clockList, DNAm, pheno , CpGImputation = NULL, imputation = T){
-
-  for(i in 1:length(clockList)){
-
+calcUserClocks <- function(clockList, DNAm, pheno, CpGImputation = NULL, imputation = T) {
+  for (i in 1:length(clockList)) {
     x <- get(clockList[i])
     pheno <- x(DNAm, pheno, CpGImputation, imputation)
-
   }
 
   pheno
-
 }

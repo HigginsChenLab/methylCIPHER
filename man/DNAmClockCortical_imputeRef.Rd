@@ -8,7 +8,7 @@
 A named vector of CpGs and values for reference.
 }
 \source{
-<https://github.com/gemmashireby/CorticalClock>
+\url{https://github.com/gemmashireby/CorticalClock}
 }
 \usage{
 DNAmClockCortical_imputeRef
