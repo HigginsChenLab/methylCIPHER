@@ -10,7 +10,6 @@
   - [Best-Practice Notes (from the Consortium)](#best-practice-notes-from-the-consortium)
   - [Recommendations & Roadmap](#recommendations--roadmap)
   - [Algorithms Appendix](#algorithms-appendix)
-  - [How to Propose Additions](#how-to-propose-additions)
   - [Acknowledgments](#acknowledgments)
   - [License](#license)
   - [References](#references)
@@ -58,7 +57,6 @@ This README includes *only* claims supported by the three Biomarkers of Aging Co
 - Read **Core Definitions** and **Framework** for context.  
 - Use **Table A** (wearables/functional) and **Table B** (clinical chemistry + omics).  
 - See **Algorithms Appendix** for metric definitions.  
-- To extend, follow **How to Propose Additions**.
 
 ---
 
@@ -160,13 +158,6 @@ This README includes *only* claims supported by the three Biomarkers of Aging Co
 - **6-minute walk distance (6MWD):** Total meters walked.  
 - **Sleep efficiency:** Sleep time ÷ time in bed.  
 - **WASO:** Wake minutes after sleep onset.  
-
----
-
-## How to Propose Additions
-
-Propose new rows only if supported by **[1-3]** (or their cited references).  
-Each addition must include: biomarker, modality, domain, role, validation, evidence type, algorithms, and refs.
 
 ---
 
