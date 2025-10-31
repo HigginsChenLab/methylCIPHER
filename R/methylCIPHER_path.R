@@ -109,11 +109,12 @@ set_methylCIPHER_path <- function(path) {
 #'
 #' @export
 download_methylCIPHER <- function(
-    clocks = c("all", "SystemsAge", "PCClocks"),
-    source = c("googledrive", "zenodo"),
-    path = NULL,
-    force = FALSE,
-    ...) {
+  clocks = c("all", "SystemsAge", "PCClocks"),
+  source = c("googledrive", "zenodo"),
+  path = NULL,
+  force = FALSE,
+  ...
+) {
   # pre-conditioning
   clocks <- match.arg(clocks, several.ok = TRUE)
   source <- match.arg(source)

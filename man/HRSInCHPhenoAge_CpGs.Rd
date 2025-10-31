@@ -11,6 +11,9 @@ A data frame with 959 rows (CpGs) and 2 variables:
 \item{Weight}{The weighted linear regression beta value of fit for each CpG in the clock.}
 }
 }
+\source{
+\url{https://pmc.ncbi.nlm.nih.gov/articles/PMC9586209/}
+}
 \usage{
 HRSInCHPhenoAge_CpGs
 }

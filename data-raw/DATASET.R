@@ -186,3 +186,11 @@ LeeControl_CpGs <- data.frame(
   coef = Lee_all$Coefficient_CPC[Lee_all$Coefficient_CPC != 0][-1]
 )
 usethis::use_data(LeeControl_CpGs, overwrite = TRUE)
+
+# IntrinClockCpGs
+## Quick Fix
+load("data/IntrinClockCpGs.rda")
+IntrinClock_CpGs <- data.frame(
+  CpG = CpGs_IntrinClock
+)
+usethis::use_data(IntrinClock_CpGs, overwrite = TRUE)
