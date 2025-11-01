@@ -3,3 +3,7 @@
 .RData
 .Ruserdata
 dev/
+tests/testthat/fixtures/*.gz
+tests/testthat/fixtures/*.qs2
+tests/testthat/fixtures/*.csv
+tests/testthat/fixtures/*.rds

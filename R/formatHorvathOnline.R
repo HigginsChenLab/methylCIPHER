@@ -66,7 +66,6 @@ formatHorvathOnline <- function(DNAm, Pheno, writePath) {
   }
 
 
-
   # THIRD, check that the Age and Female Columns have the appropriate data in their columns
   if ("sexType" %in% ls()) { # Indicates that a conversion must occur for the Female column
 

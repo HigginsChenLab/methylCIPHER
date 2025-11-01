@@ -8,7 +8,7 @@
 #' @examples getClockProbes(exampleBetas)
 getClockProbes <- function(DNAm) {
   ClockDataList <- as.data.frame(data(package = "methylCIPHER")[3][[1]])$Item
-  ClockDataList <- stringr::str_subset(ClockDataList, pattern = "CpG")
+  ClockDataList <- grep("_CpG", ClockDataList, value = TRUE)
   ClockDataList <- ClockDataList[grep("Calc", ClockDataList, invert = TRUE)]
 
   totalProbes <- vector(mode = "numeric", length = length(ClockDataList))
@@ -33,12 +33,12 @@ getClockProbes <- function(DNAm) {
         x1[, if (is.name(substitute(y1))) deparse(substitute(y1)) else y1, drop = FALSE][[1]]
       }
 
-      CpGColumn <- grepl("CpG|Marker|ID|id", colnames(x))
+      CpGColumn <- grepl("CpG|Marker|ID|id|name|mean", colnames(x))
       currentCpGList <- pull(x, colnames(x)[CpGColumn])
     } else {
-      CpGColumn <- grepl("CpG|Marker|ID|id", colnames(x))
+      CpGColumn <- grep("CpG|Marker|ID|id|name|mean", colnames(x), value = TRUE)
 
-      currentCpGList <- as.matrix(x[CpGColumn][, 1])
+      currentCpGList <- x[[CpGColumn]]
     }
 
     totalProbes[i] <- length(currentCpGList)
