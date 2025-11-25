@@ -31,7 +31,7 @@ calcGrimAgeV2 <- function(DNAm, pheno, ID = "Sample_ID") {
     }
     DNAm <- DNAm[samples, , drop = FALSE]
     pheno <- align_pheno(pheno, samples, ID = ID)
-    stopifnot("`DNAm` and `pheno` samples alignment failed. Check ID of pheno and row.names() of `DNAm`" = all.equal(row.names(DNAm), pheno[[ID]]))
+    stopifnot("`DNAm` and `pheno` samples alignment failed. Check ID of pheno and row.names() of `DNAm`" = isTRUE(all.equal(row.names(DNAm), pheno[[ID]])))
     message("Samples inconsistencies between DNAm and Pheno were detected and corrected.")
   }
 
