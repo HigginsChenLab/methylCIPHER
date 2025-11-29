@@ -7,10 +7,7 @@
   - [Consortium Framework: Roles & Validation](#consortium-framework-roles--validation)
   - [Curated Table A - Wearable & Functional Digital Biomarkers](#curated-table-a---wearable--functional-digital-biomarkers)
   - [Curated Table B - Clinical Chemistry & Omics Biomarkers](#curated-table-b---clinical-chemistry--omics-biomarkers)
-  - [Best-Practice Notes (from the Consortium)](#best-practice-notes-from-the-consortium)
-  - [Recommendations & Roadmap](#recommendations--roadmap)
   - [Algorithms Appendix](#algorithms-appendix)
-  - [Acknowledgments](#acknowledgments)
   - [License](#license)
   - [References](#references)
 
@@ -18,29 +15,11 @@
 
 ---
 
-## Executive Summary
-
-It summarizes only the three **Biomarkers of Aging Consortium** consensus papers (*Cell 2023*, *Nature Medicine 2024*, *Nature Aging 2024*).
-
-Key additions:
-- **Per-row references**, showing every claim is traceable.  
-- **Evidence-type labeling** (cross-sectional, longitudinal, interventional) as in *Nat Med 2024*.  
-- **Mental health linkages** highlighted in Notes for sleep, HRV, circadian, and activity.  
-- **Algorithms appendix** defining computational metrics.  
-- **Expanded framework** with Mechanistic biomarkers.  
-- **Best-practice roadmap** that incorporates FAIR principles and diversity/access.  
-
-This aims to provide a **clear, professional, and review-ready deliverable** that can be extended over time.
-
----
 
 ## Purpose
 
 - Provide a **concise, reference-grounded** overview of biomarkers of aging most relevant to **wearables/functional measures** and **omics**.  
 - Organize each biomarker by **domain, modality, validation stage, evidence type, and use cases**.  
-- Serve as a **single deliverable** that can be reviewed and extended.
-
----
 
 ## Scope & Sources
 
@@ -90,8 +69,7 @@ This README includes *only* claims supported by the three Biomarkers of Aging Co
 
 ## Curated Table A - Wearable & Functional Digital Biomarkers
 
-> **Scope:** Daily life or clinical setting measures (actigraphy, ECG/PPG, IMUs, timed walks).  
-> **Legend:** Roles follow Consortium definitions; no surrogate endpoints claimed. Validation and evidence types are drawn from [1-3].
+
 
 | Biomarker | Domain | Modality / Setting | Examples | Algorithms / Methods | Role | Validation Status | Evidence Type | Notes / Use Cases | Refs |
 |---|---|---|---|---|---|---|---|---|---|
@@ -110,8 +88,6 @@ This README includes *only* claims supported by the three Biomarkers of Aging Co
 
 ## Curated Table B - Clinical Chemistry & Omics Biomarkers
 
-> **Scope:** Clinical blood panels positioned closer to functional biomarkers, followed by molecular omics.  
-> **Legend:** Roles follow Consortium definitions; no surrogate endpoints claimed. Validation and evidence types are drawn from [1-3].
 
 | Biomarker (family) | Type | Outcomes | Role | Validation Status | Evidence Type | Strengths | Limitations | Refs |
 |---|---|---|---|---|---|---|---|---|
@@ -127,26 +103,6 @@ This README includes *only* claims supported by the three Biomarkers of Aging Co
 
 ---
 
-## Best-Practice Notes (from the Consortium)
-
-- **Do not** equate precise age prediction with clinical usefulness.  
-- Ensure **analytical validity** before broad comparisons.  
-- Use **diverse cohorts** and harmonized reporting.  
-- Favor **transparent algorithms** and open pipelines.  
-- Follow **FAIR (Findable, Accessible, Interoperable, Reusable)** data principles and standardized reporting, *as emphasized in Biomarkers of Aging Consortium, Nature Aging 2024*.  
-- No BoA is yet a qualified surrogate endpoint.  
-
----
-
-## Recommendations & Roadmap
-
-- Tie biomarkers to **concrete clinical actions**.  
-- Prioritize **longitudinal, within-person change**.  
-- Standardize **core computational pipelines**.  
-- Broaden validation across **diverse populations** and ensure affordability/access.  
-- Highlight **mental health integration** where digital measures apply.  
-
----
 
 ## Algorithms Appendix
 
@@ -161,12 +117,7 @@ This README includes *only* claims supported by the three Biomarkers of Aging Co
 
 ---
 
-## Acknowledgments
 
-- Authors of the **Biomarkers of Aging Consortium** manuscripts [1-3] (which were provided by Dr. Higgins-Chen).  
-- Format inspired by HigginsChenLab/methylCIPHER.
-
----
 
 ## License
 
