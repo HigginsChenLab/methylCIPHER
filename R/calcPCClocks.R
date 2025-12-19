@@ -52,6 +52,7 @@ calcPCClocks <- function(DNAm, pheno, ID = "Sample_ID", RData = NULL) {
     combine = "or"
   )
   # Check Pheno
+  checkmate::assert_string(ID, null.ok = FALSE)
   check_pheno(pheno, ID = ID, extra_columns = c("Female", "Age"))
   # Check Consistent between `pheno` and `DNAm`
   need_align <- !isTRUE(all.equal(row.names(DNAm), pheno[[ID]]))

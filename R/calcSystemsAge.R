@@ -51,6 +51,7 @@ calcSystemsAge <- function(DNAm, pheno = NULL, ID = "Sample_ID", RData = NULL) {
   # Input validation
   # Check DNAm
   check_DNAm(DNAm)
+  checkmate::assert_string(ID, null.ok = FALSE)
   # Check RData
   checkmate::assert(
     checkmate::check_null(RData),
