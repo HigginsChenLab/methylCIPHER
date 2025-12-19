@@ -1,3 +1,4 @@
+# This file generate the data needed to generate the fixtures.
 library(data.table)
 library(glue)
 
@@ -30,9 +31,11 @@ if (!file.exists(EPICv1)) {
 
 # Keep all CpGs, don't do Pval gating
 GPL21145 <- fread(EPICv1)
+# This object is the pheno
 GPL21145_pheno <- fread(glue("{fixtures}/GPL21145_pheno.csv"))
+
+# This object is the beta matrix
 GPL21145_matrix <- as.matrix(GPL21145[, .SD, .SDcols = GPL21145_pheno$title])
 row.names(GPL21145_matrix) <- GPL21145$ID_REF
 GPL21145_matrix <- t(GPL21145_matrix)
 qs2::qs_save(GPL21145_matrix, glue("{fixtures}/GPL21145_matrix.qs2"))
-GPL21145_matrix[1:5, 1:5]

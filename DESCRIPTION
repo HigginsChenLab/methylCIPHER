@@ -11,6 +11,7 @@ Description: Code to easily calculate nearly all of the CpG-based
 License: What license is it under?
 Depends: 
     R (>= 3.5)
+biocViews:
 Imports:
     checkmate,
     DunedinPoAm38 (>= 0.1.0),

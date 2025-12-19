@@ -7,3 +7,15 @@ tests/testthat/fixtures/*.gz
 tests/testthat/fixtures/*.qs2
 tests/testthat/fixtures/*.csv
 tests/testthat/fixtures/*.rds
+
+# macOS system files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# macOS zip artifact folder
+__MACOSX/

@@ -1,5 +1,5 @@
 test_that("calcPhysAge", {
-  skip_if_not(file.exists(test_path("fixtures", "PhysAge", "GPL21145_PhysAge.rds")))
+  skip_if_not(file.exists(test_path("fixtures", "PhysAge", "GPL21145_matrix_PhysAge.qs2")))
   GPL21145_fixtures <- readRDS(test_path("fixtures", "PhysAge", "GPL21145_PhysAge.rds"))
 
   GPL21145_matrix <- qs2::qs_read(test_path("fixtures", "PhysAge", "GPL21145_matrix_PhysAge.qs2"))
@@ -11,4 +11,3 @@ test_that("calcPhysAge", {
 
   expect_equal(PhysAge, GPL21145_fixtures)
 })
-
