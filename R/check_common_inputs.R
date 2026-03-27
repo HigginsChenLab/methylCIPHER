@@ -24,6 +24,10 @@
 #' @return Returns `invisible(TRUE)` if all checks pass.
 #' @keywords internal
 check_DNAm <- function(DNAm, missing_allowed = TRUE) {
+  if (is.data.frame(DNAm)) {
+    DNAm <- as.matrix(DNAm)
+    assign("DNAm", DNAm, envir = parent.frame())
+  }
   checkmate::assert_matrix(
     DNAm,
     mode = "double",
