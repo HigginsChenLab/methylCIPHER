@@ -40,32 +40,16 @@
 #' )
 #' result
 #' }
-calcPCClocks <- function(DNAm, pheno, ID = "Sample_ID", RData = NULL) {
+calcPCClocks <- function(DNAm, pheno, RData = NULL) {
   # Input validation
-  # Check DNAm
   check_DNAm(DNAm)
-  # Check RData
   checkmate::assert(
     checkmate::check_null(RData),
     checkmate::check_character(RData, len = 1, any.missing = FALSE),
     checkmate::check_list(RData, any.missing = FALSE),
     combine = "or"
   )
-  # Check Pheno
-  checkmate::assert_string(ID, null.ok = FALSE)
-  check_pheno(pheno, ID = ID, extra_columns = c("Female", "Age"))
-  # Check Consistent between `pheno` and `DNAm`
-  need_align <- !isTRUE(all.equal(row.names(DNAm), pheno[[ID]]))
-  if (need_align) {
-    samples <- intersect(row.names(DNAm), pheno[[ID]])
-    if (length(samples) == 0) {
-      stop("DNAm and pheno have no ID in common.")
-    }
-    DNAm <- DNAm[samples, , drop = FALSE]
-    pheno <- align_pheno(pheno, samples, ID = ID)
-    stopifnot("`DNAm` and `pheno` samples alignment failed. Check ID of pheno and row.names() of `DNAm`" = isTRUE(all.equal(row.names(DNAm), pheno[[ID]])))
-    message("Samples inconsistencies between DNAm and Pheno were detected and corrected.")
-  }
+  check_pheno(pheno, extra_columns = c("Female", "Age"))
   # handle RData
   if (is.null(RData)) {
     RData <- load_PCClocks_data()

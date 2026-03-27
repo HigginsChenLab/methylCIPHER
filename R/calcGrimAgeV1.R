@@ -16,24 +16,10 @@
 #' )
 #' GrimAgeV1
 #' }
-calcGrimAgeV1 <- function(DNAm, pheno, ID = "Sample_ID") {
+calcGrimAgeV1 <- function(DNAm, pheno) {
   # Input validation
-  # Check DNAm
   check_DNAm(DNAm)
-  # Check Pheno
-  check_pheno(pheno, ID = ID, extra_columns = c("Female", "Age"))
-  # Check Consistent between `pheno` and `DNAm`
-  need_align <- !isTRUE(all.equal(row.names(DNAm), pheno[[ID]]))
-  if (need_align) {
-    samples <- intersect(row.names(DNAm), pheno[[ID]])
-    if (length(samples) == 0) {
-      stop("DNAm and pheno have no ID in common.")
-    }
-    DNAm <- DNAm[samples, , drop = FALSE]
-    pheno <- align_pheno(pheno, samples, ID = ID)
-    stopifnot("`DNAm` and `pheno` samples alignment failed. Check ID of pheno and row.names() of `DNAm`" = isTRUE(all.equal(row.names(DNAm), pheno[[ID]])))
-    message("Samples inconsistencies between DNAm and Pheno were detected and corrected.")
-  }
+  check_pheno(pheno, extra_columns = c("Female", "Age"))
 
   ## Imputation
   DNAm <- impute_DNAm(

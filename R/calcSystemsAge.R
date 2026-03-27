@@ -40,7 +40,7 @@
 #' )
 #' result
 #' }
-calcSystemsAge <- function(DNAm, pheno = NULL, ID = "Sample_ID", RData = NULL) {
+calcSystemsAge <- function(DNAm, pheno = NULL, RData = NULL) {
   # Code for calculating Systems Age
   # Main Authors:
   # Raghav Sehgal, Yale University, raghav.sehgal@yale.edu
@@ -49,32 +49,13 @@ calcSystemsAge <- function(DNAm, pheno = NULL, ID = "Sample_ID", RData = NULL) {
   # Code last updated May 17, 2023
 
   # Input validation
-  # Check DNAm
   check_DNAm(DNAm)
-  checkmate::assert_string(ID, null.ok = FALSE)
-  # Check RData
   checkmate::assert(
     checkmate::check_null(RData),
     checkmate::check_character(RData, len = 1, any.missing = FALSE),
     checkmate::check_list(RData, any.missing = FALSE),
     combine = "or"
   )
-  # Check Pheno
-  if (!is.null(pheno)) {
-    check_pheno(pheno, ID = ID)
-    # Check Consistent between `pheno` and `DNAm`
-    need_align <- !isTRUE(all.equal(row.names(DNAm), pheno[[ID]]))
-    if (need_align) {
-      samples <- intersect(row.names(DNAm), pheno[[ID]])
-      if (length(samples) == 0) {
-        stop("DNAm and pheno have no ID in common.")
-      }
-      DNAm <- DNAm[samples, , drop = FALSE]
-      pheno <- align_pheno(pheno, samples, ID = ID)
-      stopifnot("`DNAm` and `pheno` samples alignment failed. Check ID of pheno and row.names() of `DNAm`" = isTRUE(all.equal(row.names(DNAm), pheno[[ID]])))
-      message("Samples inconsistencies between DNAm and Pheno were detected and corrected.")
-    }
-  }
   # handle RData
   if (is.null(RData)) {
     RData <- load_SystemsAge_data()

@@ -79,15 +79,15 @@ check_DNAm <- function(DNAm, missing_allowed = TRUE) {
 #' @return The function performs the checks and stops with an error if any check fails.
 #'
 #' @keywords internal
-check_pheno <- function(pheno, ID, extra_columns = NULL) {
+check_pheno <- function(pheno, ID = NULL, extra_columns = NULL) {
   checkmate::assert_data_frame(pheno, min.rows = 1, null.ok = FALSE)
-  # check `Sample_ID`. By default this column must be here if pheno is ever added.
-  stopifnot("Indicated ID column not found in `pheno`" = ID %in% names(pheno))
-  checkmate::assert_character(
-    pheno[[ID]],
-    any.missing = FALSE,
-    null.ok = FALSE,
-  )
+  if (!is.null(ID) && ID %in% names(pheno)) {
+    checkmate::assert_character(
+      pheno[[ID]],
+      any.missing = FALSE,
+      null.ok = FALSE,
+    )
+  }
   if ("Female" %in% extra_columns) {
     checkmate::assert_integerish(
       pheno[["Female"]],
