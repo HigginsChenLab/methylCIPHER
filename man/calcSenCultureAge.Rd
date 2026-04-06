@@ -4,7 +4,7 @@
 \alias{calcSenCultureAge}
 \title{SenCultureAge}
 \usage{
-calcSenCultureAge(DNAm, pheno = NULL, ID = "Sample_ID")
+calcSenCultureAge(DNAm, pheno = NULL)
 }
 \arguments{
 \item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
@@ -13,8 +13,6 @@ calcSenCultureAge(DNAm, pheno = NULL, ID = "Sample_ID")
 \itemize{
 \item \code{Sample_ID}: Character vector of sample IDs to match with \code{DNAm}.
 }}
-
-\item{ID}{Column in \code{pheno} that indicates the ID of each sample.}
 }
 \value{
 If you added the \code{pheno} input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.

@@ -2,22 +2,27 @@
 % Please edit documentation in R/calcIntrinClock.R
 \name{calcIntrinClock}
 \alias{calcIntrinClock}
-\title{Intrin Clock}
+\title{Calculate IntrinClock}
 \usage{
-calcIntrinClock(datMeth, datPheno)
+calcIntrinClock(DNAm, pheno = NULL)
 }
 \arguments{
-\item{DNAm}{a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.}
+\item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
 
-\item{pheno}{The sample phenotype data (also with samples as rows) that the clock will be appended to.}
+\item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:
+\itemize{
+\item \code{Sample_ID}: Character vector of sample IDs to match with \code{DNAm}.
+}}
 }
 \value{
-If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
+If you added the \code{pheno} input (preferred) the function appends a column with the clock calculation and returns the data.frame. Otherwise, it will return a data.frame of calculated clock values.
 }
 \description{
-A function to calculate IntrinClock
+Calculates the IntrinClock epigenetic age estimate using a
+glmnet model with developmental age transformation.
 }
 \examples{
-calcEpiDish(exampleBetas, examplePheno)
-
+\dontrun{
+calcIntrinClock(exampleBetas, examplePheno)
+}
 }

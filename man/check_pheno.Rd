@@ -4,7 +4,7 @@
 \alias{check_pheno}
 \title{Check Phenotype Data Frame}
 \usage{
-check_pheno(pheno, ID, extra_columns = NULL)
+check_pheno(pheno, ID = NULL, extra_columns = NULL)
 }
 \arguments{
 \item{pheno}{A data.frame containing sample phenotype data, with samples as rows. Must include the following columns with no missing values:

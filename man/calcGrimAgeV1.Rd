@@ -4,7 +4,7 @@
 \alias{calcGrimAgeV1}
 \title{calcGrimAgeV1}
 \usage{
-calcGrimAgeV1(DNAm, pheno, ID = "Sample_ID")
+calcGrimAgeV1(DNAm, pheno)
 }
 \arguments{
 \item{DNAm}{A matrix of methylation beta values with samples as rows and CpGs as columns. Must include row names (samples) and unique column names (CpGs).}
@@ -15,8 +15,6 @@ calcGrimAgeV1(DNAm, pheno, ID = "Sample_ID")
 \item \code{Female}: Numeric vector of 1 (female) or 0 (non-female).
 \item \code{Age}: Numeric vector of chronological ages (finite values).
 }}
-
-\item{ID}{Column in \code{pheno} that indicates the ID of each sample.}
 }
 \value{
 A data.frame of calculated clock values appended to \code{pheno}.

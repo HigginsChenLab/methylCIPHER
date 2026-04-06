@@ -57,7 +57,7 @@ calcPhysAge <- function(DNAm, pheno = NULL) {
 
   ## Imputation
   CpGs <- PhysAge_CpGs$mean
-  names(CpGs) <- PhysAge_CpGs$cpg
+  names(CpGs) <- PhysAge_CpGs$CpG
 
   DNAm <- impute_DNAm(
     DNAm = DNAm,
@@ -67,7 +67,7 @@ calcPhysAge <- function(DNAm, pheno = NULL) {
   )
 
   ## Re-align to make sure things lined up with the object
-  DNAm <- DNAm[, PhysAge_CpGs$cpg, drop = F]
+  DNAm <- DNAm[, PhysAge_CpGs$CpG, drop = F]
 
   # Calculate components of PhysAge
   for (i in seq_along(PhysAge_data)) {
