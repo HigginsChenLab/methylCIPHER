@@ -6,14 +6,14 @@
 #' @inherit param_template return
 #'
 #' @export
-calcSenChronoAge <- function(DNAm, pheno = NULL, ID = "Sample_ID") {
+calcSenChronoAge <- function(DNAm, pheno = NULL) {
   make_simple_clock(
     obj = SenChronoAge_CpGs,
     intercept = -8.005320e+01,
     clock = "SenChronoAge",
     cpg = "CpG",
     coefficients = "Coefficient"
-  )(DNAm, pheno, ID)
+  )(DNAm, pheno)
 }
 
 #' SenCultureAge
@@ -23,14 +23,14 @@ calcSenChronoAge <- function(DNAm, pheno = NULL, ID = "Sample_ID") {
 #' @inheritParams param_template
 #' @inherit param_template return
 #' @export
-calcSenCultureAge <- function(DNAm, pheno = NULL, ID = "Sample_ID") {
+calcSenCultureAge <- function(DNAm, pheno = NULL) {
   make_simple_clock(
     obj = SenCultureAge_CpGs,
     intercept = -2.546817e+02,
     clock = "SenCultureAge",
     cpg = "CpG",
     coefficients = "Coefficient"
-  )(DNAm, pheno, ID)
+  )(DNAm, pheno)
 }
 
 #' SenMortalityAge
@@ -40,12 +40,12 @@ calcSenCultureAge <- function(DNAm, pheno = NULL, ID = "Sample_ID") {
 #' @inheritParams param_template
 #' @inherit param_template return
 #' @export
-calcSenMortalityAge <- function(DNAm, pheno = NULL, ID = "Sample_ID") {
+calcSenMortalityAge <- function(DNAm, pheno = NULL) {
   make_simple_clock(
     obj = SenMortalityAge_CpGs,
     intercept = 0,
     clock = "SenMortalityAge",
     cpg = "CpG",
     coefficients = "Coefficient"
-  )(DNAm, pheno, ID)
+  )(DNAm, pheno)
 }

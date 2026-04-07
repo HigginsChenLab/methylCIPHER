@@ -11,15 +11,13 @@ getClockProbes <- function(DNAm) {
   ClockDataList <- grep("_CpG", ClockDataList, value = TRUE)
   ClockDataList <- ClockDataList[grep("Calc", ClockDataList, invert = TRUE)]
 
-  totalProbes <- vector(mode = "numeric", length = length(ClockDataList))
-  presentProbes <- vector(mode = "numeric", length = length(ClockDataList))
-  percentPresent <- vector(mode = "character", length = length(ClockDataList))
+  results <- list()
 
   for (i in 1:length(ClockDataList)) {
     x <- get(ClockDataList[i])
 
     if (ClockDataList[i] %in% c(
-      "Bocklandt_CpG", "EpiToc_CpGs", "hypoClock_CpGs",
+      "Bocklandt_CpG", "DunedinPACE_CpGs", "DunedinPoAm38_CpGs", "EpiToc_CpGs", "hypoClock_CpGs",
       "Garagnani_CpG", "Weidner_CpGs", "PCClocks_CpGs", "SystemsAge_CpGs", "eightfiftykCpGs"
     )) {
       currentCpGList <- x
@@ -33,25 +31,85 @@ getClockProbes <- function(DNAm) {
         x1[, if (is.name(substitute(y1))) deparse(substitute(y1)) else y1, drop = FALSE][[1]]
       }
 
-      CpGColumn <- grepl("CpG|Marker|ID|id|name|mean", colnames(x))
+      CpGColumn <- grepl("CpG|Marker|ID|id|name", colnames(x))
       currentCpGList <- pull(x, colnames(x)[CpGColumn])
     } else {
-      CpGColumn <- grep("CpG|Marker|ID|id|name|mean", colnames(x), value = TRUE)
+      CpGColumn <- grep("CpG|Marker|ID|id|name", colnames(x), value = TRUE)
 
-      currentCpGList <- x[[CpGColumn]]
+      currentCpGList <- x[[CpGColumn[1]]]
     }
 
-    totalProbes[i] <- length(currentCpGList)
-    presentProbes[i] <- sum(currentCpGList %in% colnames(DNAm))
-    percentPresent[i] <- paste(round((presentProbes[i] / totalProbes[i]) * 100, 0), "%", sep = "")
+    clockName <- sapply(strsplit(ClockDataList[i], "_"), `[`, 1)
+    total <- length(currentCpGList)
+    present <- sum(currentCpGList %in% colnames(DNAm))
+    pct <- paste0(round((present / total) * 100, 0), "%")
+
+    results[[length(results) + 1]] <- data.frame(
+      Clock = clockName,
+      Total.Probes = total,
+      Present.Probes = present,
+      Percent.Present = pct
+    )
   }
 
-  ProbeTable <- data.frame(
-    Clock = sapply(strsplit(ClockDataList, "_"), `[`, 1),
-    `Total Probes` = totalProbes,
-    `Present Probes` = presentProbes,
-    `Percent Present` = percentPresent
-  )
+  # Add PhysAge subscores from PhysAge_data
+  for (nm in names(PhysAge_data)) {
+    cpgs <- PhysAge_data[[nm]]$CpG
+    cpgs <- cpgs[cpgs != "Intercept"]
+    total <- length(cpgs)
+    present <- sum(cpgs %in% colnames(DNAm))
+    pct <- paste0(round((present / total) * 100, 0), "%")
 
+    results[[length(results) + 1]] <- data.frame(
+      Clock = paste0("PhysAge: ", nm),
+      Total.Probes = total,
+      Present.Probes = present,
+      Percent.Present = pct
+    )
+  }
+
+  # Add MethylCIPHERplus clocks if installed
+  if (requireNamespace("MethylCIPHERplus", quietly = TRUE)) {
+    plus_clocks <- list()
+
+    # DNAmEMRAge: named weight vector, drop "Age" feature
+    plus_clocks[["DNAmEMRAge"]] <- tryCatch({
+      d <- getExportedValue("MethylCIPHERplus", "DNAmEMRAge_data")
+      nms <- names(d$model)
+      nms[grepl("^cg|^ch\\.", nms)]
+    }, error = function(e) NULL)
+
+    # OMICmAge: named weight vector, keep only CpG probes
+    plus_clocks[["OMICmAge"]] <- tryCatch({
+      d <- getExportedValue("MethylCIPHERplus", "OMICmAge_data")
+      nms <- names(d$model)
+      nms[grepl("^cg|^ch\\.", nms)]
+    }, error = function(e) NULL)
+
+    # FIAge: sparse matrix, row names minus intercept
+    plus_clocks[["FIAge"]] <- tryCatch({
+      d <- getExportedValue("MethylCIPHERplus", "FI_450K_Matrix")
+      cpgs <- d@Dimnames[[1]]
+      cpgs[cpgs != "(Intercept)"]
+    }, error = function(e) NULL)
+
+    for (nm in names(plus_clocks)) {
+      cpgs <- plus_clocks[[nm]]
+      if (is.null(cpgs)) next
+      total <- length(cpgs)
+      present <- sum(cpgs %in% colnames(DNAm))
+      pct <- paste0(round((present / total) * 100, 0), "%")
+
+      results[[length(results) + 1]] <- data.frame(
+        Clock = paste0("MCP+ ", nm),
+        Total.Probes = total,
+        Present.Probes = present,
+        Percent.Present = pct
+      )
+    }
+  }
+
+  ProbeTable <- do.call(rbind, results)
+  rownames(ProbeTable) <- NULL
   ProbeTable
 }

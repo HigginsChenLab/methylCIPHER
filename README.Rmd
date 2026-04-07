@@ -40,7 +40,7 @@ devtools::install_github("MorganLevineLab/methylCIPHER")
 
 ### Running single "clock" calculations
 
-The current package contains a large number of currently available CpG clocks or CpG based predictors. While we strove to be inclusive of such published CpG-based epigenetic clocks to our knowledge, if you find we are missing a clock, please contact us and we will do our best to promptly include it, if possible. You can do so by raising an issue on this repo or emailing us directly at <a[dot]higginschen[at]yale[dot]edu>.  
+The current package contains a large number of currently available CpG clocks or CpG based predictors. While we strove to be inclusive of such published CpG-based epigenetic clocks to our knowledge, if you find we are missing a clock, please contact us and we will do our best to promptly include it, if possible. You can do so by raising an issue on this repo or emailing us directly at a.higginschen@yale.edu.  
 
 In order to calculate a CpG clock, you simply need to use the appropriate function, typically named "calc[ClockNameHere]". For example:
 
@@ -59,10 +59,10 @@ calcPhenoAge(exampleBetas, imputation = F)
 
 Due to the abundance of epigenetic clocks are overlapping reasons for use, it is important to keep track of which clocks are most related to each other. This will allow you to steer clear of multiple testing and collinearity problems if you use all available clocks for your analysis. 
 
-Another important note is that with a few exceptions, the list of following clocks were trained and validated almost exclusively in blood. This can lead to a number of observed effects, which include unreasonable shifts in age (intercept)As bespoke clocks are developed for use in additional human tissues, we will include these in their own section below.  
+Another important note is that with a few exceptions, the list of following clocks were trained and validated almost exclusively in blood. This can lead to a number of observed effects, which include unreasonable shifts in age intercept. As bespoke clocks are developed for use in additional human tissues, we will include these in their own section below.  
 
 ```{r}
-suppressMessages(getClockInfo())
+getClockInfo()
 ```
 
 #### Running A User-Defined List of Epigenetic Clocks

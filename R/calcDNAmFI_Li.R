@@ -1,6 +1,6 @@
-#' calceFRS
+#' calcDNAmFI_Li
 #'
-#' @description A function to calculate the 20 CpG eFRS
+#' @description A function to calculate DNAmFI_Li (formerly eFRS, the 20 CpG epigenetic Framingham Risk Score)
 #'
 #' @param DNAm a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.
 #' @param pheno Optional: The sample phenotype data (also with samples as rows) that the clock will be appended to.
@@ -10,31 +10,31 @@
 #' @return If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
 #' @export
 #'
-#' @examples calceFRS(exampleBetas, examplePheno, imputation = F)
+#' @examples calcDNAmFI_Li(exampleBetas, examplePheno, imputation = F)
 
-calceFRS <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
+calcDNAmFI_Li <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
 {
-  CpGCheck <- length(eFRS_CpGs$CpG) == sum(eFRS_CpGs$CpG %in%
+  CpGCheck <- length(DNAmFI_Li_CpGs$CpG) == sum(DNAmFI_Li_CpGs$CpG %in%
                                                  colnames(DNAm))
   if (CpGCheck == F && is.null(CpGImputation) && imputation ==
       T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
   } else if (CpGCheck == T | imputation == F) {
-    present <- eFRS_CpGs$CpG %in% colnames(DNAm)
-    betas <- DNAm[, na.omit(match(eFRS_CpGs$CpG, colnames(DNAm)))]
-    tt <- sweep(betas, MARGIN = 2, eFRS_CpGs$Beta[present],
+    present <- DNAmFI_Li_CpGs$CpG %in% colnames(DNAm)
+    betas <- DNAm[, na.omit(match(DNAmFI_Li_CpGs$CpG, colnames(DNAm)))]
+    tt <- sweep(betas, MARGIN = 2, DNAmFI_Li_CpGs$Beta[present],
                 `*`)
-    eFRS <- as.numeric(rowSums(tt, na.rm = T) + 0.204)
+    DNAmFI_Li <- as.numeric(rowSums(tt, na.rm = T) + 0.204)
     if (is.null(pheno)) {
-      eFRS
+      DNAmFI_Li
     }
     else {
-      pheno$eFRS <- eFRS
+      pheno$DNAmFI_Li <- DNAmFI_Li
       pheno
     }
   } else {
-    message("Imputation of mean CpG Values occured for eFRS")
-    missingCpGs <- eFRS_CpGs$CpG[!(eFRS_CpGs$CpG %in%
+    message("Imputation of mean CpG Values occured for DNAmFI_Li")
+    missingCpGs <- DNAmFI_Li_CpGs$CpG[!(DNAmFI_Li_CpGs$CpG %in%
                                          colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
     for (j in 1:length(missingCpGs)) {
@@ -44,16 +44,15 @@ calceFRS <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation = F)
     }
     colnames(tempDNAm) <- missingCpGs
     DNAm <- cbind(DNAm, tempDNAm)
-    betas <- DNAm[, match(eFRS_CpGs$CpG, colnames(DNAm))]
-    tt <- sweep(betas, MARGIN = 2, eFRS_CpGs$Beta, `*`)
-    eFRS <- as.numeric(rowSums(tt, na.rm = T) + 0.204)
+    betas <- DNAm[, match(DNAmFI_Li_CpGs$CpG, colnames(DNAm))]
+    tt <- sweep(betas, MARGIN = 2, DNAmFI_Li_CpGs$Beta, `*`)
+    DNAmFI_Li <- as.numeric(rowSums(tt, na.rm = T) + 0.204)
     if (is.null(pheno)) {
-      eFRS
+      DNAmFI_Li
     }
     else {
-      pheno$eFRS <- eFRS
+      pheno$DNAmFI_Li <- DNAmFI_Li
       pheno
     }
   }
 }
-

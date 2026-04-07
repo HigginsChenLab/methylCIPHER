@@ -5,7 +5,7 @@
 #'
 clockOptions <- function() {
   x <- unlist(strsplit(lsf.str("package:methylCIPHER", pattern = "^calc"), "[:]"))
-  y <- setdiff(x, c("calcUserClocks", "calcCoreClocks"))
+  y <- setdiff(x, c("calcUserClocks", "calcClockCategory"))
   z <- union(y, c("prcPhenoAge::calcPRCPhenoAge", "prcPhenoAge::calcnonPRCPhenoAge", "DunedinPoAm38::PoAmProjector"))
 
   z

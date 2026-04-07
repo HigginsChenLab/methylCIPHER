@@ -7,7 +7,7 @@
 \format{
 A data frame with 1711 rows (CpGs) and 2 variables:
 \describe{
-\item{cpg}{The CpG names from Illumina Array IDs used in the current clock}
+\item{CpG}{The CpG names from Illumina Array IDs used in the current clock}
 \item{mean}{These are mean beta values from the HRS training set}
 }
 }
