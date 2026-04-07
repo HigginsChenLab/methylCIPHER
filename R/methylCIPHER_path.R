@@ -109,7 +109,7 @@ set_methylCIPHER_path <- function(path) {
 #'
 #' @export
 download_methylCIPHER <- function(
-  clocks = c("all", "SystemsAge", "PCClocks"),
+  clocks = c("all", "SystemsAge", "PCClocks", "PCBrainAge"),
   source = c("googledrive", "zenodo"),
   path = NULL,
   force = FALSE,
@@ -136,7 +136,7 @@ download_methylCIPHER <- function(
   #   download_name <- clocks
   # } else
   if ("all" %in% clocks) {
-    clocks <- c("PCClocks", "SystemsAge")
+    clocks <- c("PCClocks", "SystemsAge", "PCBrainAge")
   }
   clocks <- unique(clocks)
   download_name <- paste0(clocks, "_data.qs2")
@@ -173,7 +173,7 @@ download_methylCIPHER <- function(
       stop("Please install the 'zen4R' package to download these files (`install.packages('zen4R')`).")
     }
     zenodo <- zen4R::ZenodoManager$new(logger = "INFO")
-    rec <- zenodo$getRecordByDOI("10.5281/zenodo.17162604")
+    rec <- zenodo$getRecordByDOI("10.5281/zenodo.19455622")
   }
 
   message(paste("Attempting to download", length(clocks), "file(s)..."))
@@ -321,3 +321,20 @@ load_SystemsAge_data <- load_data_function("SystemsAge_data", "d984914ff6aa17d8a
 #' PCClocks_data <- load_PCClocks_data("path/to/PCClocks_data.qs2")
 #' }
 load_PCClocks_data <- load_data_function("PCClocks_data", "46386ec4be2b2a5239cf67b242d7dc24")
+
+#' Load PCBrainAge Data
+#'
+#' A wrapper that loads PCBrainAge data from a specified or default location.
+#'
+#' @param path Character string specifying the file path to the .qs2 file.
+#'   If `NULL`, loads from the path at [get_methylCIPHER_path()].
+#' @return A list containing objects needed to calculate PCBrainAge.
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' PCBrainAge_data <- load_PCBrainAge_data()
+#' PCBrainAge_data <- load_PCBrainAge_data("path/to/PCBrainAge_data.qs2")
+#' }
+load_PCBrainAge_data <- load_data_function("PCBrainAge_data", "d1252091f38f6df2a2c96e6f25424b9d")

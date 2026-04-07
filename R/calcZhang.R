@@ -16,13 +16,13 @@ calcZhang <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) 
   ### Read in the Data###
   #######################
 
-  # data("Zhang_10_CpG")
+  # data("Zhang_CpGs")
 
   ###################################################
   ### Check if all necessary CpGs are in the data ###
   ###################################################
 
-  CpGCheck <- length(Zhang_10_CpG$Marker) == sum(Zhang_10_CpG$Marker %in% colnames(DNAm))
+  CpGCheck <- length(Zhang_CpGs$Marker) == sum(Zhang_CpGs$Marker %in% colnames(DNAm))
 
   ###################################################################################
   ### The calculation will be performed or an error will be thrown as appropriate ###
@@ -31,11 +31,11 @@ calcZhang <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) 
   if (CpGCheck == F && is.null(CpGImputation) && imputation == T) {
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
   } else if (CpGCheck == T | imputation == F) {
-    present <- Zhang_10_CpG$Marker %in% colnames(DNAm)
+    present <- Zhang_CpGs$Marker %in% colnames(DNAm)
 
-    betas <- DNAm[, na.omit(match(Zhang_10_CpG$Marker, colnames(DNAm)))]
+    betas <- DNAm[, na.omit(match(Zhang_CpGs$Marker, colnames(DNAm)))]
 
-    tt <- rowSums(sweep(as.matrix(betas), MARGIN = 2, Zhang_10_CpG$coef[present], `*`), na.rm = T)
+    tt <- rowSums(sweep(as.matrix(betas), MARGIN = 2, Zhang_CpGs$coef[present], `*`), na.rm = T)
 
     if (is.null(pheno)) {
       tt
@@ -45,7 +45,7 @@ calcZhang <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) 
     }
   } else {
     message("Imputation of mean CpG Values occured for Zhang")
-    missingCpGs <- Zhang_10_CpG$Marker[!(Zhang_10_CpG$Marker %in% colnames(DNAm))]
+    missingCpGs <- Zhang_CpGs$Marker[!(Zhang_CpGs$Marker %in% colnames(DNAm))]
     tempDNAm <- matrix(nrow = dim(DNAm)[1], ncol = length(missingCpGs))
 
     for (j in 1:length(missingCpGs)) {
@@ -55,9 +55,9 @@ calcZhang <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T) 
     colnames(tempDNAm) <- missingCpGs
     DNAm <- cbind(DNAm, tempDNAm)
 
-    betas <- DNAm[, match(Zhang_10_CpG$Marker, colnames(DNAm))]
+    betas <- DNAm[, match(Zhang_CpGs$Marker, colnames(DNAm))]
 
-    tt <- rowSums(sweep(betas, MARGIN = 2, Zhang_10_CpG$coef, `*`))
+    tt <- rowSums(sweep(betas, MARGIN = 2, Zhang_CpGs$coef, `*`))
 
     if (is.null(pheno)) {
       tt
