@@ -5,7 +5,7 @@
 \title{Download methylCIPHER Clock Data}
 \usage{
 download_methylCIPHER(
-  clocks = c("all", "SystemsAge", "PCClocks"),
+  clocks = c("all", "SystemsAge", "PCClocks", "PCBrainAge"),
   source = c("googledrive", "zenodo"),
   path = NULL,
   force = FALSE,

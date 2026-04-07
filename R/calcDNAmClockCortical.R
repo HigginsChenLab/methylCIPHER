@@ -1,6 +1,6 @@
 #' calcDNAmClockCortical
 #'
-#' @description A function to calculate PhenoAge as retrained using HRS and InChianti data. Trained by Albert Higgins-Chen during the PC Clocks paper work.
+#' @description A function to calculate DNAmClockCortical, trained to predict chronological age from brain cortical tissue.
 #'
 #' @param DNAm a matrix of methylation beta values. Needs to be rows = samples and columns = CpGs, with rownames and colnames.
 #' @param pheno Optional: The sample phenotype data (also with samples as rows) that the clock will be appended to.

@@ -7,6 +7,11 @@
 #'
 #' @examples getClockProbes(exampleBetas)
 getClockProbes <- function(DNAm) {
+  all_na_cols <- colSums(is.na(DNAm)) == nrow(DNAm)
+  if (any(all_na_cols)) {
+    warning("Warning! Some CpGs are NA in all samples. Suggest using removeNAprobes to remove these.")
+  }
+
   ClockDataList <- as.data.frame(data(package = "methylCIPHER")[3][[1]])$Item
   ClockDataList <- grep("_CpG", ClockDataList, value = TRUE)
   ClockDataList <- ClockDataList[grep("Calc", ClockDataList, invert = TRUE)]
@@ -18,7 +23,7 @@ getClockProbes <- function(DNAm) {
 
     if (ClockDataList[i] %in% c(
       "Bocklandt_CpG", "DunedinPACE_CpGs", "DunedinPoAm38_CpGs", "EpiToc_CpGs", "hypoClock_CpGs",
-      "Garagnani_CpG", "Weidner_CpGs", "PCClocks_CpGs", "SystemsAge_CpGs", "eightfiftykCpGs"
+      "Garagnani_CpG", "PCBrainAge_CpGs", "Weidner_CpGs", "PCClocks_CpGs", "SystemsAge_CpGs", "eightfiftykCpGs"
     )) {
       currentCpGList <- x
     } else if (ClockDataList[i] == "EpiToc2_CpGs") {
@@ -39,7 +44,7 @@ getClockProbes <- function(DNAm) {
       currentCpGList <- x[[CpGColumn[1]]]
     }
 
-    clockName <- sapply(strsplit(ClockDataList[i], "_"), `[`, 1)
+    clockName <- sub("_CpGs?$", "", ClockDataList[i])
     total <- length(currentCpGList)
     present <- sum(currentCpGList %in% colnames(DNAm))
     pct <- paste0(round((present / total) * 100, 0), "%")
@@ -62,6 +67,51 @@ getClockProbes <- function(DNAm) {
 
     results[[length(results) + 1]] <- data.frame(
       Clock = paste0("PhysAge: ", nm),
+      Total.Probes = total,
+      Present.Probes = present,
+      Percent.Present = pct
+    )
+  }
+
+  # Add GrimAge V2 component subscores (V1 shared components have identical CpGs)
+  grim2_components <- c("PACKYRS", "ADM", "B2M", "CystatinC", "GDF15", "Leptin", "PAI1", "TIMP1", "logA1C", "logCRP")
+  for (comp in grim2_components) {
+    cpgs <- names(CalcGrimAge2[[paste0(comp, ".model")]])
+    cpgs <- cpgs[grepl("^cg|^ch", cpgs)]
+    total <- length(cpgs)
+    present <- sum(cpgs %in% colnames(DNAm))
+    pct <- paste0(round((present / total) * 100, 0), "%")
+    results[[length(results) + 1]] <- data.frame(
+      Clock = paste0("GrimAgeV2: DNAm", comp),
+      Total.Probes = total,
+      Present.Probes = present,
+      Percent.Present = pct
+    )
+  }
+
+  # Add DNAmFitAge component subscores
+  fitage_components <- list(
+    "DNAmGait_noAge (F)" = "Gait_noAge_Females",
+    "DNAmGait_noAge (M)" = "Gait_noAge_Males",
+    "DNAmGrip_noAge (F)" = "Grip_noAge_Females",
+    "DNAmGrip_noAge (M)" = "Grip_noAge_Males",
+    "DNAmVO2max"         = "VO2maxModel",
+    "DNAmGait_wAge (F)"  = "Gait_wAge_Females",
+    "DNAmGait_wAge (M)"  = "Gait_wAge_Males",
+    "DNAmGrip_wAge (F)"  = "Grip_wAge_Females",
+    "DNAmGrip_wAge (M)"  = "Grip_wAge_Males",
+    "DNAmFEV1_wAge (F)"  = "FEV1_wAge_Females",
+    "DNAmFEV1_wAge (M)"  = "FEV1_wAge_Males"
+  )
+  for (label in names(fitage_components)) {
+    model_name <- fitage_components[[label]]
+    terms <- DNAmFitAge_data[[model_name]]$term
+    cpgs <- terms[grepl("^cg|^ch", terms)]
+    total <- length(cpgs)
+    present <- sum(cpgs %in% colnames(DNAm))
+    pct <- paste0(round((present / total) * 100, 0), "%")
+    results[[length(results) + 1]] <- data.frame(
+      Clock = paste0("DNAmFitAge: ", label),
       Total.Probes = total,
       Present.Probes = present,
       Percent.Present = pct
@@ -92,6 +142,15 @@ getClockProbes <- function(DNAm) {
       cpgs <- d@Dimnames[[1]]
       cpgs[cpgs != "(Intercept)"]
     }, error = function(e) NULL)
+
+    # DNAmSAGE clocks: data frames with CpG column
+    for (sage in c("DNAmSAGE_cGAS", "DNAmSAGE_p14Arf", "DNAmSAGE_p16Ink4a", "DNAmSAGE_p21")) {
+      plus_clocks[[sage]] <- tryCatch({
+        d <- getExportedValue("MethylCIPHERplus", paste0(sage, "_CpGs"))
+        cpgs <- d$CpG
+        cpgs[cpgs != "intercept"]
+      }, error = function(e) NULL)
+    }
 
     for (nm in names(plus_clocks)) {
       cpgs <- plus_clocks[[nm]]

@@ -104,33 +104,51 @@ getClockInfo()
 | Age_prediction | Sehgal | 2023 | 37503069 | Chronological Age | 125,175 | HRS and FHS | Blood | 24 - 100 | 450K |
 | Alcohol | McCartney | 2018 | 30257690 | Clinical Phenotype | 450 | Generation Scotland: The Scottish Family Health Study [GS] | Blood | 18–98 | 450K |
 | Blood | Sehgal | 2023 | 37503069 | Mortality | 125,175 | HRS and FHS | Blood | 24 - 100 | 450K |
-| BMI  | McCartney | 2018 | 30257690 | Clinical Phenotype | 1,109 | Generation Scotland: The Scottish Family Health Study [GS] | Blood | 18-98 | 450K |
-| Bocklandt | Bocklandt | 2011 | 21731603 | Chronological Age | 88 | See Misc | Saliva | 21-55 | 27K |
+| BMI | McCartney | 2018 | 30257690 | Clinical Phenotype | 1,109 | Generation Scotland: The Scottish Family Health Study [GS] | Blood | 18-98 | 450K |
+| Bocklandt | Bocklandt | 2011 | 21731603 | Chronological Age | 1 | See Misc | Saliva | 21-55 | 27K |
 | Bohlin | Bohlin | 2016 | 27717397 | Gestational Age | 251 | MoBa1 |  |  | 450K |
 | Brain | Sehgal | 2023 | 37503069 | Mortality | 125,175 | HRS and FHS | Blood | 24 - 100 | 450K |
 | CausAge | Ying | 2024 | 38243142 | Chronological Age | 586 | London Life Sciences Prospective Population (LOLIPOP) | Blood | 23.7-75 | 450K |
+| CellDRIFT | Minteer | 2023 | 37467337 | Mitotic Divisions | 2,322 |  | Immortalized astrocytes |  | EPICv1 |
+| CellPopAge | Lujan | 2024 | 38956711 | Mitotic Divisions | 42 |  | Fibroblasts |  | EPICv1 |
 | DamAge | Ying | 2024 | 38243142 | Chronological Age | 1,090 | London Life Sciences Prospective Population (LOLIPOP) | Blood | 23.7-75 | 450K |
 | DNAmADM | Lu | 2019 |  6366976 | Protein | 186 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
 | DNAmB2M | Lu | 2019 |  6366976 | Protein | 91 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
 | DNAmClockCortical | Shireby | 2020 | 33300551 | Chronological Age | 347 | Multiple cohorts | Brain Tissue | 1-108 | 450K |
-| DNAmCystatinC | Lu | 2019 |  6366976 | Protein | 87 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmCRP | Arpawong | 2026 | 40889076 | Clinical Biomarker | 185 | HRS | Blood | 51-100 | EPICv1 |
+| DNAmCystatinC_PhysAge | Lu | 2019 |  6366976 | Protein | 87 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmCystatinC | Arpawong | 2026 | 40889076 | Protein | 238 | HRS | Blood | 51-100 | EPICv1 |
+| DNAmDHEAS | Arpawong | 2026 | 40889076 | Clinical Biomarker | 199 | HRS | Blood | 51-100 | EPICv1 |
+| DNAmFEV1_wAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 77 | FHS, BLSA, Budapest | Blood |  | 450K |
 | DNAmFI_Li | Li | 2022 | 36071044 | Frailty | 20 | ESTHER | Blood | 50 - 75 | EPICv1 |
+| DNAmFitAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 627 | FHS, BLSA, Budapest | Blood |  | 450K |
+| DNAmGait_noAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 59 | FHS, BLSA, Budapest | Blood |  | 450K |
+| DNAmGait_wAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 42 | FHS, BLSA, Budapest | Blood |  | 450K |
 | DNAmGDF15 | Lu | 2019 |  6366976 | Protein | 137 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmGripStrength_noAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 93 | FHS, BLSA, Budapest | Blood |  | 450K |
+| DNAmGripStrength_wAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 64 | FHS, BLSA, Budapest | Blood |  | 450K |
+| DNAmHbA1c | Arpawong | 2026 | 40889076 | Clinical Biomarker | 233 | HRS | Blood | 51-100 | EPICv1 |
+| DNAmHDL | Arpawong | 2026 | 40889076 | Clinical Biomarker | 516 | HRS | Blood | 51-100 | EPICv1 |
 | DNAmIC | Fuentealba | 2025 | 40467932 | Intrinsic Capacity | 91 | Inspire-T | Blood | 20-102 | EPICv1 |
 | DNAmLeptin | Lu | 2019 |  6366976 | Protein | 187 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
-| DNAmlogA1C | Lu | 2022 | 36516495 | Clinical Biomarker | 86 | FHS- Framingham heart study Offspring Cohort | Blood |  40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max)  | 450K |
-| DNAmlogCRP | Lu | 2022 | 36516495 | Clinical Biomarker | 132 | FHS- Framingham heart study Offspring Cohort | Blood |  40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max)  | 450K |
+| DNAmlogA1C | Lu | 2022 | 36516495 | Clinical Biomarker | 86 | FHS- Framingham heart study Offspring Cohort | Blood | 40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max) | 450K |
+| DNAmlogCRP | Lu | 2022 | 36516495 | Clinical Biomarker | 132 | FHS- Framingham heart study Offspring Cohort | Blood | 40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max) | 450K |
 | DNAmPACKYRS | Lu | 2019 |  6366976 | Clinical Phenotype | 172 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
 | DNAmPAI1 | Lu | 2019 |  6366976 | Protein | 211 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmPeakflow | Arpawong | 2026 | 40889076 | Clinical Biomarker | 155 | HRS | Blood | 51-100 | EPICv1 |
+| DNAmPulsePr | Arpawong | 2026 | 40889076 | Clinical Biomarker | 60 | HRS | Blood | 51-100 | EPICv1 |
+| DNAmStress | Jung | 2023 | 36182531 | Clinical Phenotype | 211 | NIAAA Discovery Stress Cohort | Blood |  | EPICv1 |
 | DNAmTIMP1 | Lu | 2019 |  6366976 | Protein | 42 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
-| DNAmTL | Lu | 2019 |  3142238 | Telomere Length | 140 | WHI+ JHS- Women’s Health Initiative & Jackson Heart Study | Blood | 50.2, 66.5, 80.2 (WHI min, median, max) - 22.2, 56.6, 93.1 (JHS min, median, max)  | 450K and EPICv1 |
+| DNAmTL | Lu | 2019 |  3142238 | Telomere Length | 140 | WHI+ JHS- Women’s Health Initiative & Jackson Heart Study | Blood | 50.2, 66.5, 80.2 (WHI min, median, max) - 22.2, 56.6, 93.1 (JHS min, median, max) | 450K and EPICv1 |
+| DNAmVO2max | McGreevy | 2023 | 36812475 | Clinical Phenotype | 40 | FHS, BLSA, Budapest | Blood |  | 450K |
+| DNAmWHR | Arpawong | 2026 | 40889076 | Clinical Biomarker | 191 | HRS | Blood | 51-100 | EPICv1 |
 | DunedinPACE | Belsky | 2022 | 35029144 | Pace of Aging | 173 | Dunedin Study | Blood | 26-45 | 450K and EPICv1 |
 | DunedinPoAm38 | Belsky | 2020 | 32367804 | Pace of Aging | 47 | Dunedin Study | Blood | 26-38 | 450K and EPICv1 |
 | EpiTOC1 | Yang | 2016 | 27716309 | Mitotic Divisions | 385 | UCSD and WCH (GSE40279) | Blood | See Misc | 450K |
 | EpiTOC2 | Teschendorff | 2020 | 32580750 | Mitotic Divisions | 163 | UCSD and WCH (GSE40279) | Blood | 19-101 | 450K |
 | Garagnani | Garagnani | 2012 | 23061750 | Chronological Age | 1 | See Misc | Blood | 42–83 and 9–52 | 450K |
 | GrimAgeV1 | Lu | 2019 | 30669119 | Mortality | 1,030 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
-| GrimAgeV2 | Lu | 2022 | 36516495 | Mortality | 1,030 | FHS- Framingham heart study Offspring Cohort | Blood |  40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max)  | 450K |
+| GrimAgeV2 | Lu | 2022 | 36516495 | Mortality | 1,030 | FHS- Framingham heart study Offspring Cohort | Blood | 40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max) | 450K |
 | Hannum | Hannum | 2013 | 23177740 | Chronological Age | 71 | UCSD and WCH (GSE40279) | Blood | 19-101 | 450K |
 | Heart | Sehgal | 2023 | 37503069 | Mortality | 125,175 | HRS and FHS | Blood | 24 - 100 | 450K |
 | Hormone | Sehgal | 2023 | 37503069 | Mortality | 125,175 | HRS and FHS | Blood | 24 - 100 | 450K |
@@ -153,27 +171,31 @@ getClockInfo()
 | Metabolic | Sehgal | 2023 | 37503069 | Mortality | 125,175 | HRS and FHS | Blood | 24 - 100 | 450K |
 | MiAge | Youn | 2018 | 29160179 | Mitotic Divisions | 268 |  | 8 cancer types and adjacent tissues |  | 450K and EPICv1 |
 | MusculoSkeletal | Sehgal | 2023 | 37503069 | Mortality | 125,175 | HRS and FHS | Blood | 24 - 100 | 450K |
-| PCADM | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study  | Blood | 24 - 92 | 450K |
-| PCB2M | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study  | Blood | 24 - 92 | 450K |
-| PCCystatinC | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study  | Blood | 24 - 92 | 450K |
-| PCDNAmTL | Higgins-Chen | 2022 | 36277076 | Telomere Length | 78,464 | FHS- Framingham heart study  | Blood | 24 - 92 | 450K |
-| PCGDF15 | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study  | Blood | 24 - 92 | 450K |
-| PCGrimAge | Higgins-Chen | 2022 | 36277076 | Mortality | 78,464 | FHS- Framingham heart study  | Blood | 24 - 92 | 450K |
+| PCADM | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study | Blood | 24 - 92 | 450K |
+| PCB2M | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study | Blood | 24 - 92 | 450K |
+| PCBrainAge | Thrush | 2022 | 35907208 | Chronological Age | 357,852 | NIMH Brain Tissue Collection | Dorsolateral prefrontal cortex | 20-98 | 450K |
+| PCCystatinC | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study | Blood | 24 - 92 | 450K |
+| PCDNAmTL | Higgins-Chen | 2022 | 36277076 | Telomere Length | 78,464 | FHS- Framingham heart study | Blood | 24 - 92 | 450K |
+| PCGDF15 | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study | Blood | 24 - 92 | 450K |
+| PCGrimAge | Higgins-Chen | 2022 | 36277076 | Mortality | 78,464 | FHS- Framingham heart study | Blood | 24 - 92 | 450K |
 | PCHannum | Higgins-Chen | 2022 | 36277076 | Chronological Age | 78,464 | UCSD and WCH (GSE40279) | Blood | 19 - 101 | 450K |
-| PCHorvath1 | Higgins-Chen | 2022 | 36277076 | Chronological Age | 78,464 | Multiple cohorts | Multiple | -0.5 - 105 | 450K |
-| PCHorvath2 | Higgins-Chen | 2022 | 36277076 | Chronological Age | 78,464 | Multiple cohorts | Skin and Blood | -0.3 - 101 | 450K |
-| PCLeptin | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study  | Blood | 24 - 92 | 450K |
-| PCPACKYRS | Higgins-Chen | 2022 | 36277076 | Clinical Phenotype | 78,464 | FHS- Framingham heart study  | Blood | 24 - 92 | 450K |
-| PCPAI1 | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study  | Blood | 24 - 92 | 450K |
+| PCHorvath1 | Higgins-Chen | 2022 | 36277076 | Chronological Age | 78,464 | Multiple cohorts | Multiple | -105.5 | 450K |
+| PCHorvath2 | Higgins-Chen | 2022 | 36277076 | Chronological Age | 78,464 | Multiple cohorts | Skin and Blood | -101.3 | 450K |
+| PCLeptin | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study | Blood | 24 - 92 | 450K |
+| PCPACKYRS | Higgins-Chen | 2022 | 36277076 | Clinical Phenotype | 78,464 | FHS- Framingham heart study | Blood | 24 - 92 | 450K |
+| PCPAI1 | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study | Blood | 24 - 92 | 450K |
 | PCPhenoAge | Higgins-Chen | 2022 | 36277076 | Mortality | 78,464 | HRS and InCHIANTI | Blood | 21 - 101 | 450K |
-| PCTIMP1 | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study  | Blood | 24 - 92 | 450K |
+| PCTIMP1 | Higgins-Chen | 2022 | 36277076 | Protein | 78,464 | FHS- Framingham heart study | Blood | 24 - 92 | 450K |
 | PedBE | McEwan | 2019 | 31611402 | Chronological Age | 94 | Multiple cohorts | Buccal | 0-20 | 450K and EPICv1 |
 | PhenoAge | Levine | 2018 | 29676998 | Mortality | 513 | InCHIANTI | Blood | 21-100 | 450K |
+| PhysAge | Arpawong | 2026 | 40889076 | Clinical Biomarker | 1,711 | HRS | Blood | 51-100 | EPICv1 |
+| RepliTali | Endicott | 2022 | 36347867 | Mitotic Divisions | 87 | NIA Aging Cell Culture Repository | Primary cells (fibroblasts, endothelial, smooth muscle, keratinocyte) |  | EPICv1 |
+| RepliTali_Norm | Endicott | 2022 | 36347867 | Mitotic Divisions | 218 | NIA Aging Cell Culture Repository | Primary cells (fibroblasts, endothelial, smooth muscle, keratinocyte) |  | EPICv1 |
 | RetroAge450K | Ndhlovu | 2024 | 38106164 | Chronological Age | 1,317 | TruDiagnostic BioBank | Blood | 12-100 | EPICv1 |
 | RetroAgeEPICv2 | Ndhlovu | 2024 | 38106164 | Chronological Age | 1,378 | TruDiagnostic BioBank | Blood | 12-100 | EPICv1 |
-| SenChronoAge | Kasamoto | TBD | 41746138 | Chronological Age | 188 | UCSD and WCH (GSE40279) | Blood | 19-101 | 450K and EPICv1 |
-| SenCultureAge | Kasamoto | TBD | 41746138 | Senescence | 141 | GSE197723 and GSE227160 | Fibroblasts, mesenchymal stem cells | n/a | EPICv1 |
-| SenMortalityAge | Kasamoto | TBD | 41746138 | Mortality | 89 | FHS- Framingham heart study  | Blood | 24-92 | 450K and EPICv1 |
+| SenChronoAge | Kasamoto | 2026 | 41746138 | Chronological Age | 188 | UCSD and WCH (GSE40279) | Blood | 19-101 | 450K and EPICv1 |
+| SenCultureAge | Kasamoto | 2026 | 41746138 | Senescence | 141 | GSE197723 and GSE227160 | Fibroblasts, mesenchymal stem cells | n/a | EPICv1 |
+| SenMortalityAge | Kasamoto | 2026 | 41746138 | Mortality | 89 | FHS- Framingham heart study | Blood | 24-92 | 450K and EPICv1 |
 | Smoking | McCartney | 2018 | 30257690 | Clinical Phenotype | 233 | Generation Scotland: The Scottish Family Health Study [GS] | Blood | 18–98 | 450K |
 | StocH | Tong | 2024 | 38724732 | Chronological Age | 353 | Simulated dataset | Blood | 45-83 | 450K and EPICv1 |
 | StocP | Tong | 2024 | 38724732 | Mortality | 513 | Simulated dataset | Blood | 45-83 | 450K and EPICv1 |
@@ -183,15 +205,6 @@ getClockInfo()
 | Weidner | Weidner | 2014 | 24490752 | Chronological Age | 3 | Multiple cohorts | Blood | 0-78 | 450K |
 | Zhang | Zhang | 2017 | 28303888 | Mortality | 10 | ESTHER | Blood | 50-75 | 450K |
 | Zhang2019 | Zhang | 2019 | 31443728 | Chronological Age | 514 | Multiple cohorts | Blood and saliva | 2-104 | 450K |
-| PhysAge | Arpawong | 2026 | 40889076 | Clinical Biomarker | 1,711 | HRS | Blood | 51-100 | EPICv1 |
-| DNAmPeakflow | Arpawong | 2026 | 40889076 | Clinical Biomarker | 155 | HRS | Blood | 51-100 | EPICv1 |
-| DNAmHbA1c | Arpawong | 2026 | 40889076 | Clinical Biomarker | 233 | HRS | Blood | 51-100 | EPICv1 |
-| DNAmHDL | Arpawong | 2026 | 40889076 | Clinical Biomarker | 516 | HRS | Blood | 51-100 | EPICv1 |
-| DNAmPulsePr | Arpawong | 2026 | 40889076 | Clinical Biomarker | 60 | HRS | Blood | 51-100 | EPICv1 |
-| DNAmCRP | Arpawong | 2026 | 40889076 | Clinical Biomarker | 185 | HRS | Blood | 51-100 | EPICv1 |
-| DNAmCystatinC | Arpawong | 2026 | 40889076 | Protein | 238 | HRS | Blood | 51-100 | EPICv1 |
-| DNAmDHEAS | Arpawong | 2026 | 40889076 | Clinical Biomarker | 199 | HRS | Blood | 51-100 | EPICv1 |
-| DNAmWHR | Arpawong | 2026 | 40889076 | Clinical Biomarker | 191 | HRS | Blood | 51-100 | EPICv1 |
 
 #### Running A User-Defined List of Epigenetic Clocks
 

@@ -19,7 +19,7 @@ calcDNAmClockCortical(DNAm, pheno = NULL, CpGImputation = NULL, imputation = T)
 If you added the optional pheno input (preferred) the function appends a column with the clock calculation and returns the dataframe. Otherwise, it will return a vector of calculated clock values in order of the
 }
 \description{
-A function to calculate PhenoAge as retrained using HRS and InChianti data. Trained by Albert Higgins-Chen during the PC Clocks paper work.
+A function to calculate DNAmClockCortical, trained to predict chronological age from brain cortical tissue.
 }
 \examples{
 calcDNAmClockCortical(exampleBetas, examplePheno, imputation = T)
