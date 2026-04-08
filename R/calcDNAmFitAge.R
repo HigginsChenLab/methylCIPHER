@@ -11,8 +11,8 @@
 #'   \itemize{
 #'     \item \code{Female}: Numeric 0/1 (1 = female).
 #'     \item \code{Age}: Numeric chronological age.
-#'     \item \code{DNAmGrimAge}: Pre-calculated GrimAge (e.g. from
-#'       \code{calcGrimAgeV1} or \code{calcGrimAgeV2}).
+#'     \item \code{GrimAgeV1}: Pre-calculated GrimAgeV1 (from
+#'       \code{calcGrimAgeV1}). If absent, it will be computed automatically.
 #'   }
 #'
 #' @return The pheno data.frame with columns appended: DNAmGait_noAge,
@@ -34,8 +34,9 @@ calcDNAmFitAge <- function(DNAm, pheno) {
   # Input validation
   check_DNAm(DNAm)
   check_pheno(pheno, extra_columns = c("Female", "Age"))
-  if (!"DNAmGrimAge" %in% names(pheno)) {
-    stop("pheno must contain a DNAmGrimAge column.")
+  if (!"GrimAgeV1" %in% names(pheno)) {
+    message("DNAmFitAge: GrimAgeV1 not found in pheno; computing GrimAgeV1 automatically.")
+    pheno <- calcGrimAgeV1(DNAm, pheno)
   }
 
   # Ensure pheno and DNAm are aligned
@@ -137,24 +138,24 @@ calcDNAmFitAge <- function(DNAm, pheno) {
 
   # Female FitAge
   fi <- fem_rows[complete.cases(pheno[fem_rows, c("Age", "DNAmGait_noAge",
-                  "DNAmGrip_noAge", "DNAmVO2max", "DNAmGrimAge")])]
+                  "DNAmGrip_noAge", "DNAmVO2max", "GrimAgeV1")])]
   if (length(fi) > 0) {
     pheno$DNAmFitAge[fi] <-
       0.1044232 * ((pheno$DNAmVO2max[fi]      - 46.825091) / (-0.13620215)) +
       0.1742083 * ((pheno$DNAmGrip_noAge[fi]  - 39.857718) / (-0.22074456)) +
       0.2278776 * ((pheno$DNAmGait_noAge[fi]  -  2.508547) / (-0.01245682)) +
-      0.4934908 * ((pheno$DNAmGrimAge[fi]     -  7.978487) / ( 0.80928530))
+      0.4934908 * ((pheno$GrimAgeV1[fi]       -  7.978487) / ( 0.80928530))
   }
 
   # Male FitAge
   mi <- male_rows[complete.cases(pheno[male_rows, c("Age", "DNAmGait_noAge",
-                  "DNAmGrip_noAge", "DNAmVO2max", "DNAmGrimAge")])]
+                  "DNAmGrip_noAge", "DNAmVO2max", "GrimAgeV1")])]
   if (length(mi) > 0) {
     pheno$DNAmFitAge[mi] <-
       0.1390346 * ((pheno$DNAmVO2max[mi]      - 49.836389) / (-0.141862925)) +
       0.1787371 * ((pheno$DNAmGrip_noAge[mi]  - 57.514016) / (-0.253179827)) +
       0.1593873 * ((pheno$DNAmGait_noAge[mi]  -  2.349080) / (-0.009380061)) +
-      0.5228411 * ((pheno$DNAmGrimAge[mi]     -  9.549733) / ( 0.835120557))
+      0.5228411 * ((pheno$GrimAgeV1[mi]       -  9.549733) / ( 0.835120557))
   }
 
   # FitAgeAcceleration: residuals of DNAmFitAge ~ Age
