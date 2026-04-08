@@ -21,7 +21,7 @@ calcDNAmFI_Li <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation 
     stop("Need to provide of named vector of CpG Imputations; Necessary CpGs are missing!")
   } else if (CpGCheck == T | imputation == F) {
     present <- DNAmFI_Li_CpGs$CpG %in% colnames(DNAm)
-    betas <- DNAm[, na.omit(match(DNAmFI_Li_CpGs$CpG, colnames(DNAm)))]
+    betas <- DNAm[, na.omit(match(DNAmFI_Li_CpGs$CpG, colnames(DNAm))), drop = FALSE]
     tt <- sweep(betas, MARGIN = 2, DNAmFI_Li_CpGs$Beta[present],
                 `*`)
     DNAmFI_Li <- as.numeric(rowSums(tt, na.rm = T) + 0.204)
@@ -44,7 +44,7 @@ calcDNAmFI_Li <- function (DNAm, pheno = NULL, CpGImputation = NULL, imputation 
     }
     colnames(tempDNAm) <- missingCpGs
     DNAm <- cbind(DNAm, tempDNAm)
-    betas <- DNAm[, match(DNAmFI_Li_CpGs$CpG, colnames(DNAm))]
+    betas <- DNAm[, match(DNAmFI_Li_CpGs$CpG, colnames(DNAm)), drop = FALSE]
     tt <- sweep(betas, MARGIN = 2, DNAmFI_Li_CpGs$Beta, `*`)
     DNAmFI_Li <- as.numeric(rowSums(tt, na.rm = T) + 0.204)
     if (is.null(pheno)) {

@@ -33,7 +33,7 @@ calcZhang2019 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation =
   } else if (CpGCheck == T | imputation == F) {
     present <- Zhang2019_CpGs$CpG %in% colnames(DNAm)
 
-    betas <- DNAm[, na.omit(match(Zhang2019_CpGs$CpG, colnames(DNAm)))]
+    betas <- DNAm[, na.omit(match(Zhang2019_CpGs$CpG, colnames(DNAm))), drop = FALSE]
     betas2 <- t(apply(betas, 1, scale))
     rownames(betas2) <- rownames(betas)
     colnames(betas2) <- colnames(betas)
@@ -58,7 +58,7 @@ calcZhang2019 <- function(DNAm, pheno = NULL, CpGImputation = NULL, imputation =
     colnames(tempDNAm) <- missingCpGs
     DNAm <- cbind(DNAm, tempDNAm)
 
-    betas <- DNAm[, match(Zhang2019_CpGs$CpG, colnames(DNAm))]
+    betas <- DNAm[, match(Zhang2019_CpGs$CpG, colnames(DNAm)), drop = FALSE]
     betas2 <- t(apply(betas, 1, scale))
     rownames(betas2) <- rownames(betas)
     colnames(betas2) <- colnames(betas)
