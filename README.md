@@ -20,8 +20,9 @@ you to calculate reported epigenetic clocks, or where not precisely
 disclosed, our best estimates–all performed locally on your own machine
 in R Studio. We would like to acknowledge the authors of the original
 clocks and their valuable contributions to aging research, and the
-requisite citations for their clocks can be found at the bottom of the
-current page. Please do not forget to cite them in your work!
+requisite citations for their clocks can be found in the getClockInfo table. Please do not forget to cite them in your work!
+
+Note: the Higgins-Chen lab also maintains methylCIPHERplus, an internal package of prototype clocks that have not yet been published and proprietary clocks that cannot be publicly released. If you are interested in collaborating on these, please reach out to us. Most of these clocks have been benchmarked on key biomarker properties on our TranslAGE platform (translage.io), and you can download summary statistics there to help you select clocks for your study.
 
 ## Installation
 
