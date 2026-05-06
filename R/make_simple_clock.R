@@ -10,27 +10,30 @@
 #' @keywords internal
 make_simple_clock <- function(obj, intercept, clock, cpg, coefficients) {
   stopifnot(all(c(cpg, coefficients) %in% names(obj)))
+  stopifnot(length(obj[[cpg]]) == length(obj[[coefficients]]))
+
+  # force evaluation so the closure is self-contained
+  cpg_names <- obj[[cpg]]
+  coefs <- setNames(obj[[coefficients]], cpg_names)
+  intercept_ <- intercept
+  clock_ <- clock
+
   function(DNAm, pheno = NULL) {
-    # Input validation
     check_DNAm(DNAm)
     if (is.null(pheno)) {
-      pheno <- data.frame(row.names = row.names(DNAm))
+      ids <- rownames(DNAm)
+      if (is.null(ids)) ids <- as.character(seq_len(nrow(DNAm)))
+      pheno <- data.frame(Sample_ID = ids, stringsAsFactors = FALSE)
     }
 
-    ## Imputation
-    CpGs <- numeric(length = length(obj[[cpg]]))
-    names(CpGs) <- obj[[cpg]]
+    # Imputation
+    CpGs <- numeric(length(cpg_names))
+    names(CpGs) <- cpg_names
+    DNAm <- impute_DNAm(DNAm = DNAm, method = "mean", CpGs = CpGs, subset = TRUE)
 
-    DNAm <- impute_DNAm(
-      DNAm = DNAm,
-      method = "mean",
-      CpGs = CpGs,
-      subset = TRUE
-    )
-
-    ## Re-align to make sure things lined up with the object
-    DNAm <- DNAm[, obj[[cpg]], drop = F]
-    pheno[[clock]] <- as.vector(DNAm %*% obj[[coefficients]]) + intercept
-    return(pheno)
+    # Realign DNAm columns and coefficients to a common order
+    DNAm <- DNAm[, cpg_names, drop = FALSE]
+    pheno[[clock_]] <- as.vector(DNAm %*% coefs[cpg_names]) + intercept_
+    pheno
   }
 }

@@ -14,8 +14,8 @@ CpGs as columns.}
 \itemize{
 \item \code{Female}: Numeric 0/1 (1 = female).
 \item \code{Age}: Numeric chronological age.
-\item \code{DNAmGrimAge}: Pre-calculated GrimAge (e.g. from
-\code{calcGrimAgeV1} or \code{calcGrimAgeV2}).
+\item \code{GrimAgeV1}: Pre-calculated GrimAgeV1 (from
+\code{calcGrimAgeV1}). If absent, it will be computed automatically.
 }}
 }
 \value{

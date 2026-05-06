@@ -26,7 +26,7 @@ if (!file.exists(EPICv1)) {
     "https://ftp.ncbi.nlm.nih.gov/geo/series/GSE286nnn/GSE286313/suppl/GSE286313%5FMatrixProcessed%5FGPL21145%2Ecsv%2Egz",
     destfile = EPICv1
   )
-  gunzip(EPICv1)
+  R.utils::gunzip(EPICv1)
 }
 
 # Keep all CpGs, don't do Pval gating

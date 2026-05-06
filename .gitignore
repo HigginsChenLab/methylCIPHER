@@ -19,3 +19,4 @@ Thumbs.db
 
 # macOS zip artifact folder
 __MACOSX/
+.positai
