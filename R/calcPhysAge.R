@@ -5,7 +5,7 @@ PhysAge_surrogates <- function(wf, label, DNAm) {
   # keep only CpGs present in DNAm, and align Beta to those columns
   keep <- intersect(colnames(DNAm), w$CpG)
   if (length(keep) == 0L) {
-    # no overlapping CpGs → return NAs for this score
+    # no overlapping CpGs -> return NAs for this score
     results <- data.frame(
       x1 = rep(NA_real_, times = nrow(DNAm)),
       x2 = rep(NA_real_, times = nrow(DNAm))
@@ -51,13 +51,15 @@ calcPhysAge <- function(DNAm, pheno = NULL) {
   # Input validation
   check_DNAm(DNAm)
   if (is.null(pheno)) {
-    pheno <- data.frame(row.names = row.names(DNAm))
+    ids <- rownames(DNAm)
+    if (is.null(ids)) ids <- as.character(seq_len(nrow(DNAm)))
+    pheno <- data.frame(Sample_ID = ids)
   }
   pheno_cols <- names(pheno)
 
   ## Imputation
   CpGs <- PhysAge_CpGs$mean
-  names(CpGs) <- PhysAge_CpGs$CpG
+  names(CpGs) <- PhysAge_CpGs$cpg
 
   DNAm <- impute_DNAm(
     DNAm = DNAm,
@@ -67,7 +69,7 @@ calcPhysAge <- function(DNAm, pheno = NULL) {
   )
 
   ## Re-align to make sure things lined up with the object
-  DNAm <- DNAm[, PhysAge_CpGs$CpG, drop = F]
+  DNAm <- DNAm[, PhysAge_CpGs$cpg, drop = F]
 
   # Calculate components of PhysAge
   for (i in seq_along(PhysAge_data)) {

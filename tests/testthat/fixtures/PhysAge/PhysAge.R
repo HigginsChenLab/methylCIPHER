@@ -51,7 +51,7 @@ scores_all <- imap(weight_files, function(file, label) {
   # keep only CpGs present in x, and align weights to those columns
   keep <- intersect(colnames(x), w$cpgs)
   if (length(keep) == 0L) {
-    # no overlapping CpGs → return NAs for this score
+    # no overlapping CpGs -> return NAs for this score
     return(tibble(
       sample = rownames(x),
       !!paste0(label, "_final") := NA_real_,
