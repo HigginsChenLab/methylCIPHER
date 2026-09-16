@@ -4,8 +4,6 @@ output:
     toc: true
     toc_depth: 2
     df_print: kable
-    
-      
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -23,6 +21,15 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 <!-- badges: end -->
+
+## News
+
+```{=markdown}
+> [!IMPORTANT]
+> **2026-09-16:** We are testing a rewrite of this package at [methylCIPHERv2](https://github.com/HigginsChenLab/methylCIPHERv2). Feedback is welcome!
+```
+
+----
 
 The goal of methylCIPHER is to allow users to easily calculate their choice of CpG clocks using simple commands, from a single source. CpG epigenetic clocks are currently found in many places, and some require users to send data to external portals, which is not advisable when working with protected or restricted data. The current package allows you to calculate reported epigenetic clocks, or where not precisely disclosed, our best estimates--all performed locally on your own machine in R Studio. We would like to acknowledge the authors of the original clocks and their valuable contributions to aging research, and the requisite citations for their clocks can be found at the bottom of the current page. Please do not forget to cite them in your work!
 

@@ -1,5 +1,6 @@
 
 - [HigginsChenLab/methylCIPHER](#higginschenlabmethylcipher)
+  - [News](#news)
   - [Installation](#installation)
   - [Calculating Epigenetic Clocks and
     Predictors](#calculating-epigenetic-clocks-and-predictors)
@@ -9,7 +10,15 @@
 # HigginsChenLab/methylCIPHER
 
 <!-- badges: start -->
+
 <!-- badges: end -->
+
+## News
+
+> [!IMPORTANT]
+> **2026-09-16:** We are testing a rewrite of this package at [methylCIPHERv2](https://github.com/HigginsChenLab/methylCIPHERv2). Feedback is welcome!
+
+------------------------------------------------------------------------
 
 The goal of methylCIPHER is to allow users to easily calculate their
 choice of CpG clocks using simple commands, from a single source. CpG
@@ -20,9 +29,8 @@ you to calculate reported epigenetic clocks, or where not precisely
 disclosed, our best estimates–all performed locally on your own machine
 in R Studio. We would like to acknowledge the authors of the original
 clocks and their valuable contributions to aging research, and the
-requisite citations for their clocks can be found in the getClockInfo table. Please do not forget to cite them in your work!
-
-Note: the Higgins-Chen lab also maintains methylCIPHERplus, an internal package of prototype clocks that have not yet been published and proprietary clocks that cannot be publicly released. If you are interested in collaborating on these, please reach out to us. Most of these clocks have been benchmarked on key biomarker properties on our TranslAGE platform (translage.io), and you can download summary statistics there to help you select clocks for your study.
+requisite citations for their clocks can be found at the bottom of the
+current page. Please do not forget to cite them in your work!
 
 ## Installation
 
@@ -31,9 +39,9 @@ packages from [Github](https://Cgithub.com/HigginsChenLab/methylCIPHER)
 with:
 
 ``` r
+devtools::install_github("MorganLevineLab/prcPhenoAge")
 devtools::install_github("danbelsky/DunedinPoAm38")
-devtools::install_github("danbelsky/DunedinPACE")
-devtools::install_github("HigginsChenLab/methylCIPHER")
+devtools::install_github("MorganLevineLab/methylCIPHER")
 ```
 
 ## Calculating Epigenetic Clocks and Predictors
@@ -45,8 +53,7 @@ clocks or CpG based predictors. While we strove to be inclusive of such
 published CpG-based epigenetic clocks to our knowledge, if you find we
 are missing a clock, please contact us and we will do our best to
 promptly include it, if possible. You can do so by raising an issue on
-this repo or emailing us directly at
-a.higginschen@yale.edu.
+this repo or emailing us directly at <a.higginschen@yale.edu>.
 
 In order to calculate a CpG clock, you simply need to use the
 appropriate function, typically named “calc\[ClockNameHere\]”. For
@@ -59,13 +66,13 @@ calcPhenoAge(exampleBetas, examplePheno, imputation = F)
 
 <div class="kable-table">
 
-| name              | geo_accession | gender |  age | group | sample | PhenoAge |
-|:------------------|:--------------|:-------|-----:|------:|-------:|---------:|
-| 7786915023_R02C02 | GSM1343050    | M      | 57.9 |     1 |      1 | 52.29315 |
-| 7786915135_R04C02 | GSM1343051    | M      | 42.0 |     1 |      2 | 41.05867 |
-| 7471147149_R06C01 | GSM1343052    | M      | 47.4 |     1 |      3 | 43.54460 |
-| 7786915035_R05C01 | GSM1343053    | M      | 49.3 |     1 |      4 | 43.96697 |
-| 7786923035_R01C01 | GSM1343054    | M      | 52.5 |     1 |      5 | 40.35242 |
+| Sample_ID         | geo_accession | gender |  Age | group | sample | Female | PhenoAge |
+|:------------------|:--------------|:-------|-----:|------:|-------:|-------:|---------:|
+| 7786915023_R02C02 | GSM1343050    | M      | 57.9 |     1 |      1 |      0 | 52.29315 |
+| 7786915135_R04C02 | GSM1343051    | M      | 42.0 |     1 |      2 |      0 | 41.05867 |
+| 7471147149_R06C01 | GSM1343052    | M      | 47.4 |     1 |      3 |      0 | 43.54460 |
+| 7786915035_R05C01 | GSM1343053    | M      | 49.3 |     1 |      4 |      0 | 43.96697 |
+| 7786923035_R01C01 | GSM1343054    | M      | 52.5 |     1 |      5 |      0 | 40.35242 |
 
 </div>
 
@@ -99,13 +106,15 @@ section below.
 getClockInfo()
 ```
 
-| Clock Name | 1st Author | Year | PMID | Trained Phenotype | # of CpGs | Cohort Trained | Tissues Derived | Age Range Trained | Array Type Trained |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+<div class="kable-table">
+
+| Clock Name | 1st Author | Year | PMID | Trained Phenotype | \# of CpGs | Cohort Trained | Tissues Derived | Age Range Trained | Array Type Trained |
+|:---|:---|---:|---:|:---|:---|:---|:---|:---|:---|
 | AdaptAge | Ying | 2024 | 38243142 | Chronological Age | 1,000 | London Life Sciences Prospective Population (LOLIPOP) | Blood | 23.7-75 | 450K |
 | Age_prediction | Sehgal | 2023 | 37503069 | Chronological Age | 125,175 | HRS and FHS | Blood | 24 - 100 | 450K |
-| Alcohol | McCartney | 2018 | 30257690 | Clinical Phenotype | 450 | Generation Scotland: The Scottish Family Health Study [GS] | Blood | 18–98 | 450K |
+| Alcohol | McCartney | 2018 | 30257690 | Clinical Phenotype | 450 | Generation Scotland: The Scottish Family Health Study \[GS\] | Blood | 18–98 | 450K |
 | Blood | Sehgal | 2023 | 37503069 | Mortality | 125,175 | HRS and FHS | Blood | 24 - 100 | 450K |
-| BMI | McCartney | 2018 | 30257690 | Clinical Phenotype | 1,109 | Generation Scotland: The Scottish Family Health Study [GS] | Blood | 18-98 | 450K |
+| BMI | McCartney | 2018 | 30257690 | Clinical Phenotype | 1,109 | Generation Scotland: The Scottish Family Health Study \[GS\] | Blood | 18-98 | 450K |
 | Bocklandt | Bocklandt | 2011 | 21731603 | Chronological Age | 1 | See Misc | Saliva | 21-55 | 27K |
 | Bohlin | Bohlin | 2016 | 27717397 | Gestational Age | 251 | MoBa1 |  |  | 450K |
 | Brain | Sehgal | 2023 | 37503069 | Mortality | 125,175 | HRS and FHS | Blood | 24 - 100 | 450K |
@@ -113,11 +122,11 @@ getClockInfo()
 | CellDRIFT | Minteer | 2023 | 37467337 | Mitotic Divisions | 2,322 |  | Immortalized astrocytes |  | EPICv1 |
 | CellPopAge | Lujan | 2024 | 38956711 | Mitotic Divisions | 42 |  | Fibroblasts |  | EPICv1 |
 | DamAge | Ying | 2024 | 38243142 | Chronological Age | 1,090 | London Life Sciences Prospective Population (LOLIPOP) | Blood | 23.7-75 | 450K |
-| DNAmADM | Lu | 2019 |  6366976 | Protein | 186 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
-| DNAmB2M | Lu | 2019 |  6366976 | Protein | 91 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmADM | Lu | 2019 | 6366976 | Protein | 186 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmB2M | Lu | 2019 | 6366976 | Protein | 91 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
 | DNAmClockCortical | Shireby | 2020 | 33300551 | Chronological Age | 347 | Multiple cohorts | Brain Tissue | 1-108 | 450K |
 | DNAmCRP | Arpawong | 2026 | 40889076 | Clinical Biomarker | 185 | HRS | Blood | 51-100 | EPICv1 |
-| DNAmCystatinC_PhysAge | Lu | 2019 |  6366976 | Protein | 87 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmCystatinC_PhysAge | Lu | 2019 | 6366976 | Protein | 87 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
 | DNAmCystatinC | Arpawong | 2026 | 40889076 | Protein | 238 | HRS | Blood | 51-100 | EPICv1 |
 | DNAmDHEAS | Arpawong | 2026 | 40889076 | Clinical Biomarker | 199 | HRS | Blood | 51-100 | EPICv1 |
 | DNAmFEV1_wAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 77 | FHS, BLSA, Budapest | Blood |  | 450K |
@@ -125,22 +134,22 @@ getClockInfo()
 | DNAmFitAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 627 | FHS, BLSA, Budapest | Blood |  | 450K |
 | DNAmGait_noAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 59 | FHS, BLSA, Budapest | Blood |  | 450K |
 | DNAmGait_wAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 42 | FHS, BLSA, Budapest | Blood |  | 450K |
-| DNAmGDF15 | Lu | 2019 |  6366976 | Protein | 137 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmGDF15 | Lu | 2019 | 6366976 | Protein | 137 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
 | DNAmGripStrength_noAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 93 | FHS, BLSA, Budapest | Blood |  | 450K |
 | DNAmGripStrength_wAge | McGreevy | 2023 | 36812475 | Clinical Phenotype | 64 | FHS, BLSA, Budapest | Blood |  | 450K |
 | DNAmHbA1c | Arpawong | 2026 | 40889076 | Clinical Biomarker | 233 | HRS | Blood | 51-100 | EPICv1 |
 | DNAmHDL | Arpawong | 2026 | 40889076 | Clinical Biomarker | 516 | HRS | Blood | 51-100 | EPICv1 |
 | DNAmIC | Fuentealba | 2025 | 40467932 | Intrinsic Capacity | 91 | Inspire-T | Blood | 20-102 | EPICv1 |
-| DNAmLeptin | Lu | 2019 |  6366976 | Protein | 187 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmLeptin | Lu | 2019 | 6366976 | Protein | 187 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
 | DNAmlogA1C | Lu | 2022 | 36516495 | Clinical Biomarker | 86 | FHS- Framingham heart study Offspring Cohort | Blood | 40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max) | 450K |
 | DNAmlogCRP | Lu | 2022 | 36516495 | Clinical Biomarker | 132 | FHS- Framingham heart study Offspring Cohort | Blood | 40 (min), 59 (25th), 66.1(mean), 73(75th), 92 (max) | 450K |
-| DNAmPACKYRS | Lu | 2019 |  6366976 | Clinical Phenotype | 172 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
-| DNAmPAI1 | Lu | 2019 |  6366976 | Protein | 211 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmPACKYRS | Lu | 2019 | 6366976 | Clinical Phenotype | 172 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmPAI1 | Lu | 2019 | 6366976 | Protein | 211 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
 | DNAmPeakflow | Arpawong | 2026 | 40889076 | Clinical Biomarker | 155 | HRS | Blood | 51-100 | EPICv1 |
 | DNAmPulsePr | Arpawong | 2026 | 40889076 | Clinical Biomarker | 60 | HRS | Blood | 51-100 | EPICv1 |
 | DNAmStress | Jung | 2023 | 36182531 | Clinical Phenotype | 211 | NIAAA Discovery Stress Cohort | Blood |  | EPICv1 |
-| DNAmTIMP1 | Lu | 2019 |  6366976 | Protein | 42 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
-| DNAmTL | Lu | 2019 |  3142238 | Telomere Length | 140 | WHI+ JHS- Women’s Health Initiative & Jackson Heart Study | Blood | 50.2, 66.5, 80.2 (WHI min, median, max) - 22.2, 56.6, 93.1 (JHS min, median, max) | 450K and EPICv1 |
+| DNAmTIMP1 | Lu | 2019 | 6366976 | Protein | 42 | FHS- Framingham heart study Offspring Cohort | Blood | ~40(min) to ~90 (max) | 450K |
+| DNAmTL | Lu | 2019 | 3142238 | Telomere Length | 140 | WHI+ JHS- Women’s Health Initiative & Jackson Heart Study | Blood | 50.2, 66.5, 80.2 (WHI min, median, max) - 22.2, 56.6, 93.1 (JHS min, median, max) | 450K and EPICv1 |
 | DNAmVO2max | McGreevy | 2023 | 36812475 | Clinical Phenotype | 40 | FHS, BLSA, Budapest | Blood |  | 450K |
 | DNAmWHR | Arpawong | 2026 | 40889076 | Clinical Biomarker | 191 | HRS | Blood | 51-100 | EPICv1 |
 | DunedinPACE | Belsky | 2022 | 35029144 | Pace of Aging | 173 | Dunedin Study | Blood | 26-45 | 450K and EPICv1 |
@@ -197,7 +206,7 @@ getClockInfo()
 | SenChronoAge | Kasamoto | 2026 | 41746138 | Chronological Age | 188 | UCSD and WCH (GSE40279) | Blood | 19-101 | 450K and EPICv1 |
 | SenCultureAge | Kasamoto | 2026 | 41746138 | Senescence | 141 | GSE197723 and GSE227160 | Fibroblasts, mesenchymal stem cells | n/a | EPICv1 |
 | SenMortalityAge | Kasamoto | 2026 | 41746138 | Mortality | 89 | FHS- Framingham heart study | Blood | 24-92 | 450K and EPICv1 |
-| Smoking | McCartney | 2018 | 30257690 | Clinical Phenotype | 233 | Generation Scotland: The Scottish Family Health Study [GS] | Blood | 18–98 | 450K |
+| Smoking | McCartney | 2018 | 30257690 | Clinical Phenotype | 233 | Generation Scotland: The Scottish Family Health Study \[GS\] | Blood | 18–98 | 450K |
 | StocH | Tong | 2024 | 38724732 | Chronological Age | 353 | Simulated dataset | Blood | 45-83 | 450K and EPICv1 |
 | StocP | Tong | 2024 | 38724732 | Mortality | 513 | Simulated dataset | Blood | 45-83 | 450K and EPICv1 |
 | StocZ | Tong | 2024 | 38724732 | Chronological Age | 514 | Simulated dataset | Blood | 45-83 | 450K and EPICv1 |
@@ -207,6 +216,8 @@ getClockInfo()
 | Zhang | Zhang | 2017 | 28303888 | Mortality | 10 | ESTHER | Blood | 50-75 | 450K |
 | Zhang2019 | Zhang | 2019 | 31443728 | Chronological Age | 514 | Multiple cohorts | Blood and saliva | 2-104 | 450K |
 
+</div>
+
 #### Running A User-Defined List of Epigenetic Clocks
 
 The user is welcome to specify a vector of clocks that they would like
@@ -215,43 +226,52 @@ this case, you will need to choose from the following options:
 
 ``` r
 clockOptions()
-#>  [1] "calcAlcoholMcCartney"            "calcBMIMcCartney"               
-#>  [3] "calcBocklandt"                   "calcBohlin"                     
-#>  [5] "calcClockCategory"               "calcDNAmClockCortical"          
-#>  [7] "calcDNAmTL"                      "calcDunedinPoAm38"              
-#>  [9] "calcEpiTOC"                      "calcEpiTOC2"                    
-#> [11] "calcGaragnani"                   "calcGrimAgeV1"                  
-#> [13] "calcGrimAgeV2"                   "calcHannum"                     
-#> [15] "calcHorvath1"                    "calcHorvath2"                   
-#> [17] "calcHRSInChPhenoAge"             "calcHypoClock"                  
-#> [19] "calcKnight"                      "calcLeeControl"                 
-#> [21] "calcLeeRefinedRobust"            "calcLeeRobust"                  
-#> [23] "calcLin"                         "calcMayne"                      
-#> [25] "calcMiAge"                       "calcPCClocks"                   
-#> [27] "calcPEDBE"                       "calcPhenoAge"                   
-#> [29] "calcSmokingMcCartney"            "calcSystemsAge"                 
-#> [31] "calcVidalBralo"                  "calcWeidner"                    
-#> [33] "calcZhang"                       "calcZhang2019"                  
-#> [35] "prcPhenoAge::calcPRCPhenoAge"    "prcPhenoAge::calcnonPRCPhenoAge"
-#> [37] "DunedinPoAm38::PoAmProjector"
+#>  [1] "calcAdaptAge"                    "calcAlcoholMcCartney"           
+#>  [3] "calcBMIMcCartney"                "calcBocklandt"                  
+#>  [5] "calcBohlin"                      "calcCausAge"                    
+#>  [7] "calcCellDRIFT"                   "calcCellPopAge"                 
+#>  [9] "calcDamAge"                      "calcDNAmClockCortical"          
+#> [11] "calcDNAmFI_Li"                   "calcDNAmFitAge"                 
+#> [13] "calcDNAmIC"                      "calcDNAmStress"                 
+#> [15] "calcDNAmTL"                      "calcDunedinPoAm38"              
+#> [17] "calcEpiTOC"                      "calcEpiTOC2"                    
+#> [19] "calcGaragnani"                   "calcGrimAgeV1"                  
+#> [21] "calcGrimAgeV2"                   "calcHannum"                     
+#> [23] "calcHorvath1"                    "calcHorvath2"                   
+#> [25] "calcHRSInChPhenoAge"             "calcHypoClock"                  
+#> [27] "calcIntrinClock"                 "calcKnight"                     
+#> [29] "calcLeeControl"                  "calcLeeRefinedRobust"           
+#> [31] "calcLeeRobust"                   "calcLin"                        
+#> [33] "calcMayne"                       "calcMiAge"                      
+#> [35] "calcPCBrainAge"                  "calcPCClocks"                   
+#> [37] "calcPEDBE"                       "calcPhenoAge"                   
+#> [39] "calcPhysAge"                     "calcRepliTali"                  
+#> [41] "calcRepliTaliNorm"               "calcRetroAge450K"               
+#> [43] "calcRetroAgeEPICv2"              "calcSenChronoAge"               
+#> [45] "calcSenCultureAge"               "calcSenMortalityAge"            
+#> [47] "calcSmokingMcCartney"            "calcStochClocks"                
+#> [49] "calcSystemsAge"                  "calcVidalBralo"                 
+#> [51] "calcWeidner"                     "calcZhang"                      
+#> [53] "calcZhang2019"                   "prcPhenoAge::calcPRCPhenoAge"   
+#> [55] "prcPhenoAge::calcnonPRCPhenoAge" "DunedinPoAm38::PoAmProjector"
 ```
 
 To do so, here is an example:
 
 ``` r
-userClocks <- c("calcSmokingMcCartney","calcPhenoAge","calcEpiTOC2")
+userClocks <- c("calcSmokingMcCartney", "calcPhenoAge", "calcEpiTOC2")
 calcUserClocks(userClocks, exampleBetas, examplePheno, imputation = F)
 ```
 
 <div class="kable-table">
 
-| name              | geo_accession | gender |  age | group | sample | Smoking_McCartney | PhenoAge |  epiTOC2 |
-|:------------------|:--------------|:-------|-----:|------:|-------:|------------------:|---------:|---------:|
-| 7786915023_R02C02 | GSM1343050    | M      | 57.9 |     1 |      1 |          3.993508 | 52.29315 | 5012.412 |
-| 7786915135_R04C02 | GSM1343051    | M      | 42.0 |     1 |      2 |          4.501657 | 41.05867 | 4622.625 |
-| 7471147149_R06C01 | GSM1343052    | M      | 47.4 |     1 |      3 |          3.173744 | 43.54460 | 2956.300 |
-| 7786915035_R05C01 | GSM1343053    | M      | 49.3 |     1 |      4 |          3.216788 | 43.96697 | 3446.410 |
-| 7786923035_R01C01 | GSM1343054    | M      | 52.5 |     1 |      5 |          4.414541 | 40.35242 | 3245.157 |
+| Sample_ID | geo_accession | gender | Age | group | sample | Female | Smoking_McCartney | PhenoAge | epiTOC2 |
+|:---|:---|:---|---:|---:|---:|---:|---:|---:|---:|
+| 7786915023_R02C02 | GSM1343050 | M | 57.9 | 1 | 1 | 0 | 3.993508 | 52.29315 | 5012.412 |
+| 7786915135_R04C02 | GSM1343051 | M | 42.0 | 1 | 2 | 0 | 4.501657 | 41.05867 | 4622.625 |
+| 7471147149_R06C01 | GSM1343052 | M | 47.4 | 1 | 3 | 0 | 3.173744 | 43.54460 | 2956.300 |
+| 7786915035_R05C01 | GSM1343053 | M | 49.3 | 1 | 4 | 0 | 3.216788 | 43.96697 | 3446.410 |
+| 7786923035_R01C01 | GSM1343054 | M | 52.5 | 1 | 5 | 0 | 4.414541 | 40.35242 | 3245.157 |
 
 </div>
 
@@ -275,40 +295,90 @@ getClockProbes(exampleBetas)
 
 <div class="kable-table">
 
-| Clock             | Total.Probes | Present.Probes | Percent.Present |
-|:------------------|-------------:|---------------:|:----------------|
-| Alcohol           |          450 |            450 | 100%            |
-| BMI               |         1109 |           1109 | 100%            |
-| Bocklandt         |            1 |              1 | 100%            |
-| Bohlin            |          251 |              8 | 3%              |
-| DNAmClockCortical |          347 |             33 | 10%             |
-| DNAmTL            |          140 |             11 | 8%              |
-| EpiToc2           |          163 |            163 | 100%            |
-| EpiToc            |          385 |            385 | 100%            |
-| Garagnani         |            1 |              1 | 100%            |
-| GrimAge1          |         1139 |             83 | 7%              |
-| GrimAge2          |         1362 |            111 | 8%              |
-| HRSInCHPhenoAge   |          959 |            959 | 100%            |
-| Hannum            |           71 |             71 | 100%            |
-| Horvath1          |          353 |            353 | 100%            |
-| Horvath2          |          391 |            390 | 100%            |
-| Knight            |          148 |             16 | 11%             |
-| LeeControl        |          546 |             13 | 2%              |
-| LeeRefinedRobust  |          395 |              9 | 2%              |
-| LeeRobust         |          558 |              9 | 2%              |
-| Lin               |           99 |             39 | 39%             |
-| Mayne             |           62 |              5 | 8%              |
-| MiAge             |          268 |              4 | 1%              |
-| PCClocks          |        78464 |           2976 | 4%              |
-| PEDBE             |           94 |             14 | 15%             |
-| PhenoAge          |          513 |            513 | 100%            |
-| Smoking           |          233 |            233 | 100%            |
-| SystemsAge        |       125175 |           4024 | 3%              |
-| VidalBralo        |            8 |              5 | 62%             |
-| Weidner           |            3 |              3 | 100%            |
-| Zhang2019         |          514 |            131 | 25%             |
-| Zhang             |           10 |             10 | 100%            |
-| hypoClock         |          678 |            678 | 100%            |
+| Clock                          | Total.Probes | Present.Probes | Percent.Present |
+|:-------------------------------|-------------:|---------------:|:----------------|
+| AdaptAge                       |          999 |             28 | 3%              |
+| Alcohol                        |          450 |            450 | 100%            |
+| BMI                            |         1109 |           1109 | 100%            |
+| Bocklandt                      |            1 |              1 | 100%            |
+| Bohlin                         |          251 |              8 | 3%              |
+| CausAge                        |          585 |             20 | 3%              |
+| CellDRIFT                      |         2322 |             50 | 2%              |
+| CellPopAge                     |           42 |              1 | 2%              |
+| DNAmClockCortical              |          347 |             33 | 10%             |
+| DNAmFI_Li                      |           20 |              3 | 15%             |
+| DNAmFitAge                     |          627 |             45 | 7%              |
+| DNAmIC                         |           91 |              9 | 10%             |
+| DNAmStress                     |          211 |              4 | 2%              |
+| DNAmTL                         |          140 |             11 | 8%              |
+| DamAge                         |         1089 |             30 | 3%              |
+| DunedinPACE                    |          173 |             17 | 10%             |
+| DunedinPoAm38                  |           46 |              8 | 17%             |
+| EpiToc2                        |          163 |            163 | 100%            |
+| EpiToc                         |          385 |            385 | 100%            |
+| Garagnani                      |            1 |              1 | 100%            |
+| GrimAgeV1                      |         1139 |             83 | 7%              |
+| GrimAgeV2                      |         1362 |            111 | 8%              |
+| HRSInCHPhenoAge                |          959 |            959 | 100%            |
+| Hannum                         |           71 |             71 | 100%            |
+| Horvath1                       |          353 |            353 | 100%            |
+| Horvath2                       |          391 |            390 | 100%            |
+| IntrinClock                    |          410 |             53 | 13%             |
+| Knight                         |          148 |             16 | 11%             |
+| LeeControl                     |          546 |             13 | 2%              |
+| LeeRefinedRobust               |          395 |              9 | 2%              |
+| LeeRobust                      |          558 |              9 | 2%              |
+| Lin                            |           99 |             39 | 39%             |
+| Mayne                          |           62 |              5 | 8%              |
+| MiAge                          |          268 |              4 | 1%              |
+| PCBrainAge                     |       357852 |           3987 | 1%              |
+| PCClocks                       |        78464 |           2976 | 4%              |
+| PEDBE                          |           94 |             14 | 15%             |
+| PhenoAge                       |          513 |            513 | 100%            |
+| PhysAge                        |            0 |              0 | NaN%            |
+| RepliTaliNorm                  |          218 |              1 | 0%              |
+| RepliTali                      |           87 |              1 | 1%              |
+| RetroAge450K                   |         1317 |             18 | 1%              |
+| RetroAgeEPICv2                 |         1378 |             15 | 1%              |
+| SenChronoAge                   |          187 |             16 | 9%              |
+| SenCultureAge                  |          142 |              0 | 0%              |
+| SenMortalityAge                |           91 |              8 | 9%              |
+| Smoking                        |          233 |            233 | 100%            |
+| SystemsAge                     |       125175 |           4024 | 3%              |
+| VidalBralo                     |            8 |              5 | 62%             |
+| Weidner                        |            3 |              3 | 100%            |
+| Zhang2019                      |          514 |            131 | 25%             |
+| Zhang                          |           10 |             10 | 100%            |
+| hypoClock                      |          678 |            678 | 100%            |
+| PhysAge: DNAmPeakflow          |          155 |             10 | 6%              |
+| PhysAge: DNAmHbA1c             |          233 |             14 | 6%              |
+| PhysAge: DNAmHDL               |          516 |             19 | 4%              |
+| PhysAge: DNAmPulsePr           |           60 |             10 | 17%             |
+| PhysAge: DNAmCRP               |          185 |             12 | 6%              |
+| PhysAge: DNAmCystatinC         |          238 |             13 | 5%              |
+| PhysAge: DNAmDHEAS             |          199 |              8 | 4%              |
+| PhysAge: DNAmWHR               |          191 |             14 | 7%              |
+| GrimAgeV2: DNAmPACKYRS         |          172 |             12 | 7%              |
+| GrimAgeV2: DNAmADM             |          186 |              9 | 5%              |
+| GrimAgeV2: DNAmB2M             |           91 |             10 | 11%             |
+| GrimAgeV2: DNAmCystatinC       |           87 |             10 | 11%             |
+| GrimAgeV2: DNAmGDF15           |          137 |             13 | 9%              |
+| GrimAgeV2: DNAmLeptin          |          187 |              8 | 4%              |
+| GrimAgeV2: DNAmPAI1            |          211 |             12 | 6%              |
+| GrimAgeV2: DNAmTIMP1           |           42 |              9 | 21%             |
+| GrimAgeV2: DNAmlogA1C          |           86 |             13 | 15%             |
+| GrimAgeV2: DNAmlogCRP          |          132 |             15 | 11%             |
+| DNAmFitAge: DNAmGait_noAge (F) |           53 |              7 | 13%             |
+| DNAmFitAge: DNAmGait_noAge (M) |           59 |             17 | 29%             |
+| DNAmFitAge: DNAmGrip_noAge (F) |           91 |              9 | 10%             |
+| DNAmFitAge: DNAmGrip_noAge (M) |           93 |             10 | 11%             |
+| DNAmFitAge: DNAmVO2max         |           40 |              1 | 2%              |
+| DNAmFitAge: DNAmGait_wAge (F)  |           42 |              5 | 12%             |
+| DNAmFitAge: DNAmGait_wAge (M)  |           26 |              1 | 4%              |
+| DNAmFitAge: DNAmGrip_wAge (F)  |           52 |              0 | 0%              |
+| DNAmFitAge: DNAmGrip_wAge (M)  |           64 |              2 | 3%              |
+| DNAmFitAge: DNAmFEV1_wAge (F)  |           77 |              4 | 5%              |
+| DNAmFitAge: DNAmFEV1_wAge (M)  |           73 |              2 | 3%              |
 
 </div>
 
